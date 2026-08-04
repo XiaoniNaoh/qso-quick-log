@@ -21,13 +21,13 @@
   --ink-3:#a3a7ad;
   --line:#e7e7e2;
   --line-2:#d3d3cc;
-  --accent:#1e3a8a;
-  --accent-soft:rgba(30,58,138,.07);
+  --accent:#2f5fc7;
+  --accent-soft:rgba(47,95,199,.08);
   --mark:#17181c;
   --mark-2:#2e3138;
   --mark-ink:#ffffff;
   --mark-soft:rgba(23,24,28,.06);
-  --auto:#1e3a8a;
+  --auto:#2f5fc7;
   --ok:#0f7b4d;
   --danger:#b42318;
   --shadow:0 1px 2px rgba(23,24,28,.04), 0 10px 30px rgba(23,24,28,.06);
@@ -118,7 +118,7 @@ main{
 .sheet{
   position:relative;background:var(--card);border:1px solid var(--line-2);
   border-radius:var(--radius);box-shadow:var(--shadow);padding:22px;
-  animation:rise .4s ease both;
+  animation:rise .5s ease both;
 }
 .sheet::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.85;
@@ -137,7 +137,10 @@ main{
   content:"";position:absolute;inset:12px;border:1px dashed var(--line-2);
   border-radius:12px;pointer-events:none;opacity:.75;
 }
-@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes rise{
+  from{opacity:0;transform:translateY(10px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  to{opacity:1;transform:none}
+}
 .stamp{
   display:flex;justify-content:space-between;align-items:stretch;gap:10px;
   background:var(--card);
@@ -178,7 +181,7 @@ main{
 .lg{display:inline-flex;align-items:center;gap:5px}
 .lg::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none}
 .lg-auto{color:var(--auto)}
-.lg-auto::before{background:var(--auto);box-shadow:0 0 0 3px rgba(30,58,138,.10)}
+.lg-auto::before{background:var(--auto);box-shadow:0 0 0 3px rgba(47,95,199,.10)}
 .lg-timer{margin-left:auto;font-variant-numeric:tabular-nums}
 .sec{
   display:flex;align-items:center;gap:8px;margin:18px 0 11px;padding-top:14px;
@@ -216,7 +219,7 @@ select.inp{
   padding-right:38px;cursor:pointer;
 }
 select.inp option{color:var(--ink);background:var(--card)}
-.field.auto .inp{border-color:rgba(30,58,138,.35)}
+.field.auto .inp{border-color:rgba(47,95,199,.35)}
 #inCall{
   font-size:22px;font-weight:800;min-height:54px;letter-spacing:.06em;
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
@@ -250,12 +253,22 @@ select.inp option{color:var(--ink);background:var(--card)}
 }
 @keyframes chipPop{0%{transform:scale(.9)}55%{transform:scale(1.07)}100%{transform:scale(1)}}
 .dock{
-  position:fixed;left:0;right:0;bottom:0;z-index:30;
-  display:flex;gap:10px;
-  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
-  background:var(--bg);
-  border-top:1px solid var(--line);
-  box-shadow:0 -8px 24px rgba(28,37,48,.08);
+  position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom));
+  transform:translateX(-50%);
+  z-index:30;
+  display:flex;align-items:center;gap:10px;
+  width:min(430px,calc(100% - 24px));
+  padding:10px 12px;
+  background:var(--card);
+  border:1px solid var(--line-2);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  transition:transform .34s cubic-bezier(.16,1,.3,1), opacity .34s cubic-bezier(.16,1,.3,1);
+}
+.dock.dock-hidden{
+  transform:translateX(-50%) translateY(150%);
+  opacity:0;pointer-events:none;
+  transition:transform .26s ease-in, opacity .26s ease-in;
 }
 .dock-clear{
   border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);
@@ -271,6 +284,55 @@ select.inp option{color:var(--ink);background:var(--card)}
 }
 .dock-save{color:var(--mark-ink)}
 .dock-save:active{transform:translateY(1px);box-shadow:0 3px 10px rgba(23,24,28,.14)}
+.dock-save{position:relative;overflow:hidden}
+.dock-save .save-label{position:relative;z-index:1;transition:opacity .2s cubic-bezier(.16,1,.3,1)}
+.dock-clear,.btn-primary,.btn-ghost{position:relative;overflow:hidden}
+.ripple{
+  position:absolute;border-radius:50%;pointer-events:none;
+  transform:scale(0);opacity:.28;
+  animation:ripple .6s cubic-bezier(.16,1,.3,1) forwards;
+  z-index:3;
+}
+.dock-save .ripple,.btn-primary .ripple{background:#fff}
+.dock-clear .ripple,.btn-ghost .ripple{background:#17181c}
+.chip .ripple,.mini-btn .ripple,.rpt-manage-link .ripple,.row-edit .ripple,.row-del .ripple,.row-qsl .ripple{background:currentColor;opacity:.22}
+.chip,.mini-btn,.rpt-manage-link,.row-edit,.row-del,.row-qsl{position:relative;overflow:hidden}
+@keyframes ripple{
+  to{transform:scale(1);opacity:0}
+}
+.dock-save .save-ok{
+  position:absolute;inset:0;z-index:2;
+  display:grid;place-items:center;
+  background:#22c55e;color:var(--bg);
+  box-shadow:0 0 24px rgba(34,197,94,.55);
+  font-weight:800;letter-spacing:.08em;
+  transform:translateX(-101%);
+  pointer-events:none;
+}
+.dock.saving{
+  border-color:rgba(34,197,94,.4);
+  animation:glowPulse 2s ease-in-out infinite;
+}
+.dock.saving .dock-clear{color:#16a34a;border-color:rgba(34,197,94,.4)}
+.dock.saving .dock-save{box-shadow:0 0 26px rgba(34,197,94,.35)}
+@keyframes glowPulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(34,197,94,.14), 0 14px 40px rgba(34,197,94,.18)}
+  50%{box-shadow:0 0 0 5px rgba(34,197,94,.24), 0 16px 48px rgba(34,197,94,.3)}
+}
+.dock-clear{
+  background:var(--card);
+  background:color-mix(in srgb, var(--card) 52%, transparent);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+}
+.dock-save.saved .save-ok{animation:saveSweep 3.4s both}
+.dock-save.saved .save-label{opacity:0}
+@keyframes saveSweep{
+  0%{transform:translateX(-101%);animation-timing-function:cubic-bezier(.16,1,.3,1)}
+  19%{transform:translateX(0);animation-timing-function:linear}
+  82%{transform:translateX(0);animation-timing-function:cubic-bezier(.4,0,.7,.28)}
+  100%{transform:translateX(101%)}
+}
 .dock-hint{display:none;font-size:11px;color:var(--ink-3);white-space:nowrap}
 .time-row{display:flex;flex-direction:column;gap:10px}
 .time-box{position:relative;flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:12px 10px 10px;background:var(--bg)}
@@ -310,7 +372,7 @@ kbd{
   border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:10px;
   background:var(--card);
   transition:border-color .12s, box-shadow .12s, transform .12s;
-  animation:rise .3s ease both;
+  animation:rise .38s ease both;
 }
 .qso-row:hover{border-color:var(--accent);box-shadow:var(--shadow)}
 .qso-grid{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;cursor:pointer}
@@ -329,19 +391,25 @@ kbd{
   .qso-row{padding:12px 16px}
 }
 .row-actions{
-  display:flex;justify-content:flex-end;gap:8px;
-  border-top:1px dashed var(--line);padding-top:9px;
+  display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;
+  border-top:1px dashed var(--line);padding-top:10px;
 }
 .row-edit,.row-del,.row-qsl{
-  height:32px;border-radius:9px;border:1px solid var(--line);
-  background:var(--card);color:var(--ink-2);cursor:pointer;
+  height:34px;border-radius:999px;border:1px solid;min-width:0;
+  cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;gap:4px;
-  font-family:inherit;font-size:12px;font-weight:700;padding:0 10px;
+  font-family:inherit;font-size:12px;font-weight:700;padding:0 13px;white-space:nowrap;
+  transition:transform .2s cubic-bezier(.16,1,.3,1), background .2s, color .2s, border-color .2s;
 }
-.row-qsl{color:var(--ok);border-color:rgba(15,123,77,.35)}
-.row-qsl:hover{background:rgba(15,123,77,.08)}
-.row-edit:hover{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
-.row-del:hover{color:var(--danger);border-color:var(--danger)}
+.row-edit{color:var(--accent);border-color:rgba(47,95,199,.28);background:rgba(47,95,199,.07)}
+.row-edit:hover{background:rgba(47,95,199,.14);transform:translateY(-1px)}
+.row-qsl{color:var(--ok);border-color:rgba(15,123,77,.28);background:rgba(15,123,77,.07)}
+.row-qsl:hover{background:rgba(15,123,77,.14);transform:translateY(-1px)}
+.row-del{color:var(--danger);border-color:rgba(180,35,24,.28);background:rgba(180,35,24,.07)}
+.row-del:hover{background:rgba(180,35,24,.14);transform:translateY(-1px)}
+@media (max-width:380px){
+  .row-edit,.row-del,.row-qsl{padding:0 10px;font-size:11.5px;height:32px}
+}
 .qso-date{
   display:flex;align-items:center;gap:8px;margin:14px 0 8px;
   font-size:10.5px;font-weight:800;letter-spacing:.12em;color:var(--ink-3);
@@ -372,7 +440,7 @@ kbd{
 .rst-side-name{font-size:13px;font-weight:800}
 .rst-side-hint{font-size:10.5px;color:var(--ink-3)}
 .help-btn{
-  position:fixed;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:35;
+  position:fixed;right:16px;bottom:calc(170px + env(safe-area-inset-bottom));z-index:35;
   width:36px;height:36px;border-radius:50%;
   border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);
   font-family:inherit;font-weight:800;font-size:15px;cursor:pointer;
@@ -381,21 +449,35 @@ kbd{
 }
 .help-btn:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
 .jump-btn{
-  position:fixed;right:60px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:35;
-  width:36px;height:36px;border-radius:50%;
-  border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);
-  font-size:15px;cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow);
-  transition:color .15s,border-color .15s,transform .15s;
+  position:fixed;right:16px;bottom:calc(110px + env(safe-area-inset-bottom));z-index:36;
+  width:46px;height:46px;border-radius:50%;
+  display:grid;place-items:center;
+  border:none;padding:0;
+  background:var(--accent);color:#fff;
+  font-size:19px;line-height:1;cursor:pointer;
+  box-shadow:0 8px 22px rgba(47,95,199,.32);
+  transition:transform .22s cubic-bezier(.16,1,.3,1), box-shadow .22s cubic-bezier(.16,1,.3,1), background .22s cubic-bezier(.16,1,.3,1);
 }
-.jump-btn:hover{color:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
+.jump-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 12px 26px rgba(47,95,199,.4)}
+.jump-btn:active{transform:scale(.92)}
+.jump-btn .jump-ic{display:grid;place-items:center}
+.jump-btn .jump-label{display:none}
+.jump-btn .jump-badge{
+  position:absolute;top:-2px;right:-2px;
+  display:grid;place-items:center;min-width:18px;height:18px;padding:0 4px;
+  background:var(--mark);color:var(--mark-ink);border-radius:999px;font-size:10px;font-weight:800;
+  border:2px solid var(--bg);
+}
+.jump-btn.jump-back{background:var(--mark);color:var(--mark-ink);box-shadow:0 8px 22px rgba(23,24,28,.22)}
+.jump-btn.jump-back .jump-badge{background:var(--accent);color:#fff}
 @media (min-width:880px){
   .jump-btn{display:none}
 }
 .log-flash{animation:logFlash 1.2s ease}
 @keyframes logFlash{
-  0%{box-shadow:0 0 0 0 rgba(30,58,138,.32)}
-  60%{box-shadow:0 0 0 12px rgba(30,58,138,0)}
-  100%{box-shadow:0 0 0 0 rgba(30,58,138,0)}
+  0%{box-shadow:0 0 0 0 rgba(47,95,199,.32)}
+  60%{box-shadow:0 0 0 12px rgba(47,95,199,0)}
+  100%{box-shadow:0 0 0 0 rgba(47,95,199,0)}
 }
 .guide-card{padding:16px}
 .guide-body{padding-top:0}
@@ -418,16 +500,27 @@ footer{
   font-size:11px;color:var(--ink-3);text-align:center;
 }
 #toast{
-  position:fixed;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(14px);
-  background:var(--mark);color:var(--bg);padding:11px 18px;border-radius:999px;
-  font-size:13.5px;opacity:0;pointer-events:none;transition:all .25s;z-index:60;
-  box-shadow:var(--shadow);white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;
+  position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));
+  transform:translateX(-50%) translateY(16px) scale(.94);
+  display:flex;align-items:center;gap:8px;
+  background:var(--card);
+  background:color-mix(in srgb, var(--card) 66%, transparent);
+  -webkit-backdrop-filter:blur(30px) saturate(1.8);
+  backdrop-filter:blur(30px) saturate(1.8);
+  color:var(--ink);padding:12px 20px;border-radius:999px;
+  font-size:13.5px;font-weight:600;opacity:0;pointer-events:none;
+  transition:opacity .28s ease-in, transform .28s ease-in;
+  z-index:60;
+  box-shadow:0 12px 32px rgba(23,24,28,.16);
+  border:1px solid var(--line-2);
+  white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;
 }
-@media (prefers-color-scheme: dark){
-  #toast{background:var(--mark);color:var(--bg)}
+#toast::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 3px var(--accent-soft)}
+#toast.show{
+  opacity:1;transform:translateX(-50%) translateY(0) scale(1);
+  transition:opacity .38s cubic-bezier(.16,1,.3,1), transform .38s cubic-bezier(.16,1,.3,1);
 }
-#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.qsl-overlay{position:fixed;inset:0;z-index:70;background:rgba(23,24,28,.55);display:grid;place-items:center;padding:18px}
+.qsl-overlay{position:fixed;inset:0;z-index:70;background:rgba(23,24,28,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px}
 .qsl-frame{width:min(1240px,calc(100% - 24px));height:min(92vh,960px);background:#fff;border:1px solid var(--line-2);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
 .qsl-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
 .qsl-bar b{font-size:13px;letter-spacing:.03em}
@@ -440,21 +533,15 @@ footer{
 .qsl-btn.primary:hover{background:var(--mark-2);color:#fff}
 .qsl-frame iframe{flex:1;border:0;width:100%;background:#fff}
 .qsl-tag{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:800;letter-spacing:.05em;color:var(--ok);border:1px solid rgba(15,123,77,.35);background:rgba(15,123,77,.08);border-radius:999px;padding:2px 8px;white-space:nowrap;margin-left:6px}
-.row-qsl{
-  width:38px;height:38px;border-radius:10px;border:1px solid var(--line);
-  background:var(--bg);color:var(--ink-2);font-size:11px;font-weight:800;cursor:pointer;
-  display:grid;place-items:center;font-family:inherit;
-}
-.row-qsl:hover{color:var(--ok);border-color:var(--ok);background:rgba(15,123,77,.08)}
 .hidden{display:none!important}
 .overlay{
-  position:fixed;inset:0;background:rgba(15,20,28,.45);backdrop-filter:blur(2px);
+  position:fixed;inset:0;background:rgba(15,20,28,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   display:block;overflow-y:auto;z-index:40;padding:24px 16px;
 }
 .modal{
   background:var(--card);border:1px solid var(--line-2);border-radius:18px;
   padding:22px;width:min(420px,100%);margin:0 auto;box-shadow:var(--shadow);
-  animation:rise .25s ease both;
+  animation:rise .35s ease both;
   max-height:calc(100vh - 48px);overflow-y:auto;
 }
 .modal h3{margin:0 0 4px;font-size:16px}
@@ -497,6 +584,197 @@ footer{
   .dock-hint{display:block;width:100%;text-align:center;padding:0 0 6px}
   footer{padding:0 24px 104px}
 }
+
+/* ── 设置页分类 ── */
+.modal.modal-wide{width:min(640px,100%)}
+.set-section{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2)}
+.set-section:first-of-type{margin-top:0;padding-top:0;border-top:none}
+.set-sec-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--ink-2);margin-bottom:13px}
+.set-sec-h::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);flex:none}
+.set-sec-h small{font-weight:500;color:var(--ink-3);letter-spacing:.02em;margin-left:2px}
+textarea.inp{min-height:74px;resize:vertical;line-height:1.55}
+.field-hint{
+  margin-top:6px;font-size:11.5px;color:var(--ink-2);line-height:1.55;
+  display:flex;align-items:flex-start;gap:6px;
+}
+.field-hint::before{content:"💡";font-size:11px;flex:none;opacity:.85;transform:translateY(1px)}
+.grid-link{
+  display:inline-flex;align-items:center;gap:5px;margin-top:7px;
+  font-size:11.5px;font-weight:700;color:var(--accent);
+  border:1px solid rgba(47,95,199,.25);background:var(--accent-soft);
+  padding:6px 11px;border-radius:999px;text-decoration:none;transition:all .15s;
+}
+.grid-link:hover{border-color:var(--accent);background:rgba(47,95,199,.12)}
+
+/* ── 中继台区块 ── */
+.rpt-toggle{display:flex;gap:8px;flex-wrap:wrap}
+.rpt-box{display:none;margin-top:12px;padding:13px;border:1px solid var(--line);border-radius:13px;background:var(--bg)}
+.rpt-box.show{display:block;animation:rise .28s ease both}
+.rpt-pick{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:11px}
+.rpt-pick label{font-size:11px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.rpt-pick-field{position:relative;flex:1;min-width:200px}
+.rpt-pick-field .inp{
+  padding-right:40px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%235b5f66' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 13px center;
+  cursor:pointer;
+}
+.rpt-pick-field .inp:focus{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1.5l6 6 6-6' fill='none' stroke='%231e3a8a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+.rpt-pick-field .rpt-pick-ic{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  font-size:14px;pointer-events:none;opacity:.8;
+}
+.rpt-pick-field .inp.has-ic{padding-left:36px}
+.rpt-offset{
+  margin-top:10px;padding:9px 13px;border-radius:11px;
+  background:var(--accent-soft);border:1px solid rgba(47,95,199,.18);
+  font-size:11.5px;color:var(--ink-2);line-height:1.55;
+}
+.rpt-offset b{color:var(--auto);font-variant-numeric:tabular-nums}
+
+/* ── 中继台管理 ── */
+.rpt-mgr-add{border:1px dashed var(--line-2);border-radius:14px;padding:14px;background:var(--bg)}
+.rpt-mgr-list{display:grid;gap:9px;margin-top:14px}
+.rpt-item{border:1px solid var(--line);border-radius:13px;background:var(--card);padding:11px 13px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.rpt-item .ri-main{min-width:0;flex:1}
+.rpt-item .ri-name{font-weight:800;font-size:14px;letter-spacing:.02em}
+.rpt-item .ri-meta{font-size:11.5px;color:var(--ink-3);margin-top:3px;font-variant-numeric:tabular-nums;line-height:1.5}
+.rpt-item .ri-meta b{color:var(--ink-2);font-weight:700}
+.rpt-item .ri-acts{display:flex;gap:7px}
+.rpt-mgr-empty{text-align:center;color:var(--ink-3);font-size:12.5px;padding:26px 10px}
+.rpt-manage-link{border:1px solid var(--line);background:var(--card);color:var(--accent);border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s}
+.rpt-manage-link:hover{border-color:var(--accent);background:var(--accent-soft)}
+
+/* ── 帮助弹层 ── */
+.help-overlay{position:fixed;inset:0;z-index:55;background:rgba(15,20,28,.45);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);display:grid;place-items:center;padding:16px;opacity:0;pointer-events:none;transition:opacity .24s ease-in}
+.help-overlay.show{opacity:1;pointer-events:auto;transition:opacity .32s cubic-bezier(.16,1,.3,1)}
+.help-panel{
+  width:min(660px,100%);max-height:min(84vh,760px);overflow-y:auto;
+  background:var(--card);border:1px solid var(--line-2);border-radius:20px;box-shadow:var(--shadow);
+  padding:20px;transform:translateY(16px) scale(.97);transition:transform .24s ease-in;
+}
+.help-overlay.show .help-panel{transform:translateY(0) scale(1);transition:transform .36s cubic-bezier(.16,1,.3,1)}
+.help-head{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.help-head h3{margin:0;font-size:16px}
+.help-sub{font-size:11px;color:var(--ink-3);letter-spacing:.08em}
+.help-close{margin-left:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink-2);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:14px;display:grid;place-items:center;font-family:inherit}
+.help-close:hover{color:var(--danger);border-color:var(--danger)}
+.help-acc{display:grid;gap:9px;margin-top:14px}
+.help-acc details{border:1px solid var(--line);border-radius:13px;background:var(--bg);overflow:hidden;transition:border-color .15s}
+.help-acc details[open]{border-color:var(--line-2)}
+.help-acc summary{
+  list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;
+  padding:13px 14px;font-size:13px;font-weight:700;color:var(--ink);user-select:none;
+}
+.help-acc summary::-webkit-details-marker{display:none}
+.help-acc summary .h-ic{width:30px;height:30px;border-radius:9px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:15px;flex:none}
+.help-acc summary .h-arrow{margin-left:auto;color:var(--ink-3);transition:transform .2s;font-size:12px}
+.help-acc details[open] summary .h-arrow{transform:rotate(180deg)}
+.help-acc .h-body{padding:2px 14px 14px;font-size:12.5px;color:var(--ink-2);line-height:1.75}
+.help-acc .h-body p{margin:0 0 8px}
+.help-acc .h-body ul{margin:0;padding-left:18px;display:grid;gap:5px}
+.help-acc .h-body kbd{
+  background:var(--card);border:1px solid var(--line-2);border-bottom-width:2px;
+  border-radius:5px;padding:1px 6px;font-size:11px;font-family:ui-monospace,Menlo,monospace;color:var(--ink);
+}
+@media (max-width:640px){
+  .help-overlay{align-items:end;padding:0}
+  .help-panel{width:100%;max-height:86vh;border-radius:20px 20px 0 0;padding:18px 16px calc(20px + env(safe-area-inset-bottom))}
+}
+
+/* ── 移动端填写体验 ── */
+@media (max-width:560px){
+  .modal{width:100%;border-radius:16px;padding:18px 16px}
+  .modal .actions .btn-primary,.modal .actions .btn-ghost{flex:1;min-height:48px}
+  .help-btn,.jump-btn{width:42px;height:42px}
+  .chip{min-height:40px;padding:9px 15px}
+  .rst-side{padding:11px}
+  .sec{margin:16px 0 10px}
+}
+
+/* ── 细节打磨 ── */
+button:focus-visible,a:focus-visible,.inp:focus-visible,select:focus-visible{
+  outline:2px solid var(--accent);outline-offset:2px;
+}
+.dock-save:active{transform:translateY(1px)}
+.btn-primary:active{transform:translateY(1px)}
+.help-btn,.jump-btn{transition:color .15s,border-color .15s,transform .15s,box-shadow .15s}
+.help-btn:hover{box-shadow:0 6px 16px rgba(23,24,28,.12)}
+.sec .sec-no{transition:background .15s,color .15s}
+.guide{background:linear-gradient(90deg,var(--accent-soft),transparent 65%)}
+
+/* ── 窄屏按钮防溢出 ── */
+button{min-width:0}
+.btn-primary,.btn-ghost,.dock-save,.dock-clear,.mini-btn,.rpt-manage-link{max-width:100%}
+@media (max-width:480px){
+  .btn-primary,.btn-ghost{font-size:13px;padding-left:13px;padding-right:13px}
+  .dock-save{font-size:14.5px;padding-left:12px;padding-right:12px;white-space:normal}
+  .dock-clear{font-size:13px;padding-left:12px;padding-right:12px;white-space:normal}
+  .mini-btn{font-size:11.5px;padding-left:9px;padding-right:9px}
+  .export-group{flex-wrap:wrap}
+  .jump-btn{padding-left:12px;padding-right:12px}
+}
+
+/* ── 毛玻璃 ── */
+.dock,.help-btn,.qsl-bar,.sheet{
+  background:var(--card);
+  background:color-mix(in srgb, var(--card) 78%, transparent);
+  -webkit-backdrop-filter:blur(22px) saturate(1.5);
+  backdrop-filter:blur(22px) saturate(1.5);
+}
+.modal{
+  background:var(--card);
+  background:color-mix(in srgb, var(--card) 88%, transparent);
+  -webkit-backdrop-filter:blur(18px) saturate(1.35);
+  backdrop-filter:blur(18px) saturate(1.35);
+}
+.dock{
+  background:color-mix(in srgb, var(--card) 46%, transparent);
+  -webkit-backdrop-filter:blur(34px) saturate(1.9);
+  backdrop-filter:blur(34px) saturate(1.9);
+}
+.qso-row:hover{transform:translateY(-1px)}
+.qso-date span{background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:999px;font-size:10px;letter-spacing:.04em}
+
+/* ── 新增 / 修改区分 ── */
+#formCard.editing{border-color:rgba(139,92,246,.45);box-shadow:0 0 0 1px rgba(139,92,246,.14),var(--shadow)}
+#formCard.editing .stamp-main h2{color:#6d28d9}
+#formCard.editing .badge{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;box-shadow:0 2px 10px rgba(139,92,246,.32)}
+.dock-save.edit-mode{background:linear-gradient(135deg,#8b5cf6,#6366f1);color:#fff;box-shadow:0 6px 18px rgba(139,92,246,.28)}
+.dock-clear.cancel-mode{color:#6d28d9;border-color:rgba(139,92,246,.45);background:rgba(139,92,246,.08)}
+@media (prefers-color-scheme: dark){
+  #formCard.editing .stamp-main h2{color:#a78bfa}
+  .dock-clear.cancel-mode{color:#c4b5fd}
+}
+
+/* ── 撒彩带 ── */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden}
+.cf-piece{position:absolute;top:-24px;border-radius:2px;opacity:.95;animation:cfFall cubic-bezier(.3,.05,.55,1) forwards}
+@keyframes cfFall{
+  0%{transform:translateY(0) rotate(0deg);opacity:.95}
+  55%{transform:translateY(55vh) rotate(380deg);opacity:.72}
+  100%{transform:translateY(106vh) rotate(760deg);opacity:0}
+}
+@media (prefers-reduced-motion: reduce){
+  #confetti{display:none}
+}
+
+/* ── 首次引导向导 ── */
+.fr-head{display:flex;align-items:center;gap:12px}
+.fr-logo{width:46px;height:46px;border-radius:14px;background:var(--accent-soft);display:grid;place-items:center;font-size:24px;flex:none}
+.fr-head h3{margin:0 0 2px;font-size:16px}
+.fr-steps{display:flex;gap:8px;margin:14px 0 6px}
+.fr-dot{width:9px;height:9px;border-radius:999px;background:var(--line-2);transition:background .28s cubic-bezier(.16,1,.3,1), transform .28s cubic-bezier(.16,1,.3,1)}
+.fr-dot.on{background:var(--accent);transform:scale(1.2)}
+.fr-sec-h{font-size:13px;font-weight:800;color:var(--ink-2);margin:14px 0 12px;display:flex;align-items:center;gap:8px}
+.fr-req{font-style:normal;font-size:9.5px;font-weight:700;color:#fff;background:#f59e0b;border-radius:999px;padding:2px 7px;margin-left:4px;vertical-align:1px}
+.fr-tips{display:grid;gap:9px}
+.fr-tip{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line);border-radius:13px;background:var(--bg);padding:11px 13px}
+.fr-tip-ic{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;font-size:16px;flex:none}
+.fr-tip b{font-size:13px;color:var(--ink)}
+.fr-tip p{margin:3px 0 0;font-size:12px;color:var(--ink-2);line-height:1.6}
 </style>
 </head>
 <body>
@@ -530,18 +808,18 @@ footer{
       </div>
     </div>
     <div class="legend">
-      <span class="lg lg-auto">◍ 红笔自动标注</span>
-      <span class="lg">○ 手动填写</span>
-      <span class="lg">▸ 最近呼号一键填</span>
-      <span class="lg">▸ 记录上点 QSL 导出电子卡片</span>
+      <span class="lg lg-auto">◍ 自动填好</span>
+      <span class="lg">○ 手动补充</span>
+      <span class="lg">▸ 最近呼号点一下就有</span>
+      <span class="lg">▸ 记录右侧 QSL 出卡片</span>
       <span class="lg lg-timer" id="qsoTimer">本次 00:00</span>
     </div>
     <form id="qsoForm" autocomplete="off">
       <div class="guide">
-        <span class="guide-t">填写说明</span>
-        <span>从「呼号」开始打字 · <kbd>Enter</kbd> 逐项下移 · 最后一项按 <kbd>Enter</kbd> 即保存</span>
+        <span class="guide-t">⚡ 快记流程</span>
+        <span>呼号起头 · <kbd>Enter</kbd> 一路下移 · 最后一下自动保存</span>
       </div>
-      <div class="sec"><span class="sec-no">01</span>对方信息</div>
+      <div class="sec"><span class="sec-no">01</span>👤 对方信息</div>
       <div class="grid">
         <div class="field span2" id="f-inCall">
           <label for="inCall">对方呼号</label>
@@ -551,6 +829,7 @@ footer{
             <span class="recent-label">最近呼号</span>
             <div class="scroll-chips" id="recentChips"></div>
           </div>
+          <p class="field-hint">输完按 Enter 继续 · 老呼号自动带出上次信息</p>
         </div>
         <div class="field" id="f-inName">
           <label for="inName">姓名</label>
@@ -561,21 +840,23 @@ footer{
           <input class="inp" id="inQth" placeholder="城市 / 位置，如 北京 朝阳" enterkeyhint="next">
         </div>
       </div>
-      <div class="sec"><span class="sec-no">02</span>信号 · 频率</div>
+      <div class="sec"><span class="sec-no">02</span>📡 频率 · 信号</div>
       <div class="grid">
         <div class="field span2" id="f-inFreq">
           <label for="inFreq">频率 (MHz)</label>
           <input class="inp" id="inFreq" inputmode="decimal" placeholder="14.074（也认 14074）" enterkeyhint="next">
           <span id="bandHint" class="band-hint">波段：—</span>
           <div class="scroll-chips" id="bandChips"></div>
+          <p class="field-hint">支持 145.500 或 14074（kHz）· 自动换算波段</p>
         </div>
         <div class="field span2" id="f-inMode">
           <label>模式</label>
           <input type="hidden" id="inMode" value="FM">
           <div class="chips" id="modeChips"></div>
+          <p class="field-hint">选模式自动带出常用频率</p>
         </div>
         <div class="field span2" id="f-inRst">
-          <label>信号报告 RST（我给对方 / 对方给我，各记一份）</label>
+          <label>信号报告 RST · 我给对方 / 对方给我</label>
           <div class="rst-sides">
             <div class="rst-side">
               <div class="rst-side-head">
@@ -637,14 +918,16 @@ footer{
           <input type="hidden" id="inRst" value="59">
           <input type="hidden" id="inRstSent" value="59">
           <input type="hidden" id="inRstRecv" value="59">
+          <p class="field-hint">S9 后可填 +dB · CW 自动出现 T 音调</p>
         </div>
       </div>
-      <div class="sec"><span class="sec-no">03</span>对方设备参数（对方报的信息）</div>
+      <div class="sec"><span class="sec-no">03</span>🛠 对方设备（对方报的）</div>
       <div class="grid">
         <div class="field" id="f-inRig">
           <label for="inRig">对方设备</label>
           <input class="inp" id="inRig" placeholder="对方报的电台型号，如 IC-7300" enterkeyhint="next">
           <div class="chips" id="rigChips"></div>
+          <p class="field-hint">对方报什么填什么 · 常用项可直接点选</p>
         </div>
         <div class="field" id="f-inAnt">
           <label for="inAnt">对方天线</label>
@@ -657,7 +940,7 @@ footer{
           <div class="chips" id="pwrChips"></div>
         </div>
       </div>
-      <div class="sec"><span class="sec-no">04</span>备注 · 时间</div>
+      <div class="sec"><span class="sec-no">04</span>📝 备注 · 时间</div>
       <div class="grid">
         <div class="field span2" id="f-inRemark">
           <label for="inRemark">备注 / 交换内容</label>
@@ -680,7 +963,38 @@ footer{
               <div class="utc-date" id="utcDate"></div>
             </div>
           </div>
-          <p class="lock-note">时刻在开始记录时自动读取设备时间，之后编辑其他字段不会改变它。</p>
+          <p class="lock-note">开始记录时自动取设备时间，之后改其他字段不会动它。</p>
+        </div>
+      </div>
+      <div class="sec"><span class="sec-no">05</span>🔁 中继台（可选）</div>
+      <div class="grid">
+        <div class="field span2">
+          <label>通联方式</label>
+          <input type="hidden" id="inLinkMode" value="simp">
+          <div class="rpt-toggle">
+            <button type="button" class="chip active" id="linkSimpBtn">直频 SIMP</button>
+            <button type="button" class="chip" id="linkRptBtn">经中继 RPT</button>
+          </div>
+        </div>
+        <div class="field span2 rpt-box" id="rptBox">
+          <div class="rpt-pick">
+            <label for="inRptPick">已存中继台</label>
+            <div class="rpt-pick-field">
+              <span class="rpt-pick-ic">🔁</span>
+              <input class="inp has-ic" id="inRptPick" list="rptList" placeholder="选择，或输入新名称" autocomplete="off" enterkeyhint="next">
+            </div>
+            <datalist id="rptList"></datalist>
+            <button type="button" class="rpt-manage-link" id="btnRptManage" title="管理已保存的中继台">管理库</button>
+          </div>
+          <div class="grid">
+            <div class="field"><label for="inRptName">中继台名称 / 呼号</label><input class="inp" id="inRptName" placeholder="如 BR5AD" enterkeyhint="next"></div>
+            <div class="field"><label for="inRptDown">下行频率（你收听）MHz</label><input class="inp" id="inRptDown" inputmode="decimal" placeholder="145.520" enterkeyhint="next"></div>
+            <div class="field"><label for="inRptUp">上行频率（你发射）MHz</label><input class="inp" id="inRptUp" inputmode="decimal" placeholder="144.920" enterkeyhint="next"></div>
+            <div class="field"><label for="inRptOffset">偏移 ±MHz（上差 / 下差）</label><input class="inp" id="inRptOffset" inputmode="decimal" placeholder="如 -0.600 或 +0.600" enterkeyhint="next"></div>
+            <div class="field span2"><label for="inRptCtcss">哑音 CTCSS (Hz)</label><input class="inp" id="inRptCtcss" inputmode="decimal" placeholder="88.5 或留空" enterkeyhint="next"></div>
+          </div>
+          <div class="rpt-offset" id="rptOffsetVal">填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行</div>
+          <p class="field-hint">新中继台保存后会自动记住，下次直接选</p>
         </div>
       </div>
     </form>
@@ -692,15 +1006,16 @@ footer{
         <p class="sub">QSO LOG</p>
       </div>
       <div class="export-group" style="margin-left:auto;align-self:center">
-        <button class="mini-btn" data-export="adif" title="标准电台日志格式">ADIF</button>
-        <button class="mini-btn" data-export="csv" title="Excel / Numbers 可直接打开">CSV</button>
-        <button class="mini-btn" data-export="json" title="完整备份">JSON</button>
-        <button class="mini-btn" id="btnImport" title="从手机或其他设备导入 JSON 备份">导入</button>
+        <button class="mini-btn" data-export="adif" title="标准电台日志格式">⬇ ADIF</button>
+        <button class="mini-btn" data-export="csv" title="Excel / Numbers 可直接打开">⬇ CSV</button>
+        <button class="mini-btn" data-export="json" title="完整备份">⬇ JSON</button>
+        <button class="mini-btn" id="btnImport" title="从手机或其他设备导入 JSON 备份">⬆ 导入</button>
         <input type="file" id="importFile" accept=".json,application/json" hidden>
       </div>
     </div>
+    <p class="field-hint">定期导出 JSON 备份 · 换设备导入即合并</p>
     <div class="legend">
-      <span class="lg lg-auto">● 红笔自动标注</span>
+      <span class="lg lg-auto">● 自动填好</span>
       <span class="lg">○ 手动填写</span>
       <span class="lg">✎ 点记录或铅笔可修改</span>
       <span class="lg">QSL ✓ 已导出电子卡片</span>
@@ -708,54 +1023,195 @@ footer{
     <input id="search" placeholder="搜索呼号 / QTH / 姓名 / 设备…">
     <div id="qsoList"></div>
     <div id="emptyState" class="empty">
-      <span class="big">📻</span>还没有记录<br>开始你的第一条通联吧
+      <span class="big">📻</span>还没有记录<br>呼叫你的第一条通联吧
     </div>
   </section>
 </main>
-<button type="button" class="jump-btn" id="btnJumpLog" title="跳转到通联记录" aria-label="跳转到通联记录">📋</button>
+<button type="button" class="jump-btn" id="btnJumpLog" title="跳转到通联记录" aria-label="跳转到通联记录"><span class="jump-ic">📋</span><span class="jump-badge" id="jumpCount">0</span></button>
 <button type="button" class="help-btn" id="guideToggle" title="使用说明" aria-label="使用说明">?</button>
-<section class="sheet guide-card hidden" id="guideCard">
-  <div class="guide-body" id="guideBody">
-    <div class="guide-grid">
-      <div class="guide-item"><b>01 · 快速记录</b><p>从「呼号」开始打字，<kbd>Enter</kbd> 逐项下移，最后一项按 <kbd>Enter</kbd> 即保存并开始下一条。</p></div>
-      <div class="guide-item"><b>02 · 自动填充</b><p>老呼号自动带出上次信息；频率自动换算波段（也认 kHz，如 14074）；模式、RST、设备、天线、功率均可点选。</p></div>
-      <div class="guide-item"><b>03 · 信号报告</b><p>分「我给对方 / 对方给我」记录 R 与 S；选 S9 后可填 +dB；CW 模式自动出现 T 音调。</p></div>
-      <div class="guide-item"><b>04 · 电子 QSL</b><p>点记录右侧「QSL」，确认我方设备后生成卡片，可打印存为 PDF；导出后自动打上 QSL ✓ 标签。</p></div>
-      <div class="guide-item"><b>05 · 手机同步</b><p>任一端导出 JSON 备份，用隔空投送 / 微信传到另一端，再点「导入」合并。</p></div>
-      <div class="guide-item"><b>06 · 数据与主题</b><p>数据仅保存在本机浏览器，请定期导出 ADIF / CSV / JSON；深色模式可在设置中切换。</p></div>
+<div class="help-overlay hidden" id="helpOverlay">
+  <div class="help-panel" role="dialog" aria-label="使用说明">
+    <div class="help-head">
+      <h3>📖 使用说明</h3>
+      <span class="help-sub">HELP · QSO QUICK LOG</span>
+      <button type="button" class="help-close" id="btnHelpClose" aria-label="关闭">✕</button>
+    </div>
+    <div class="help-acc">
+      <details open>
+        <summary><span class="h-ic">⚡</span>快速上手<span class="h-arrow">▾</span></summary>
+        <div class="h-body">
+          <ul>
+            <li>从「呼号」开始打字，<kbd>Enter</kbd> 逐项下移，最后一项按 <kbd>Enter</kbd> 即保存并开始下一条。</li>
+            <li>老呼号自动带出上次信息；频率自动换算波段（也认 kHz，如 <kbd>14074</kbd>）；模式、RST、设备、天线、功率均可点选。</li>
+            <li><kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 随时保存当前记录。</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary><span class="h-ic">📶</span>信号报告<span class="h-arrow">▾</span></summary>
+        <div class="h-body">
+          <ul>
+            <li>分「我给对方 / 对方给我」记录 R 与 S；选 S9 后可填 +dB；CW 模式自动出现 T 音调。</li>
+            <li>S 表会随你发出的信号报告自动同步，也可以手动微调。</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary><span class="h-ic">🔁</span>中继台通联<span class="h-arrow">▾</span></summary>
+        <div class="h-body">
+          <ul>
+            <li>通联方式可选「直频 SIMP」或「经中继 RPT」。</li>
+            <li>选已保存的中继台会自动带出频率与哑音；输入新中继台参数保存后自动记住，下次直接选。</li>
+            <li>中继台参数会同步到电子 QSL 卡片的规格条。</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary><span class="h-ic">🃏</span>电子 QSL<span class="h-arrow">▾</span></summary>
+        <div class="h-body">
+          <ul>
+            <li>点记录右侧「QSL」，确认我方信息后生成卡片，可打印或存为 PDF；导出后自动打上 QSL ✓ 标签。</li>
+            <li>卡片里的内容都能直接点击修改（聚焦自动全选），OP 名字、地址等默认值在「设置」里改。</li>
+          </ul>
+        </div>
+      </details>
+      <details>
+        <summary><span class="h-ic">💾</span>数据与同步<span class="h-arrow">▾</span></summary>
+        <div class="h-body">
+          <ul>
+            <li>数据仅保存在本机浏览器；清理浏览器数据会清空，请定期导出备份。</li>
+            <li>支持导出 ADIF / CSV / JSON；JSON 为完整备份，可跨设备导入合并（隔空投送 / 微信 / 网盘）。</li>
+          </ul>
+        </div>
+      </details>
     </div>
     <div class="copyright">© 2026 BI9DAS · HAM STATION — 本工具版权归 <b>BI9DAS</b> 所有，欢迎电台爱好者自由使用。</div>
   </div>
-</section>
-<footer>数据仅保存在本设备浏览器 · 手机 ↔ 电脑同步：导出 JSON 后用隔空投送 / 微信传输，再点「导入」合并 · © 2026 BI9DAS</footer>
-<div class="dock">
-  <span class="dock-hint"><kbd>Enter</kbd> 下一项 · <kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 保存</span>
-  <button type="button" class="dock-clear" id="btnClear">清空</button>
-  <button type="submit" class="dock-save" id="btnSave" form="qsoForm">保存并继续</button>
 </div>
-<div class="overlay hidden" id="settingsOverlay">
-  <div class="modal">
-    <h3>设置</h3>
-    <p class="sub">用于导出日志与快速填充的默认值</p>
-    <div class="grid">
-      <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BG1XXX"></div>
-      <div class="field"><label for="setMode">默认模式</label><input class="inp" id="setMode" placeholder="FM"></div>
-      <div class="field"><label for="setFreq">默认频率 MHz</label><input class="inp" id="setFreq" placeholder="145.100"></div>
-      <div class="field"><label for="setRst">默认信号报告</label><input class="inp" id="setRst" placeholder="59"></div>
-      <div class="field span2"><label class="group-cap">我方电台 · 电子 QSL 卡片使用</label></div>
-      <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="泉盛 UV-K6"></div>
-      <div class="field"><label for="setMyAnt">我方天线</label><input class="inp" id="setMyAnt" placeholder="771 天线"></div>
-      <div class="field span2"><label for="setMyPwr">我方功率 (W)</label><input class="inp" id="setMyPwr" inputmode="numeric" placeholder="5"></div>
-      <div class="field span2"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="浙江金华 · 永康"></div>
-      <div class="field span2"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="PL08"></div>
-      <div class="field span2"><label for="setTheme">深色模式</label>
-        <select class="inp" id="setTheme">
-          <option value="auto">跟随系统（自动适配）</option>
-          <option value="light">始终浅色</option>
-          <option value="dark">始终深色</option>
-        </select>
+<footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · © 2026 BI9DAS</footer>
+<div class="dock" id="dock">
+  <span class="dock-hint"><kbd>Enter</kbd> 下一项 · <kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 保存</span>
+  <button type="button" class="dock-clear" id="btnClear" title="清空当前表单">清空表单</button>
+  <button type="submit" class="dock-save" id="btnSave" form="qsoForm">
+    <span class="save-label">保存并继续</span>
+    <span class="save-ok">完成！</span>
+  </button>
+</div>
+<div class="overlay hidden" id="firstRunOverlay">
+  <div class="modal modal-wide">
+    <div class="fr-head">
+      <span class="fr-logo">📻</span>
+      <div>
+        <h3>欢迎使用通联速记</h3>
+        <p class="sub" id="frSub">先填基本信息，之后记录和 QSL 卡片都会自动带上</p>
       </div>
     </div>
+    <div class="fr-steps" id="frSteps">
+      <span class="fr-dot on"></span><span class="fr-dot"></span><span class="fr-dot"></span>
+    </div>
+
+    <div class="fr-page" id="frPage1">
+      <div class="fr-sec-h">🧑‍🚀 关于你</div>
+      <div class="grid">
+        <div class="field"><label for="frCall">我的呼号 <i class="fr-req">必填</i></label><input class="inp" id="frCall" placeholder="例：BI9DAS" spellcheck="false" autocapitalize="characters"></div>
+        <div class="field"><label for="frOpName">OP 名字（中文）</label><input class="inp" id="frOpName" placeholder="如 倪徐磊"></div>
+        <div class="field"><label for="frOpNameEn">OP 名字（英文）</label><input class="inp" id="frOpNameEn" placeholder="如 Xulei Ni"></div>
+        <div class="field"><label for="frQth">我方 QTH</label><input class="inp" id="frQth" placeholder="如 浙江金华 · 永康"></div>
+        <div class="field span2"><label for="frGrid">我方 Grid 网格定位</label><input class="inp" id="frGrid" placeholder="如 PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
+        <div class="field span2"><label for="frQslAddr">收卡地址（可选）</label><textarea class="inp" id="frQslAddr" rows="2" placeholder="中文地址，一行一段"></textarea></div>
+      </div>
+    </div>
+
+    <div class="fr-page hidden" id="frPage2">
+      <div class="fr-sec-h">⚙️ 通联默认值</div>
+      <div class="grid">
+        <div class="field"><label for="frMode">默认模式</label><input class="inp" id="frMode" placeholder="FM"></div>
+        <div class="field"><label for="frFreq">默认频率 MHz</label><input class="inp" id="frFreq" inputmode="decimal" placeholder="145.100"></div>
+        <div class="field"><label for="frRst">默认信号报告</label><input class="inp" id="frRst" placeholder="59"></div>
+      </div>
+      <p class="field-hint">这些只是默认值，记录时随时可改。</p>
+    </div>
+
+    <div class="fr-page hidden" id="frPage3">
+      <div class="fr-sec-h">⚡ 30 秒上手</div>
+      <div class="fr-tips">
+        <div class="fr-tip"><span class="fr-tip-ic">⌨️</span><div><b>一路 Enter</b><p>呼号起头，Enter 逐项下移，最后一下自动保存，立刻开始下一条。</p></div></div>
+        <div class="fr-tip"><span class="fr-tip-ic">✨</span><div><b>自动带出</b><p>老呼号自动补全上次信息；频率自动换算波段。</p></div></div>
+        <div class="fr-tip"><span class="fr-tip-ic">🃏</span><div><b>QSL 卡片</b><p>记录右侧点 QSL 出电子卡片，可打印；卡片内容都能直接点改。</p></div></div>
+        <div class="fr-tip"><span class="fr-tip-ic">🔁</span><div><b>中继台</b><p>通联方式选「经中继」，填频率 + 差频自动算另一个，保存后下次直接选。</p></div></div>
+        <div class="fr-tip"><span class="fr-tip-ic">💾</span><div><b>数据在本地</b><p>记录只存本机；定期导出 JSON 备份，换设备导入即合并。</p></div></div>
+      </div>
+      <p class="field-hint">随时点右下角「?」可查看完整说明。</p>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn-ghost hidden" id="btnFrPrev">上一步</button>
+      <button class="btn-primary" id="btnFrNext">下一步</button>
+      <button type="button" class="btn-ghost" id="btnFrLater">跳过</button>
+    </div>
+  </div>
+</div>
+<div class="overlay hidden" id="settingsOverlay">
+  <div class="modal modal-wide">
+    <h3>⚙️ 设置</h3>
+    <p class="sub">设置一次，日志和 QSL 卡片都会自动带上</p>
+
+    <div class="set-section">
+      <div class="set-sec-h">📋 通联默认值<small>DEFAULT QSO</small></div>
+      <div class="grid">
+        <div class="field"><label for="setMode">默认模式</label><input class="inp" id="setMode" placeholder="FM"></div>
+        <div class="field"><label for="setFreq">默认频率 MHz</label><input class="inp" id="setFreq" inputmode="decimal" placeholder="145.100"></div>
+        <div class="field"><label for="setRst">默认信号报告</label><input class="inp" id="setRst" placeholder="59"></div>
+      </div>
+    </div>
+
+    <div class="set-section">
+      <div class="set-sec-h">📡 我的电台<small>MY STATION</small></div>
+      <div class="grid">
+        <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BI9DAS" spellcheck="false" autocapitalize="characters"></div>
+        <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="泉盛 UV-K6"></div>
+        <div class="field"><label for="setMyAnt">我方天线</label><input class="inp" id="setMyAnt" placeholder="771 天线"></div>
+        <div class="field"><label for="setMyPwr">我方功率 (W)</label><input class="inp" id="setMyPwr" inputmode="numeric" placeholder="5"></div>
+        <div class="field"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="浙江金华 · 永康"></div>
+        <div class="field"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
+      </div>
+    </div>
+
+    <div class="set-section">
+      <div class="set-sec-h">🃏 QSL 卡片信息<small>PRINTED ON CARDS</small></div>
+      <div class="grid">
+        <div class="field"><label for="setCardCall">卡片呼号</label><input class="inp" id="setCardCall" placeholder="默认同我的呼号" spellcheck="false" autocapitalize="characters"></div>
+        <div class="field"><label for="setOpNameCn">OP 名字（中文）</label><input class="inp" id="setOpNameCn" placeholder="倪徐磊"></div>
+        <div class="field"><label for="setOpNameEn">OP 名字（英文）</label><input class="inp" id="setOpNameEn" placeholder="Xulei Ni"></div>
+        <div class="field span2"><label for="setQslAddrCn">收卡地址（中文）</label><textarea class="inp" id="setQslAddrCn" rows="2" placeholder="每行一段，如：&#10;浙江省金华市永康市花街镇&#10;双溪村南苑5号"></textarea></div>
+        <div class="field span2"><label for="setQslAddrEn">收卡地址（英文）</label><textarea class="inp" id="setQslAddrEn" rows="3" placeholder="No. 5, Nanyuan, Shuangxi Village,&#10;Huajie Town, Yongkang City,&#10;Jinhua · Zhejiang · China"></textarea></div>
+        <div class="field"><label for="setQslPost">邮编 / 国家</label><input class="inp" id="setQslPost" placeholder="321300 · 中国"></div>
+        <div class="field"><label for="setQslPromise">回卡承诺语</label><input class="inp" id="setQslPromise" placeholder="QSL 100% CONFIRMED"></div>
+        <div class="field"><label for="setWebsite">个人网站（可选）</label><input class="inp" id="setWebsite" inputmode="url" placeholder="https://bioez.xyz · 留空则不显示"></div>
+        <div class="field"><label for="setQrz">QRZ 主页（可选）</label><input class="inp" id="setQrz" inputmode="url" placeholder="https://qrz.com/db/BI9DAS · 留空则不显示"></div>
+      </div>
+      <p class="field-hint">会印在电子 QSL 的邮寄区和页脚；留空则卡片上不显示网站 / QRZ。导出预览时也能直接点卡片修改。</p>
+    </div>
+
+    <div class="set-section">
+      <div class="set-sec-h">🎨 外观<small>APPEARANCE</small></div>
+      <div class="grid">
+        <div class="field"><label for="setTheme">深色模式</label>
+          <select class="inp" id="setTheme">
+            <option value="auto">跟随系统（自动适配）</option>
+            <option value="light">始终浅色</option>
+            <option value="dark">始终深色</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="set-section">
+      <div class="set-sec-h">🔁 中继台库<small>REPEATERS</small></div>
+      <p class="field-hint">记录表单里也能直接管理已保存的中继台</p>
+      <button type="button" class="btn-ghost" id="btnRptManageSettings">管理已存中继台</button>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" id="btnSaveSettings">保存设置</button>
       <button type="button" class="btn-ghost" id="btnCloseSettings">取消</button>
@@ -763,16 +1219,42 @@ footer{
     </div>
   </div>
 </div>
+<div class="overlay hidden" id="repeaterOverlay">
+  <div class="modal modal-wide">
+    <h3>🔁 中继台库</h3>
+    <p class="sub">保存过的中继台，随时新增、编辑或删除</p>
+    <div class="rpt-mgr-add">
+      <div class="grid">
+        <div class="field"><label for="rmName">名称 / 呼号</label><input class="inp" id="rmName" placeholder="如 BR5AD" spellcheck="false" autocapitalize="characters"></div>
+        <div class="field"><label for="rmDown">下行 MHz（你收听）</label><input class="inp" id="rmDown" inputmode="decimal" placeholder="145.520"></div>
+        <div class="field"><label for="rmUp">上行 MHz（你发射）</label><input class="inp" id="rmUp" inputmode="decimal" placeholder="144.920"></div>
+        <div class="field"><label for="rmOffset">偏移 ±MHz（上差 / 下差）</label><input class="inp" id="rmOffset" inputmode="decimal" placeholder="如 -0.600 或 +0.600"></div>
+        <div class="field span2"><label for="rmCtcss">哑音 CTCSS (Hz)</label><input class="inp" id="rmCtcss" inputmode="decimal" placeholder="88.5 或留空"></div>
+      </div>
+      <div class="rpt-offset" id="rmOffsetVal">填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行</div>
+      <div class="actions" style="margin-top:12px;margin-bottom:0">
+        <button class="btn-primary" id="btnRmSave">保存中继台</button>
+        <button type="button" class="btn-ghost" id="btnRmReset">清空表单</button>
+      </div>
+    </div>
+    <div class="rpt-mgr-list hidden" id="rmList"></div>
+    <div class="rpt-mgr-empty" id="rmEmpty">还没有保存的中继台，上面填一个试试</div>
+    <div class="actions">
+      <button type="button" class="btn-ghost" id="btnRmClose">关闭</button>
+      <button type="button" class="danger-link" id="btnRmWipe">清空全部中继台</button>
+    </div>
+  </div>
+</div>
 <div class="overlay hidden" id="qslConfirmOverlay">
   <div class="modal">
     <h3>电子 QSL · 我方信息确认</h3>
-    <p class="sub">卡片记录我方电台信息（对方设备信息已留在日志里）</p>
+    <p class="sub">卡片印我方电台信息（对方设备已在日志里）</p>
     <div class="grid">
       <div class="field"><label for="myRigInput">我方设备</label><input class="inp" id="myRigInput" placeholder="泉盛 UV-K6"></div>
       <div class="field"><label for="myAntInput">我方天线</label><input class="inp" id="myAntInput" placeholder="771 天线"></div>
       <div class="field span2"><label for="myPwrInput">我方功率</label><input class="inp" id="myPwrInput" inputmode="numeric" placeholder="5 W"></div>
       <div class="field span2"><label for="myQthInput">我方当前 QTH</label><input class="inp" id="myQthInput" placeholder="如 浙江金华 · 永康"></div>
-      <div class="field span2"><label for="myGridInput">我方 Grid 网格定位</label><input class="inp" id="myGridInput" placeholder="如 PL08"></div>
+      <div class="field span2"><label for="myGridInput">我方 Grid 网格定位</label><input class="inp" id="myGridInput" placeholder="如 PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
     </div>
     <div class="actions">
       <button class="btn-primary" id="btnQslConfirm">确认并生成卡片</button>
@@ -792,6 +1274,7 @@ footer{
     <iframe id="qslFrame" title="电子 QSL 卡片"></iframe>
   </div>
 </div>
+<div id="confetti" aria-hidden="true"></div>
 <div id="toast"></div>
 <!--@@E_QSL_TEMPLATE@@-->
 <script type="text/template" id="eqslTemplate">
@@ -2156,6 +2639,7 @@ body{
   line-height:1.95;
   color:var(--ink);
   font-weight:500;
+  white-space:pre-line;
 }
 
 .mail-col .m-addr.en{
@@ -2559,7 +3043,7 @@ body.is-printing .footer{padding:10px 44px 14px}
   <div class="topbar">
     <div class="tb-left">
       <span class="logo-mark"><i></i><i></i><i></i><i></i></span>
-      <span class="tb-brand">BI9DAS<span class="tb-sub">/ HAM STATION</span></span>
+      <span class="tb-brand"><span id="cardCall">BI9DAS</span><span class="tb-sub">/ HAM STATION</span></span>
     </div>
     <div class="tb-mid">
       <span class="live"><span class="dot"></span>ON AIR</span>
@@ -2567,7 +3051,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     </div>
     <div class="tb-right">
       <span>CN · ZHEJIANG</span>
-      <a href="https://qrz.com/db/BI9DAS" target="_blank">QRZ.COM/DB/BI9DAS ↗</a>
+      <a id="tbQrzLink" href="https://qrz.com/db/BI9DAS" target="_blank">QRZ.COM/DB/BI9DAS ↗</a>
     </div>
   </div>
 
@@ -2579,7 +3063,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     <div class="hero-main">
       <div class="kicker">Confirming QSO with</div>
       <div class="callsign">
-        <span>BI9</span><span class="hl">DAS</span>
+        <span id="callP1">BI9</span><span class="hl" id="callP2">DAS</span>
       </div>
       <div class="qso-map" id="qsoMap">
         <div class="qm-head">
@@ -2589,7 +3073,7 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="qm-body">
           <svg class="qm-terrain" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 150"><path d="M0.0,123.0 L8.0,123.7 L16.0,124.2 L24.0,124.6 L32.0,124.9 L40.0,125.0 L48.0,125.0 L56.0,124.8 L64.0,124.5 L72.0,124.1 L80.0,123.5 L88.0,122.8 L96.0,122.0 L104.0,121.2 L112.0,120.2 L120.0,119.3 L128.0,118.3 L136.0,117.3 L144.0,116.3 L152.0,115.3 L160.0,114.4 L168.0,113.6 L176.0,112.9 L184.0,112.2 L192.0,111.7 L200.0,111.3 L208.0,111.1 L216.0,111.0 L224.0,111.1 L232.0,111.2 L240.0,111.6 L248.0,112.0 L256.0,112.6 L264.0,113.3 L272.0,114.1 L280.0,115.0 L288.0,115.9 L296.0,116.9 L304.0,117.9 L312.0,118.9 L320.0,119.9 L328.0,120.9 L336.0,121.7 L344.0,122.6 L352.0,123.3 L360.0,123.9 L368.0,124.4 L376.0,124.7 L384.0,124.9 L392.0,125.0 L400.0,124.9 L408.0,124.7 L416.0,124.4 L424.0,123.9 L432.0,123.3 L440.0,122.5 L448.0,121.7 L456.0,120.8 L464.0,119.9 L472.0,118.9 L480.0,117.9 L488.0,116.9 L496.0,115.9 L504.0,115.0 L512.0,114.1 L520.0,113.3 L528.0,112.6 L536.0,112.0 L544.0,111.6 L552.0,111.2 L560.0,111.0" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,108.2 L8.0,107.7 L16.0,107.1 L24.0,106.3 L32.0,105.5 L40.0,104.6 L48.0,103.7 L56.0,102.7 L64.0,101.6 L72.0,100.6 L80.0,99.5 L88.0,98.4 L96.0,97.4 L104.0,96.3 L112.0,95.4 L120.0,94.5 L128.0,93.7 L136.0,93.0 L144.0,92.3 L152.0,91.8 L160.0,91.4 L168.0,91.2 L176.0,91.0 L184.0,91.0 L192.0,91.1 L200.0,91.4 L208.0,91.7 L216.0,92.2 L224.0,92.8 L232.0,93.5 L240.0,94.3 L248.0,95.2 L256.0,96.1 L264.0,97.1 L272.0,98.2 L280.0,99.3 L288.0,100.3 L296.0,101.4 L304.0,102.5 L312.0,103.5 L320.0,104.4 L328.0,105.4 L336.0,106.2 L344.0,106.9 L352.0,107.6 L360.0,108.1 L368.0,108.5 L376.0,108.8 L384.0,109.0 L392.0,109.0 L400.0,108.9 L408.0,108.7 L416.0,108.3 L424.0,107.9 L432.0,107.3 L440.0,106.6 L448.0,105.8 L456.0,105.0 L464.0,104.0 L472.0,103.0 L480.0,102.0 L488.0,100.9 L496.0,99.9 L504.0,98.8 L512.0,97.7 L520.0,96.7 L528.0,95.7 L536.0,94.8 L544.0,94.0 L552.0,93.2 L560.0,92.5" fill="none" stroke="#3E6B4F" stroke-width="0.55" opacity=".75"/><path d="M0.0,84.3 L8.0,83.2 L16.0,82.2 L24.0,81.1 L32.0,80.1 L40.0,79.2 L48.0,78.4 L56.0,77.7 L64.0,77.1 L72.0,76.6 L80.0,76.3 L88.0,76.1 L96.0,76.0 L104.0,76.1 L112.0,76.3 L120.0,76.7 L128.0,77.2 L136.0,77.9 L144.0,78.6 L152.0,79.5 L160.0,80.4 L168.0,81.4 L176.0,82.5 L184.0,83.6 L192.0,84.6 L200.0,85.7 L208.0,86.8 L216.0,87.8 L224.0,88.7 L232.0,89.5 L240.0,90.3 L248.0,90.9 L256.0,91.4 L264.0,91.7 L272.0,91.9 L280.0,92.0 L288.0,91.9 L296.0,91.7 L304.0,91.3 L312.0,90.8 L320.0,90.2 L328.0,89.4 L336.0,88.6 L344.0,87.7 L352.0,86.7 L360.0,85.6 L368.0,84.5 L376.0,83.5 L384.0,82.4 L392.0,81.3 L400.0,80.3 L408.0,79.4 L416.0,78.6 L424.0,77.8 L432.0,77.2 L440.0,76.7 L448.0,76.3 L456.0,76.1 L464.0,76.0 L472.0,76.1 L480.0,76.3 L488.0,76.6 L496.0,77.1 L504.0,77.7 L512.0,78.5 L520.0,79.3 L528.0,80.2 L536.0,81.2 L544.0,82.3 L552.0,83.3 L560.0,84.4" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,74.4 L8.0,74.7 L16.0,74.9 L24.0,75.0 L32.0,74.9 L40.0,74.7 L48.0,74.3 L56.0,73.8 L64.0,73.1 L72.0,72.4 L80.0,71.5 L88.0,70.6 L96.0,69.6 L104.0,68.5 L112.0,67.3 L120.0,66.2 L128.0,65.0 L136.0,63.9 L144.0,62.8 L152.0,61.8 L160.0,60.8 L168.0,59.9 L176.0,59.1 L184.0,58.4 L192.0,57.9 L200.0,57.4 L208.0,57.2 L216.0,57.0 L224.0,57.0 L232.0,57.2 L240.0,57.5 L248.0,57.9 L256.0,58.5 L264.0,59.2 L272.0,60.0 L280.0,60.9 L288.0,61.9 L296.0,62.9 L304.0,64.0 L312.0,65.2 L320.0,66.3 L328.0,67.5 L336.0,68.6 L344.0,69.7 L352.0,70.7 L360.0,71.6 L368.0,72.5 L376.0,73.2 L384.0,73.9 L392.0,74.4 L400.0,74.7 L408.0,74.9 L416.0,75.0 L424.0,74.9 L432.0,74.7 L440.0,74.3 L448.0,73.8 L456.0,73.2 L464.0,72.5 L472.0,71.6 L480.0,70.7 L488.0,69.6 L496.0,68.6 L504.0,67.4 L512.0,66.3 L520.0,65.1 L528.0,64.0 L536.0,62.9 L544.0,61.9 L552.0,60.9 L560.0,60.0" fill="none" stroke="#3E6B4F" stroke-width="0.55" opacity=".75"/><path d="M0.0,53.6 L8.0,52.7 L16.0,51.6 L24.0,50.6 L32.0,49.5 L40.0,48.5 L48.0,47.5 L56.0,46.5 L64.0,45.6 L72.0,44.9 L80.0,44.2 L88.0,43.7 L96.0,43.3 L104.0,43.1 L112.0,43.0 L120.0,43.1 L128.0,43.4 L136.0,43.8 L144.0,44.3 L152.0,45.0 L160.0,45.8 L168.0,46.7 L176.0,47.7 L184.0,48.7 L192.0,49.8 L200.0,50.8 L208.0,51.9 L216.0,52.9 L224.0,53.8 L232.0,54.6 L240.0,55.4 L248.0,56.0 L256.0,56.5 L264.0,56.8 L272.0,57.0 L280.0,57.0 L288.0,56.8 L296.0,56.5 L304.0,56.1 L312.0,55.5 L320.0,54.7 L328.0,53.9 L336.0,53.0 L344.0,52.0 L352.0,51.0 L360.0,49.9 L368.0,48.8 L376.0,47.8 L384.0,46.8 L392.0,45.9 L400.0,45.1 L408.0,44.4 L416.0,43.8 L424.0,43.4 L432.0,43.1 L440.0,43.0 L448.0,43.0 L456.0,43.3 L464.0,43.6 L472.0,44.1 L480.0,44.8 L488.0,45.5 L496.0,46.4 L504.0,47.3 L512.0,48.3 L520.0,49.4 L528.0,50.5 L536.0,51.5 L544.0,52.5 L552.0,53.5 L560.0,54.4" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,102.0 L8.0,101.9 L16.0,101.5 L24.0,101.1 L32.0,100.4 L40.0,99.6 L48.0,98.6 L56.0,97.6 L64.0,96.4 L72.0,95.1 L80.0,93.8 L88.0,92.5 L96.0,91.1 L104.0,89.8 L112.0,88.5 L120.0,87.2 L128.0,86.1 L136.0,85.0 L144.0,84.1 L152.0,83.4 L160.0,82.8 L168.0,82.3 L176.0,82.1 L184.0,82.0 L192.0,82.1 L200.0,82.4 L208.0,82.9 L216.0,83.5 L224.0,84.3 L232.0,85.3 L240.0,86.3 L248.0,87.5 L256.0,88.7 L264.0,90.1 L272.0,91.4 L280.0,92.8 L288.0,94.1 L296.0,95.4 L304.0,96.7 L312.0,97.8 L320.0,98.9 L328.0,99.8 L336.0,100.6 L344.0,101.2 L352.0,101.6 L360.0,101.9 L368.0,102.0 L376.0,101.9 L384.0,101.6 L392.0,101.2 L400.0,100.5 L408.0,99.8 L416.0,98.8 L424.0,97.8 L432.0,96.6 L440.0,95.4 L448.0,94.1 L456.0,92.7 L464.0,91.4 L472.0,90.0 L480.0,88.7 L488.0,87.5 L496.0,86.3 L504.0,85.2 L512.0,84.3 L520.0,83.5 L528.0,82.9 L536.0,82.4 L544.0,82.1 L552.0,82.0 L560.0,82.1" fill="none" stroke="#C8F631" stroke-width="1.1" opacity=".9"/><path d="M0.0,78.7 L8.0,79.3 L16.0,79.9 L24.0,80.4 L32.0,80.9 L40.0,81.4 L48.0,81.8 L56.0,82.1 L64.0,82.4 L72.0,82.7 L80.0,82.8 L88.0,83.0 L96.0,83.0 L104.0,83.0 L112.0,82.9 L120.0,82.7 L128.0,82.5 L136.0,82.3 L144.0,81.9 L152.0,81.6 L160.0,81.1 L168.0,80.6 L176.0,80.1 L184.0,79.6 L192.0,79.0 L200.0,78.3 L208.0,77.7 L216.0,77.0 L224.0,76.4 L232.0,75.7 L240.0,75.0 L248.0,74.4 L256.0,73.7 L264.0,73.1 L272.0,72.5 L280.0,71.9 L288.0,71.4 L296.0,70.9 L304.0,70.5 L312.0,70.1 L320.0,69.8 L328.0,69.5 L336.0,69.3 L344.0,69.1 L352.0,69.0 L360.0,69.0 L368.0,69.0 L376.0,69.1 L384.0,69.3 L392.0,69.5 L400.0,69.8 L408.0,70.2 L416.0,70.6 L424.0,71.0 L432.0,71.5 L440.0,72.0 L448.0,72.6 L456.0,73.2 L464.0,73.8 L472.0,74.5 L480.0,75.1 L488.0,75.8 L496.0,76.5 L504.0,77.1 L512.0,77.8 L520.0,78.4 L528.0,79.1 L536.0,79.7 L544.0,80.2 L552.0,80.7 L560.0,81.2" fill="none" stroke="#14301D" stroke-width="1.2" stroke-dasharray="7 5" opacity=".85"/></svg>
           <span class="qm-label">QSO PATH ┅</span>
-          <span class="qm-mark qm-a"><span class="star">★</span>BI9DAS</span>
+          <span class="qm-mark qm-a"><span class="star">★</span><span id="qmMyCall">BI9DAS</span></span>
           <span class="qm-rpt" id="qmRpt" title="经中继 RPT">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14301D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 21V4"/>
@@ -2611,7 +3095,7 @@ body.is-printing .footer{padding:10px 44px 14px}
         </div>
       </div>
       <div class="meta-line">
-        <span class="kv"><i>OP</i><b class="editable" contenteditable="true" spellcheck="false">倪徐磊 · XULEI NI</b></span>
+        <span class="kv"><i>OP</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoOp">倪徐磊 · XULEI NI</b></span>
         <span class="kv"><i>QTH</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoQthEn">YONGKANG · JINHUA</b></span>
         <span class="kv"><i>GRID</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoGridEn">PL08</b></span>
         <span class="kv"><i>CQ / ITU</i><b class="editable" contenteditable="true" spellcheck="false">24 / 44</b></span>
@@ -2739,12 +3223,12 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="data-row">
           <span class="idx">07</span>
           <span class="dl">Operator</span>
-          <span class="dv">倪徐磊 · <span class="mono">Xulei Ni</span></span>
+          <span class="dv editable" contenteditable="true" spellcheck="false" id="qsoOpCn">倪徐磊 · Xulei Ni</span>
         </div>
         <div class="data-row">
           <span class="idx">08</span>
           <span class="dl">QTH</span>
-          <span class="dv" id="qsoQthCn">浙江金华 · 永康</span>
+          <span class="dv editable" contenteditable="true" spellcheck="false" id="qsoQthCn">浙江金华 · 永康</span>
         </div>
         <div class="data-row">
           <span class="idx">09</span>
@@ -2812,7 +3296,7 @@ body.is-printing .footer{padding:10px 44px 14px}
       <span class="sc-val">SIMPLEX · HF 直频</span>
     </div>
     <div class="spec-badge">
-      <b>QSL 100% CONFIRMED</b>
+      <b id="specPromise">QSL 100% CONFIRMED</b>
       <span class="badge-sub">Every card will be returned</span>
       <span class="badge-zh">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
@@ -2830,24 +3314,24 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="mail-head">
           <span class="mail-title">SHIP-TO · 收卡地址</span>
           <span class="mail-meta">
-            <span class="chip">FROM · BI9DAS</span>
+            <span class="chip">FROM · <span id="mailFrom">BI9DAS</span></span>
             <span class="chip green">100% 回卡</span>
           </span>
         </div>
         <div class="mail-grid">
           <div class="mail-col">
             <span class="m-tag">中文地址 · CN</span>
-            <div class="m-name">倪徐磊 <span class="hl">收</span></div>
-            <div class="m-addr">
+            <div class="m-name"><span id="mNameCn">倪徐磊</span> <span class="hl">收</span></div>
+            <div class="m-addr" id="mAddrCn">
               浙江省金华市永康市花街镇<br>
               双溪村南苑5号
             </div>
-            <span class="m-post">邮编 321300 · 中国</span>
+            <span class="m-post" id="mPost">邮编 321300 · 中国</span>
           </div>
           <div class="mail-col">
             <span class="m-tag">English · EN</span>
-            <div class="m-name">Xulei Ni</div>
-            <div class="m-addr en">
+            <div class="m-name" id="mNameEn">Xulei Ni</div>
+            <div class="m-addr en" id="mAddrEn">
               No. 5, Nanyuan, Shuangxi Village,<br>
               Huajie Town, Yongkang City,<br>
               Jinhua · Zhejiang · 321300 · China
@@ -2863,7 +3347,7 @@ body.is-printing .footer{padding:10px 44px 14px}
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 296" width="296" height="296" shape-rendering="crispEdges"><rect width="296" height="296" fill="#ffffff"/><g fill="#0a0a0a"><rect x="32" y="32" width="8" height="8"/><rect x="40" y="32" width="8" height="8"/><rect x="48" y="32" width="8" height="8"/><rect x="56" y="32" width="8" height="8"/><rect x="64" y="32" width="8" height="8"/><rect x="72" y="32" width="8" height="8"/><rect x="80" y="32" width="8" height="8"/><rect x="96" y="32" width="8" height="8"/><rect x="136" y="32" width="8" height="8"/><rect x="144" y="32" width="8" height="8"/><rect x="152" y="32" width="8" height="8"/><rect x="176" y="32" width="8" height="8"/><rect x="208" y="32" width="8" height="8"/><rect x="216" y="32" width="8" height="8"/><rect x="224" y="32" width="8" height="8"/><rect x="232" y="32" width="8" height="8"/><rect x="240" y="32" width="8" height="8"/><rect x="248" y="32" width="8" height="8"/><rect x="256" y="32" width="8" height="8"/><rect x="32" y="40" width="8" height="8"/><rect x="80" y="40" width="8" height="8"/><rect x="96" y="40" width="8" height="8"/><rect x="104" y="40" width="8" height="8"/><rect x="120" y="40" width="8" height="8"/><rect x="136" y="40" width="8" height="8"/><rect x="144" y="40" width="8" height="8"/><rect x="152" y="40" width="8" height="8"/><rect x="176" y="40" width="8" height="8"/><rect x="184" y="40" width="8" height="8"/><rect x="192" y="40" width="8" height="8"/><rect x="208" y="40" width="8" height="8"/><rect x="256" y="40" width="8" height="8"/><rect x="32" y="48" width="8" height="8"/><rect x="48" y="48" width="8" height="8"/><rect x="56" y="48" width="8" height="8"/><rect x="64" y="48" width="8" height="8"/><rect x="80" y="48" width="8" height="8"/><rect x="96" y="48" width="8" height="8"/><rect x="104" y="48" width="8" height="8"/><rect x="128" y="48" width="8" height="8"/><rect x="136" y="48" width="8" height="8"/><rect x="144" y="48" width="8" height="8"/><rect x="184" y="48" width="8" height="8"/><rect x="208" y="48" width="8" height="8"/><rect x="224" y="48" width="8" height="8"/><rect x="232" y="48" width="8" height="8"/><rect x="240" y="48" width="8" height="8"/><rect x="256" y="48" width="8" height="8"/><rect x="32" y="56" width="8" height="8"/><rect x="48" y="56" width="8" height="8"/><rect x="56" y="56" width="8" height="8"/><rect x="64" y="56" width="8" height="8"/><rect x="80" y="56" width="8" height="8"/><rect x="128" y="56" width="8" height="8"/><rect x="144" y="56" width="8" height="8"/><rect x="152" y="56" width="8" height="8"/><rect x="168" y="56" width="8" height="8"/><rect x="184" y="56" width="8" height="8"/><rect x="192" y="56" width="8" height="8"/><rect x="208" y="56" width="8" height="8"/><rect x="224" y="56" width="8" height="8"/><rect x="232" y="56" width="8" height="8"/><rect x="240" y="56" width="8" height="8"/><rect x="256" y="56" width="8" height="8"/><rect x="32" y="64" width="8" height="8"/><rect x="48" y="64" width="8" height="8"/><rect x="56" y="64" width="8" height="8"/><rect x="64" y="64" width="8" height="8"/><rect x="80" y="64" width="8" height="8"/><rect x="96" y="64" width="8" height="8"/><rect x="104" y="64" width="8" height="8"/><rect x="112" y="64" width="8" height="8"/><rect x="120" y="64" width="8" height="8"/><rect x="136" y="64" width="8" height="8"/><rect x="152" y="64" width="8" height="8"/><rect x="168" y="64" width="8" height="8"/><rect x="184" y="64" width="8" height="8"/><rect x="208" y="64" width="8" height="8"/><rect x="224" y="64" width="8" height="8"/><rect x="232" y="64" width="8" height="8"/><rect x="240" y="64" width="8" height="8"/><rect x="256" y="64" width="8" height="8"/><rect x="32" y="72" width="8" height="8"/><rect x="80" y="72" width="8" height="8"/><rect x="112" y="72" width="8" height="8"/><rect x="120" y="72" width="8" height="8"/><rect x="128" y="72" width="8" height="8"/><rect x="136" y="72" width="8" height="8"/><rect x="144" y="72" width="8" height="8"/><rect x="192" y="72" width="8" height="8"/><rect x="208" y="72" width="8" height="8"/><rect x="256" y="72" width="8" height="8"/><rect x="32" y="80" width="8" height="8"/><rect x="40" y="80" width="8" height="8"/><rect x="48" y="80" width="8" height="8"/><rect x="56" y="80" width="8" height="8"/><rect x="64" y="80" width="8" height="8"/><rect x="72" y="80" width="8" height="8"/><rect x="80" y="80" width="8" height="8"/><rect x="96" y="80" width="8" height="8"/><rect x="112" y="80" width="8" height="8"/><rect x="128" y="80" width="8" height="8"/><rect x="144" y="80" width="8" height="8"/><rect x="160" y="80" width="8" height="8"/><rect x="176" y="80" width="8" height="8"/><rect x="192" y="80" width="8" height="8"/><rect x="208" y="80" width="8" height="8"/><rect x="216" y="80" width="8" height="8"/><rect x="224" y="80" width="8" height="8"/><rect x="232" y="80" width="8" height="8"/><rect x="240" y="80" width="8" height="8"/><rect x="248" y="80" width="8" height="8"/><rect x="256" y="80" width="8" height="8"/><rect x="104" y="88" width="8" height="8"/><rect x="112" y="88" width="8" height="8"/><rect x="144" y="88" width="8" height="8"/><rect x="176" y="88" width="8" height="8"/><rect x="192" y="88" width="8" height="8"/><rect x="32" y="96" width="8" height="8"/><rect x="56" y="96" width="8" height="8"/><rect x="64" y="96" width="8" height="8"/><rect x="72" y="96" width="8" height="8"/><rect x="80" y="96" width="8" height="8"/><rect x="88" y="96" width="8" height="8"/><rect x="96" y="96" width="8" height="8"/><rect x="104" y="96" width="8" height="8"/><rect x="112" y="96" width="8" height="8"/><rect x="120" y="96" width="8" height="8"/><rect x="136" y="96" width="8" height="8"/><rect x="144" y="96" width="8" height="8"/><rect x="152" y="96" width="8" height="8"/><rect x="160" y="96" width="8" height="8"/><rect x="168" y="96" width="8" height="8"/><rect x="184" y="96" width="8" height="8"/><rect x="200" y="96" width="8" height="8"/><rect x="224" y="96" width="8" height="8"/><rect x="240" y="96" width="8" height="8"/><rect x="248" y="96" width="8" height="8"/><rect x="256" y="96" width="8" height="8"/><rect x="32" y="104" width="8" height="8"/><rect x="40" y="104" width="8" height="8"/><rect x="48" y="104" width="8" height="8"/><rect x="56" y="104" width="8" height="8"/><rect x="72" y="104" width="8" height="8"/><rect x="96" y="104" width="8" height="8"/><rect x="112" y="104" width="8" height="8"/><rect x="120" y="104" width="8" height="8"/><rect x="128" y="104" width="8" height="8"/><rect x="144" y="104" width="8" height="8"/><rect x="176" y="104" width="8" height="8"/><rect x="184" y="104" width="8" height="8"/><rect x="200" y="104" width="8" height="8"/><rect x="216" y="104" width="8" height="8"/><rect x="224" y="104" width="8" height="8"/><rect x="240" y="104" width="8" height="8"/><rect x="248" y="104" width="8" height="8"/><rect x="32" y="112" width="8" height="8"/><rect x="56" y="112" width="8" height="8"/><rect x="64" y="112" width="8" height="8"/><rect x="80" y="112" width="8" height="8"/><rect x="88" y="112" width="8" height="8"/><rect x="96" y="112" width="8" height="8"/><rect x="128" y="112" width="8" height="8"/><rect x="144" y="112" width="8" height="8"/><rect x="168" y="112" width="8" height="8"/><rect x="192" y="112" width="8" height="8"/><rect x="200" y="112" width="8" height="8"/><rect x="208" y="112" width="8" height="8"/><rect x="224" y="112" width="8" height="8"/><rect x="240" y="112" width="8" height="8"/><rect x="40" y="120" width="8" height="8"/><rect x="48" y="120" width="8" height="8"/><rect x="56" y="120" width="8" height="8"/><rect x="64" y="120" width="8" height="8"/><rect x="72" y="120" width="8" height="8"/><rect x="120" y="120" width="8" height="8"/><rect x="144" y="120" width="8" height="8"/><rect x="152" y="120" width="8" height="8"/><rect x="168" y="120" width="8" height="8"/><rect x="184" y="120" width="8" height="8"/><rect x="224" y="120" width="8" height="8"/><rect x="232" y="120" width="8" height="8"/><rect x="256" y="120" width="8" height="8"/><rect x="32" y="128" width="8" height="8"/><rect x="40" y="128" width="8" height="8"/><rect x="80" y="128" width="8" height="8"/><rect x="88" y="128" width="8" height="8"/><rect x="112" y="128" width="8" height="8"/><rect x="120" y="128" width="8" height="8"/><rect x="136" y="128" width="8" height="8"/><rect x="144" y="128" width="8" height="8"/><rect x="160" y="128" width="8" height="8"/><rect x="184" y="128" width="8" height="8"/><rect x="200" y="128" width="8" height="8"/><rect x="208" y="128" width="8" height="8"/><rect x="216" y="128" width="8" height="8"/><rect x="256" y="128" width="8" height="8"/><rect x="32" y="136" width="8" height="8"/><rect x="72" y="136" width="8" height="8"/><rect x="88" y="136" width="8" height="8"/><rect x="120" y="136" width="8" height="8"/><rect x="208" y="136" width="8" height="8"/><rect x="216" y="136" width="8" height="8"/><rect x="224" y="136" width="8" height="8"/><rect x="232" y="136" width="8" height="8"/><rect x="240" y="136" width="8" height="8"/><rect x="248" y="136" width="8" height="8"/><rect x="256" y="136" width="8" height="8"/><rect x="40" y="144" width="8" height="8"/><rect x="56" y="144" width="8" height="8"/><rect x="80" y="144" width="8" height="8"/><rect x="96" y="144" width="8" height="8"/><rect x="104" y="144" width="8" height="8"/><rect x="120" y="144" width="8" height="8"/><rect x="128" y="144" width="8" height="8"/><rect x="144" y="144" width="8" height="8"/><rect x="152" y="144" width="8" height="8"/><rect x="168" y="144" width="8" height="8"/><rect x="176" y="144" width="8" height="8"/><rect x="184" y="144" width="8" height="8"/><rect x="192" y="144" width="8" height="8"/><rect x="216" y="144" width="8" height="8"/><rect x="240" y="144" width="8" height="8"/><rect x="256" y="144" width="8" height="8"/><rect x="40" y="152" width="8" height="8"/><rect x="48" y="152" width="8" height="8"/><rect x="56" y="152" width="8" height="8"/><rect x="88" y="152" width="8" height="8"/><rect x="96" y="152" width="8" height="8"/><rect x="104" y="152" width="8" height="8"/><rect x="120" y="152" width="8" height="8"/><rect x="128" y="152" width="8" height="8"/><rect x="136" y="152" width="8" height="8"/><rect x="144" y="152" width="8" height="8"/><rect x="152" y="152" width="8" height="8"/><rect x="160" y="152" width="8" height="8"/><rect x="192" y="152" width="8" height="8"/><rect x="216" y="152" width="8" height="8"/><rect x="240" y="152" width="8" height="8"/><rect x="256" y="152" width="8" height="8"/><rect x="32" y="160" width="8" height="8"/><rect x="40" y="160" width="8" height="8"/><rect x="64" y="160" width="8" height="8"/><rect x="72" y="160" width="8" height="8"/><rect x="80" y="160" width="8" height="8"/><rect x="88" y="160" width="8" height="8"/><rect x="104" y="160" width="8" height="8"/><rect x="120" y="160" width="8" height="8"/><rect x="128" y="160" width="8" height="8"/><rect x="152" y="160" width="8" height="8"/><rect x="160" y="160" width="8" height="8"/><rect x="176" y="160" width="8" height="8"/><rect x="192" y="160" width="8" height="8"/><rect x="216" y="160" width="8" height="8"/><rect x="232" y="160" width="8" height="8"/><rect x="32" y="168" width="8" height="8"/><rect x="88" y="168" width="8" height="8"/><rect x="96" y="168" width="8" height="8"/><rect x="104" y="168" width="8" height="8"/><rect x="120" y="168" width="8" height="8"/><rect x="176" y="168" width="8" height="8"/><rect x="184" y="168" width="8" height="8"/><rect x="192" y="168" width="8" height="8"/><rect x="200" y="168" width="8" height="8"/><rect x="224" y="168" width="8" height="8"/><rect x="240" y="168" width="8" height="8"/><rect x="248" y="168" width="8" height="8"/><rect x="32" y="176" width="8" height="8"/><rect x="40" y="176" width="8" height="8"/><rect x="56" y="176" width="8" height="8"/><rect x="64" y="176" width="8" height="8"/><rect x="72" y="176" width="8" height="8"/><rect x="80" y="176" width="8" height="8"/><rect x="96" y="176" width="8" height="8"/><rect x="112" y="176" width="8" height="8"/><rect x="120" y="176" width="8" height="8"/><rect x="136" y="176" width="8" height="8"/><rect x="144" y="176" width="8" height="8"/><rect x="152" y="176" width="8" height="8"/><rect x="184" y="176" width="8" height="8"/><rect x="200" y="176" width="8" height="8"/><rect x="224" y="176" width="8" height="8"/><rect x="232" y="176" width="8" height="8"/><rect x="256" y="176" width="8" height="8"/><rect x="32" y="184" width="8" height="8"/><rect x="40" y="184" width="8" height="8"/><rect x="72" y="184" width="8" height="8"/><rect x="88" y="184" width="8" height="8"/><rect x="104" y="184" width="8" height="8"/><rect x="112" y="184" width="8" height="8"/><rect x="128" y="184" width="8" height="8"/><rect x="136" y="184" width="8" height="8"/><rect x="232" y="184" width="8" height="8"/><rect x="240" y="184" width="8" height="8"/><rect x="32" y="192" width="8" height="8"/><rect x="40" y="192" width="8" height="8"/><rect x="56" y="192" width="8" height="8"/><rect x="64" y="192" width="8" height="8"/><rect x="72" y="192" width="8" height="8"/><rect x="80" y="192" width="8" height="8"/><rect x="104" y="192" width="8" height="8"/><rect x="120" y="192" width="8" height="8"/><rect x="128" y="192" width="8" height="8"/><rect x="136" y="192" width="8" height="8"/><rect x="152" y="192" width="8" height="8"/><rect x="160" y="192" width="8" height="8"/><rect x="192" y="192" width="8" height="8"/><rect x="200" y="192" width="8" height="8"/><rect x="208" y="192" width="8" height="8"/><rect x="216" y="192" width="8" height="8"/><rect x="224" y="192" width="8" height="8"/><rect x="232" y="192" width="8" height="8"/><rect x="240" y="192" width="8" height="8"/><rect x="248" y="192" width="8" height="8"/><rect x="96" y="200" width="8" height="8"/><rect x="104" y="200" width="8" height="8"/><rect x="112" y="200" width="8" height="8"/><rect x="136" y="200" width="8" height="8"/><rect x="176" y="200" width="8" height="8"/><rect x="192" y="200" width="8" height="8"/><rect x="224" y="200" width="8" height="8"/><rect x="232" y="200" width="8" height="8"/><rect x="32" y="208" width="8" height="8"/><rect x="40" y="208" width="8" height="8"/><rect x="48" y="208" width="8" height="8"/><rect x="56" y="208" width="8" height="8"/><rect x="64" y="208" width="8" height="8"/><rect x="72" y="208" width="8" height="8"/><rect x="80" y="208" width="8" height="8"/><rect x="96" y="208" width="8" height="8"/><rect x="104" y="208" width="8" height="8"/><rect x="128" y="208" width="8" height="8"/><rect x="136" y="208" width="8" height="8"/><rect x="152" y="208" width="8" height="8"/><rect x="176" y="208" width="8" height="8"/><rect x="184" y="208" width="8" height="8"/><rect x="192" y="208" width="8" height="8"/><rect x="208" y="208" width="8" height="8"/><rect x="224" y="208" width="8" height="8"/><rect x="232" y="208" width="8" height="8"/><rect x="32" y="216" width="8" height="8"/><rect x="80" y="216" width="8" height="8"/><rect x="96" y="216" width="8" height="8"/><rect x="112" y="216" width="8" height="8"/><rect x="120" y="216" width="8" height="8"/><rect x="136" y="216" width="8" height="8"/><rect x="168" y="216" width="8" height="8"/><rect x="176" y="216" width="8" height="8"/><rect x="192" y="216" width="8" height="8"/><rect x="224" y="216" width="8" height="8"/><rect x="248" y="216" width="8" height="8"/><rect x="256" y="216" width="8" height="8"/><rect x="32" y="224" width="8" height="8"/><rect x="48" y="224" width="8" height="8"/><rect x="56" y="224" width="8" height="8"/><rect x="64" y="224" width="8" height="8"/><rect x="80" y="224" width="8" height="8"/><rect x="96" y="224" width="8" height="8"/><rect x="112" y="224" width="8" height="8"/><rect x="120" y="224" width="8" height="8"/><rect x="136" y="224" width="8" height="8"/><rect x="152" y="224" width="8" height="8"/><rect x="160" y="224" width="8" height="8"/><rect x="168" y="224" width="8" height="8"/><rect x="184" y="224" width="8" height="8"/><rect x="192" y="224" width="8" height="8"/><rect x="200" y="224" width="8" height="8"/><rect x="208" y="224" width="8" height="8"/><rect x="216" y="224" width="8" height="8"/><rect x="224" y="224" width="8" height="8"/><rect x="232" y="224" width="8" height="8"/><rect x="248" y="224" width="8" height="8"/><rect x="256" y="224" width="8" height="8"/><rect x="32" y="232" width="8" height="8"/><rect x="48" y="232" width="8" height="8"/><rect x="56" y="232" width="8" height="8"/><rect x="64" y="232" width="8" height="8"/><rect x="80" y="232" width="8" height="8"/><rect x="96" y="232" width="8" height="8"/><rect x="128" y="232" width="8" height="8"/><rect x="136" y="232" width="8" height="8"/><rect x="144" y="232" width="8" height="8"/><rect x="160" y="232" width="8" height="8"/><rect x="168" y="232" width="8" height="8"/><rect x="176" y="232" width="8" height="8"/><rect x="184" y="232" width="8" height="8"/><rect x="200" y="232" width="8" height="8"/><rect x="256" y="232" width="8" height="8"/><rect x="32" y="240" width="8" height="8"/><rect x="48" y="240" width="8" height="8"/><rect x="56" y="240" width="8" height="8"/><rect x="64" y="240" width="8" height="8"/><rect x="80" y="240" width="8" height="8"/><rect x="112" y="240" width="8" height="8"/><rect x="136" y="240" width="8" height="8"/><rect x="152" y="240" width="8" height="8"/><rect x="176" y="240" width="8" height="8"/><rect x="184" y="240" width="8" height="8"/><rect x="192" y="240" width="8" height="8"/><rect x="216" y="240" width="8" height="8"/><rect x="224" y="240" width="8" height="8"/><rect x="240" y="240" width="8" height="8"/><rect x="248" y="240" width="8" height="8"/><rect x="256" y="240" width="8" height="8"/><rect x="32" y="248" width="8" height="8"/><rect x="80" y="248" width="8" height="8"/><rect x="104" y="248" width="8" height="8"/><rect x="112" y="248" width="8" height="8"/><rect x="120" y="248" width="8" height="8"/><rect x="128" y="248" width="8" height="8"/><rect x="136" y="248" width="8" height="8"/><rect x="160" y="248" width="8" height="8"/><rect x="184" y="248" width="8" height="8"/><rect x="232" y="248" width="8" height="8"/><rect x="240" y="248" width="8" height="8"/><rect x="256" y="248" width="8" height="8"/><rect x="32" y="256" width="8" height="8"/><rect x="40" y="256" width="8" height="8"/><rect x="48" y="256" width="8" height="8"/><rect x="56" y="256" width="8" height="8"/><rect x="64" y="256" width="8" height="8"/><rect x="72" y="256" width="8" height="8"/><rect x="80" y="256" width="8" height="8"/><rect x="96" y="256" width="8" height="8"/><rect x="104" y="256" width="8" height="8"/><rect x="144" y="256" width="8" height="8"/><rect x="160" y="256" width="8" height="8"/><rect x="176" y="256" width="8" height="8"/><rect x="184" y="256" width="8" height="8"/><rect x="192" y="256" width="8" height="8"/><rect x="216" y="256" width="8" height="8"/><rect x="224" y="256" width="8" height="8"/></g></svg>
           </div>
         </div>
-        <div class="stamp-cap">SCAN · VERIFY<br><b>BIOEZ.XYZ/ARCHIVES/BI9DAS</b></div>
+        <div class="stamp-cap">SCAN · VERIFY<br><b id="stampCapText">BIOEZ.XYZ/ARCHIVES/BI9DAS</b></div>
         <div class="holo" id="holoBar" aria-hidden="true"></div>
       </div>
 
@@ -2876,8 +3360,8 @@ body.is-printing .footer{padding:10px 44px 14px}
       <span class="inner">TNX FER QSO &nbsp;<b>◆</b>&nbsp; PSE QSL VIA LoTW / QRZ / DIRECT &nbsp;<b>◆</b>&nbsp; VY 73 DE BI9DAS &nbsp;<b>◆</b>&nbsp; BEST 73! &nbsp;<b>◆</b>&nbsp;</span>
     </div>
     <div class="links">
-      <a href="https://bioez.xyz" target="_blank">BIOEZ.XYZ</a>
-      <a href="https://qrz.com/db/BI9DAS" target="_blank">QRZ</a>
+      <a id="linkSite" href="https://bioez.xyz" target="_blank">BIOEZ.XYZ</a>
+      <a id="linkQrz" href="https://qrz.com/db/BI9DAS" target="_blank">QRZ</a>
       <span class="license">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="12" r="3.2"/><circle cx="15" cy="12" r="3.2"/></svg>
         CC BY-SA 4.0
@@ -3294,6 +3778,7 @@ const els = {
   recentWrap: $('recentWrap'),
   recentChips: $('recentChips'),
   toast: $('toast'),
+  confetti: $('confetti'),
   qslOverlay: $('qslOverlay'),
   qslFrame: $('qslFrame'),
   qslNote: $('qslNote'),
@@ -3324,19 +3809,79 @@ const els = {
   btnCloseSettings: $('btnCloseSettings'),
   btnWipe: $('btnWipe'),
   btnSettings: $('btnSettings'),
-  guideCard: $('guideCard'),
   guideToggle: $('guideToggle'),
-  guideBody: $('guideBody'),
-  btnJumpLog: $('btnJumpLog')
+  helpOverlay: $('helpOverlay'),
+  btnHelpClose: $('btnHelpClose'),
+  btnJumpLog: $('btnJumpLog'),
+  dock: $('dock'),
+  jumpCount: $('jumpCount'),
+  inLinkMode: $('inLinkMode'),
+  linkSimpBtn: $('linkSimpBtn'),
+  linkRptBtn: $('linkRptBtn'),
+  rptBox: $('rptBox'),
+  inRptPick: $('inRptPick'),
+  rptList: $('rptList'),
+  inRptName: $('inRptName'),
+  inRptDown: $('inRptDown'),
+  inRptUp: $('inRptUp'),
+  inRptOffset: $('inRptOffset'),
+  inRptCtcss: $('inRptCtcss'),
+  rptOffsetVal: $('rptOffsetVal'),
+  firstRunOverlay: $('firstRunOverlay'),
+  frCall: $('frCall'),
+  frOpName: $('frOpName'),
+  frOpNameEn: $('frOpNameEn'),
+  frQth: $('frQth'),
+  frGrid: $('frGrid'),
+  frQslAddr: $('frQslAddr'),
+  frMode: $('frMode'),
+  frFreq: $('frFreq'),
+  frRst: $('frRst'),
+  frSub: $('frSub'),
+  frSteps: $('frSteps'),
+  btnFrPrev: $('btnFrPrev'),
+  btnFrNext: $('btnFrNext'),
+  btnFrLater: $('btnFrLater'),
+  repeaterOverlay: $('repeaterOverlay'),
+  rmName: $('rmName'),
+  rmDown: $('rmDown'),
+  rmUp: $('rmUp'),
+  rmOffset: $('rmOffset'),
+  rmOffsetVal: $('rmOffsetVal'),
+  rmCtcss: $('rmCtcss'),
+  btnRmSave: $('btnRmSave'),
+  btnRmReset: $('btnRmReset'),
+  rmList: $('rmList'),
+  rmEmpty: $('rmEmpty'),
+  btnRmClose: $('btnRmClose'),
+  btnRmWipe: $('btnRmWipe'),
+  btnRptManage: $('btnRptManage'),
+  btnRptManageSettings: $('btnRptManageSettings'),
+  setCardCall: $('setCardCall'),
+  setOpNameCn: $('setOpNameCn'),
+  setOpNameEn: $('setOpNameEn'),
+  setQslAddrCn: $('setQslAddrCn'),
+  setQslAddrEn: $('setQslAddrEn'),
+  setQslPost: $('setQslPost'),
+  setQslPromise: $('setQslPromise'),
+  setWebsite: $('setWebsite'),
+  setQrz: $('setQrz')
 };
+
+els.formCard = document.getElementById('formCard');
 
 const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig', 'inAnt', 'inPwr', 'inRemark', 'time'];
 
-let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5', myQth: '浙江金华 · 永康', myGrid: 'PL08' };
+let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5', myQth: '浙江金华 · 永康', myGrid: 'PL08', cardCall: '', opNameCn: '倪徐磊', opNameEn: 'Xulei Ni', qslAddrCn: '浙江省金华市永康市花街镇\n双溪村南苑5号', qslAddrEn: 'No. 5, Nanyuan, Shuangxi Village,\nHuajie Town, Yongkang City,\nJinhua · Zhejiang · 321300 · China', qslPost: '321300 · 中国', qslPromise: 'QSL 100% CONFIRMED', website: 'https://bioez.xyz', qrz: 'https://qrz.com/db/BI9DAS' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
 
 let records = [];
 try { records = JSON.parse(localStorage.getItem(LS_LOG) || '[]'); } catch (e) {}
+
+const LS_RPT = 'hamqso.repeaters.v1';
+const LS_WELCOME = 'hamqso.welcome.v1';
+let repeaters = [];
+try { repeaters = JSON.parse(localStorage.getItem(LS_RPT) || '[]'); } catch (e) {}
 
 let editingId = null;
 let qsoStart = null;
@@ -3456,6 +4001,7 @@ function stats() {
   const n = records.filter(r => r.date === today).length;
   els.statToday.textContent = `今日 ${n} · 共 ${records.length}`;
   els.stampCount.textContent = String(records.length);
+  if (els.jumpCount) els.jumpCount.textContent = records.length > 99 ? '99+' : String(records.length);
   updateStamp();
 }
 
@@ -3732,10 +4278,13 @@ els.form.addEventListener('keydown', e => {
     return;
   }
   if (e.key === 'Escape') {
+    if (!els.helpOverlay.classList.contains('hidden')) return;
+    if (!els.firstRunOverlay.classList.contains('hidden')) return;
+    if (!els.repeaterOverlay.classList.contains('hidden')) { closeRepeaterManager(); return; }
     if (!els.settingsOverlay.classList.contains('hidden')) { closeSettings(); return; }
     if (e.target instanceof HTMLInputElement && e.target.id !== 'search') {
       resetForm();
-      toast('已清空当前输入');
+      toast('已清空表单');
     }
   }
 });
@@ -3814,6 +4363,40 @@ els.form.addEventListener('input', e => {
 els.inDate.addEventListener('input', () => { updateUtcDisplay(); markAuto('time', false); updateStamp(); });
 els.inTime.addEventListener('input', () => { updateUtcDisplay(); markAuto('time', false); });
 
+// ── 撒彩带庆祝 ──
+function burstConfetti() {
+  const box = els.confetti;
+  if (!box || !els.dock) return;
+  const r = els.dock.getBoundingClientRect();
+  const palette = ['#C8F631', '#2f5fc7', '#f472b6', '#fbbf24', '#4ade80', '#60a5fa', '#f87171', '#e5e7eb'];
+  for (let i = 0; i < 110; i++) {
+    const p = document.createElement('span');
+    p.className = 'cf-piece';
+    const size = 6 + Math.random() * 6;
+    p.style.width = size + 'px';
+    p.style.height = (i % 4 === 0 ? size : size * 1.7) + 'px';
+    if (i % 5 === 0) p.style.borderRadius = '50%';
+    p.style.left = (r.left + Math.random() * r.width) + 'px';
+    p.style.background = palette[i % palette.length];
+    p.style.animationDuration = (1400 + Math.random() * 1400) + 'ms';
+    p.style.animationDelay = (Math.random() * 300) + 'ms';
+    box.appendChild(p);
+    setTimeout(() => p.remove(), 3400);
+  }
+}
+
+let sweepTimer = null;
+function sweepSaveDone() {
+  if (!els.btnSave) return;
+  els.btnSave.classList.add('saved');
+  if (els.dock) els.dock.classList.add('saving');
+  clearTimeout(sweepTimer);
+  sweepTimer = setTimeout(() => {
+    els.btnSave.classList.remove('saved');
+    if (els.dock) els.dock.classList.remove('saving');
+  }, 3600);
+}
+
 function save() {
   const call = els.inCall.value.trim().toUpperCase();
   if (!call) { toast('请先输入呼号'); els.inCall.focus(); return; }
@@ -3836,6 +4419,7 @@ function save() {
     ant: els.inAnt.value.trim(),
     pwr: els.inPwr.value.trim(),
     remark: els.inRemark.value.trim(),
+    repeater: collectRepeater(),
     date: utc.date || u.date,
     time: utc.time || u.time,
     myCall: settings.myCall,
@@ -3851,11 +4435,13 @@ function save() {
   } else {
     records.push(rec);
     toast(`已记录 ${rec.call} ✓`);
+    burstConfetti();
   }
   saveRecords();
   renderList();
   stats();
   resetForm();
+  sweepSaveDone();
   els.inCall.focus();
 }
 
@@ -3865,10 +4451,15 @@ function resetForm() {
   timeLocked = false;
   els.form.reset();
   clearAutoMarks();
+  resetRepeaterForm();
   applyDefaults();
   els.editBadge.classList.add('hidden');
+  if (els.formCard) els.formCard.classList.remove('editing');
   els.formTitle.textContent = '通联记录表';
-  els.btnSave.textContent = '保存并继续';
+  els.btnSave.querySelector('.save-label').textContent = '保存并继续';
+  els.btnSave.classList.remove('edit-mode');
+  els.btnClear.textContent = '清空表单';
+  els.btnClear.classList.remove('cancel-mode');
   els.matchHint.classList.add('hidden');
   tickTimer();
 }
@@ -3892,13 +4483,17 @@ function applyDefaults() {
   updateStamp();
 }
 
-els.btnClear.addEventListener('click', () => { resetForm(); toast('已清空'); });
+els.btnClear.addEventListener('click', () => {
+  const wasEditing = !!editingId;
+  resetForm();
+  toast(wasEditing ? '已取消修改' : '已清空表单');
+});
 
 function renderList() {
   const q = els.search.value.trim().toLowerCase();
   const rows = records.filter(r => {
     if (!q) return true;
-    return [r.call, r.qth, r.name, r.remark, r.rig, r.ant, r.mode, r.band, r.freq]
+    return [r.call, r.qth, r.name, r.remark, r.rig, r.ant, r.mode, r.band, r.freq, r.repeater ? r.repeater.name : '']
       .join(' ').toLowerCase().includes(q);
   });
   rows.sort((a, b) => (b.date + ' ' + (b.time || '')).localeCompare(a.date + ' ' + (a.time || '')) || b.ts - a.ts);
@@ -3952,7 +4547,7 @@ function renderRow(r) {
   cRst.title = '我给对方 ' + sentRst + ' · 对方给我 ' + recvRst;
   const cFm = document.createElement('span');
   cFm.className = 'g-fm';
-  cFm.textContent = [r.band, r.freq ? r.freq + ' MHz' : '', r.mode].filter(Boolean).join(' · ') || '—';
+  cFm.textContent = [(r.repeater ? 'RPT' : ''), r.band, r.freq ? r.freq + ' MHz' : '', r.mode].filter(Boolean).join(' · ') || '—';
   const cWho = document.createElement('span');
   cWho.className = 'g-who';
   cWho.textContent = [r.name, r.qth].filter(Boolean).join(' · ') || '—';
@@ -3973,6 +4568,7 @@ function renderRow(r) {
   const det = document.createElement('div');
   det.className = 'qso-detail';
   const details = [];
+  if (r.repeater) details.push('中继 ' + r.repeater.name + (r.repeater.down ? ' · ' + r.repeater.down + ' MHz' : ''));
   if (r.rig) details.push('设备 ' + r.rig);
   if (r.ant) details.push('天线 ' + r.ant);
   if (r.pwr) details.push(r.pwr + ' W');
@@ -4028,13 +4624,29 @@ function edit(id) {
   els.inAnt.value = r.ant || '';
   els.inPwr.value = r.pwr || '';
   els.inRemark.value = r.remark || '';
+  if (r.repeater) {
+    setLinkMode('rpt');
+    els.inRptName.value = r.repeater.name || '';
+    els.inRptDown.value = r.repeater.down || '';
+    els.inRptUp.value = r.repeater.up || '';
+    els.inRptOffset.value = (r.repeater.offset !== null && r.repeater.offset !== undefined) ? fmtOffset(parseFloat(r.repeater.offset)) : '';
+    els.inRptCtcss.value = (r.repeater.ctcss && r.repeater.ctcss !== 'NONE') ? r.repeater.ctcss : '';
+    updateRptOffset();
+  } else {
+    setLinkMode('simp');
+  }
   const cst = utcToCst(r.date || nowUTC().date, r.time || nowUTC().time);
   els.inDate.value = cst.date;
   els.inTime.value = cst.time;
   clearAutoMarks();
+  if (els.formCard) els.formCard.classList.add('editing');
   els.editBadge.classList.remove('hidden');
-  els.formTitle.textContent = '编辑通联';
-  els.btnSave.textContent = '保存修改';
+  els.editBadge.textContent = '✎ 修改中';
+  els.formTitle.textContent = '修改记录 · ' + r.call;
+  els.btnSave.querySelector('.save-label').textContent = '保存修改';
+  els.btnSave.classList.add('edit-mode');
+  els.btnClear.textContent = '取消修改';
+  els.btnClear.classList.add('cancel-mode');
   els.matchHint.classList.add('hidden');
   renderModeChips();
   renderPwrChips();
@@ -4048,6 +4660,347 @@ function edit(id) {
 }
 
 els.search.addEventListener('input', renderList);
+
+// ── 中继台 ──
+function saveRepeaters() { try { localStorage.setItem(LS_RPT, JSON.stringify(repeaters)); } catch (e) {} }
+function renderRptList() {
+  if (!els.rptList) return;
+  els.rptList.innerHTML = '';
+  repeaters.forEach(r => {
+    const o = document.createElement('option');
+    o.value = r.name;
+    els.rptList.appendChild(o);
+  });
+}
+function findRepeater(name) {
+  const n = String(name || '').trim().toLowerCase();
+  return repeaters.find(r => r.name.toLowerCase() === n);
+}
+function setLinkMode(mode) {
+  els.inLinkMode.value = mode;
+  els.linkSimpBtn.classList.toggle('active', mode === 'simp');
+  els.linkRptBtn.classList.toggle('active', mode === 'rpt');
+  els.rptBox.classList.toggle('show', mode === 'rpt');
+}
+let rptAutoFill = false;
+function fmtOffset(n) {
+  if (n === null || n === undefined || isNaN(n)) return '';
+  return (n >= 0 ? '+' : '-') + Math.abs(n).toFixed(3);
+}
+function updateRptOffset(src) {
+  if (rptAutoFill) return;
+  rptAutoFill = true;
+  try {
+    const downS = els.inRptDown.value.trim();
+    const upS = els.inRptUp.value.trim();
+    const offS = els.inRptOffset.value.trim();
+    const down = parseFloat(downS);
+    const up = parseFloat(upS);
+    const off = parseFloat(offS);
+    const downOk = downS !== '' && !isNaN(down) && down > 0;
+    const upOk = upS !== '' && !isNaN(up) && up > 0;
+    const hasOff = offS !== '' && !isNaN(off);
+    if (src === 'inRptOffset') {
+      // 用户正在改偏差：双频齐则重算偏差，否则用偏差补算缺失的频率
+      if (downOk && upOk) {
+        els.inRptOffset.value = fmtOffset(up - down);
+      } else if (hasOff) {
+        if (downOk) els.inRptUp.value = (down + off).toFixed(3);
+        else if (upOk) els.inRptDown.value = (up - off).toFixed(3);
+      }
+    } else if (downOk && upOk) {
+      // 下行/上行都填了：偏差始终重算，避免改频率后偏差陈旧
+      els.inRptOffset.value = fmtOffset(up - down);
+    } else if (hasOff) {
+      if (downOk) els.inRptUp.value = (down + off).toFixed(3);
+      else if (upOk) els.inRptDown.value = (up - off).toFixed(3);
+    }
+    // 实时提示
+    const d2 = parseFloat(els.inRptDown.value);
+    const u2 = parseFloat(els.inRptUp.value);
+    const o2 = parseFloat(els.inRptOffset.value);
+    const dOk = els.inRptDown.value.trim() !== '' && !isNaN(d2) && d2 > 0;
+    const uOk = els.inRptUp.value.trim() !== '' && !isNaN(u2) && u2 > 0;
+    const oOk = els.inRptOffset.value.trim() !== '' && !isNaN(o2);
+    if (dOk && uOk) {
+      els.rptOffsetVal.textContent = '偏差 ' + fmtOffset(u2 - d2) + ' MHz · 已算好';
+    } else if (oOk && dOk) {
+      els.rptOffsetVal.textContent = '将自动算出上行：' + (d2 + o2).toFixed(3) + ' MHz';
+    } else if (oOk && uOk) {
+      els.rptOffsetVal.textContent = '将自动算出下行：' + (u2 - o2).toFixed(3) + ' MHz';
+    } else {
+      els.rptOffsetVal.textContent = '填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行';
+    }
+    // 中继台下行 → 主频率联动（仅当主频率为空时）
+    const d3 = els.inRptDown.value.trim();
+    if (d3 && !els.inFreq.value.trim()) {
+      const f = normalizeFreq(d3);
+      if (f) {
+        els.inFreq.value = f;
+        updateBand();
+        markAuto('inFreq', false);
+      }
+    }
+  } finally {
+    rptAutoFill = false;
+  }
+}
+function collectRepeater() {
+  if (els.inLinkMode.value !== 'rpt') return null;
+  const name = els.inRptName.value.trim().toUpperCase();
+  if (!name) return null;
+  const down = els.inRptDown.value.trim();
+  const up = els.inRptUp.value.trim();
+  const ctcss = els.inRptCtcss.value.trim();
+  const dUp = parseFloat(up), dDown = parseFloat(down);
+  let offset = null;
+  if (!isNaN(dUp) && !isNaN(dDown) && dUp > 0 && dDown > 0) offset = (dUp - dDown).toFixed(3);
+  const rpt = { name, down, up, ctcss: ctcss || 'NONE', offset };
+  const existing = findRepeater(name);
+  if (existing) {
+    if (down) existing.down = down;
+    if (up) existing.up = up;
+    if (ctcss) existing.ctcss = ctcss;
+    existing.offset = offset;
+    existing.ts = Date.now();
+  } else {
+    repeaters.push({ name, down, up, ctcss: ctcss || 'NONE', offset, ts: Date.now() });
+  }
+  saveRepeaters();
+  renderRptList();
+  return rpt;
+}
+function resetRepeaterForm() {
+  els.inRptPick.value = '';
+  els.inRptName.value = '';
+  els.inRptDown.value = '';
+  els.inRptUp.value = '';
+  els.inRptOffset.value = '';
+  els.inRptCtcss.value = '';
+  updateRptOffset();
+  setLinkMode('simp');
+}
+els.linkSimpBtn.addEventListener('click', () => { setLinkMode('simp'); });
+els.linkRptBtn.addEventListener('click', () => { setLinkMode('rpt'); els.inRptName.focus(); });
+[els.inRptUp, els.inRptDown, els.inRptOffset].forEach(el => el.addEventListener('input', () => updateRptOffset(el.id)));
+els.inRptPick.addEventListener('change', () => {
+  const r = findRepeater(els.inRptPick.value);
+  if (r) {
+    els.inRptName.value = r.name;
+    els.inRptDown.value = r.down || '';
+    els.inRptUp.value = r.up || '';
+    els.inRptOffset.value = (r.offset !== null && r.offset !== undefined) ? fmtOffset(parseFloat(r.offset)) : '';
+    els.inRptCtcss.value = (r.ctcss && r.ctcss !== 'NONE') ? r.ctcss : '';
+    updateRptOffset();
+    toast('已填入中继台 ' + r.name);
+  }
+});
+els.inRptName.addEventListener('input', () => {
+  const r = findRepeater(els.inRptName.value);
+  if (r && !els.inRptDown.value && !els.inRptUp.value) {
+    els.inRptDown.value = r.down || '';
+    els.inRptUp.value = r.up || '';
+    els.inRptOffset.value = (r.offset !== null && r.offset !== undefined) ? fmtOffset(parseFloat(r.offset)) : '';
+    els.inRptCtcss.value = (r.ctcss && r.ctcss !== 'NONE') ? r.ctcss : '';
+    updateRptOffset();
+  }
+});
+renderRptList();
+
+// ── 中继台库管理 ──
+let rmEditing = -1;
+function openRepeaterManager() {
+  rmEditing = -1;
+  els.rmName.value = '';
+  els.rmDown.value = '';
+  els.rmUp.value = '';
+  els.rmOffset.value = '';
+  els.rmCtcss.value = '';
+  els.btnRmSave.textContent = '保存中继台';
+  updateRmHint();
+  renderRmList();
+  els.repeaterOverlay.classList.remove('hidden');
+  els.rmName.focus();
+}
+function closeRepeaterManager() {
+  els.repeaterOverlay.classList.add('hidden');
+}
+function renderRmList() {
+  els.rmList.innerHTML = '';
+  els.rmEmpty.classList.toggle('hidden', repeaters.length > 0);
+  els.rmList.classList.toggle('hidden', repeaters.length === 0);
+  repeaters.forEach((rp, i) => {
+    const row = document.createElement('div');
+    row.className = 'rpt-item';
+    const main = document.createElement('div');
+    main.className = 'ri-main';
+    const name = document.createElement('div');
+    name.className = 'ri-name';
+    name.textContent = rp.name;
+    const meta = document.createElement('div');
+    meta.className = 'ri-meta';
+    const off = (rp.offset !== null && rp.offset !== undefined && !isNaN(parseFloat(rp.offset)))
+      ? ((parseFloat(rp.offset) >= 0 ? '+' : '−') + Math.abs(parseFloat(rp.offset)).toFixed(3) + ' MHz')
+      : '—';
+    const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    meta.innerHTML = '下行 <b>' + esc(rp.down || '—') + '</b> MHz · 上行 <b>' + esc(rp.up || '—') + '</b> MHz · CTCSS <b>' + esc(rp.ctcss || 'NONE') + '</b> · 偏移 <b>' + esc(off) + '</b>';
+    main.append(name, meta);
+    const acts = document.createElement('div');
+    acts.className = 'ri-acts';
+    const editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'mini-btn';
+    editBtn.textContent = '编辑';
+    editBtn.addEventListener('click', () => {
+      rmEditing = i;
+      els.rmName.value = rp.name || '';
+      els.rmDown.value = rp.down || '';
+      els.rmUp.value = rp.up || '';
+      els.rmOffset.value = (rp.offset !== null && rp.offset !== undefined) ? fmtOffset(parseFloat(rp.offset)) : '';
+      els.rmCtcss.value = (rp.ctcss && rp.ctcss !== 'NONE') ? rp.ctcss : '';
+      els.btnRmSave.textContent = '保存修改';
+      updateRmOffset();
+      els.rmName.focus();
+      els.rmName.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'mini-btn';
+    delBtn.textContent = '删除';
+    delBtn.addEventListener('click', () => {
+      if (confirm('删除中继台 ' + rp.name + '？')) {
+        repeaters.splice(i, 1);
+        saveRepeaters();
+        renderRptList();
+        renderRmList();
+        toast('已删除');
+      }
+    });
+    acts.append(editBtn, delBtn);
+    row.append(main, acts);
+    els.rmList.appendChild(row);
+  });
+}
+function saveRmForm() {
+  const name = els.rmName.value.trim().toUpperCase();
+  if (!name) { toast('请填写名称或呼号'); els.rmName.focus(); return; }
+  const down = els.rmDown.value.trim();
+  const up = els.rmUp.value.trim();
+  const ctcss = els.rmCtcss.value.trim();
+  const dUp = parseFloat(up), dDown = parseFloat(down);
+  let offset = null;
+  if (!isNaN(dUp) && !isNaN(dDown) && dUp > 0 && dDown > 0) offset = (dUp - dDown).toFixed(3);
+  const rp = { name, down, up, ctcss: ctcss || 'NONE', offset, ts: Date.now() };
+  if (rmEditing >= 0 && repeaters[rmEditing]) {
+    repeaters[rmEditing] = rp;
+    toast('已更新 ' + name);
+  } else {
+    const existing = findRepeater(name);
+    if (existing) {
+      if (down) existing.down = down;
+      if (up) existing.up = up;
+      if (ctcss) existing.ctcss = ctcss;
+      existing.offset = offset;
+      existing.ts = Date.now();
+      toast('已更新 ' + name);
+    } else {
+      repeaters.push(rp);
+      toast('已保存 ' + name);
+    }
+  }
+  saveRepeaters();
+  renderRptList();
+  renderRmList();
+  rmEditing = -1;
+  els.btnRmSave.textContent = '保存中继台';
+  els.rmName.value = '';
+  els.rmDown.value = '';
+  els.rmUp.value = '';
+  els.rmOffset.value = '';
+  els.rmCtcss.value = '';
+  updateRmHint();
+}
+let rmAutoFill = false;
+function updateRmOffset(src) {
+  if (rmAutoFill) return;
+  rmAutoFill = true;
+  try {
+    const downS = els.rmDown.value.trim();
+    const upS = els.rmUp.value.trim();
+    const offS = els.rmOffset.value.trim();
+    const down = parseFloat(downS);
+    const up = parseFloat(upS);
+    const off = parseFloat(offS);
+    const downOk = downS !== '' && !isNaN(down) && down > 0;
+    const upOk = upS !== '' && !isNaN(up) && up > 0;
+    const hasOff = offS !== '' && !isNaN(off);
+    if (src === 'rmOffset') {
+      if (downOk && upOk) {
+        els.rmOffset.value = fmtOffset(up - down);
+      } else if (hasOff) {
+        if (downOk) els.rmUp.value = (down + off).toFixed(3);
+        else if (upOk) els.rmDown.value = (up - off).toFixed(3);
+      }
+    } else if (downOk && upOk) {
+      els.rmOffset.value = fmtOffset(up - down);
+    } else if (hasOff) {
+      if (downOk) els.rmUp.value = (down + off).toFixed(3);
+      else if (upOk) els.rmDown.value = (up - off).toFixed(3);
+    }
+    updateRmHint();
+  } finally {
+    rmAutoFill = false;
+  }
+}
+function updateRmHint() {
+  if (!els.rmOffsetVal) return;
+  const down = parseFloat(els.rmDown.value);
+  const up = parseFloat(els.rmUp.value);
+  const off = parseFloat(els.rmOffset.value);
+  const dOk = els.rmDown.value.trim() !== '' && !isNaN(down) && down > 0;
+  const uOk = els.rmUp.value.trim() !== '' && !isNaN(up) && up > 0;
+  const oOk = els.rmOffset.value.trim() !== '' && !isNaN(off);
+  if (dOk && uOk) {
+    els.rmOffsetVal.textContent = '偏差 ' + fmtOffset(up - down) + ' MHz · 已算好';
+  } else if (oOk && dOk) {
+    els.rmOffsetVal.textContent = '将自动算出上行：' + (down + off).toFixed(3) + ' MHz';
+  } else if (oOk && uOk) {
+    els.rmOffsetVal.textContent = '将自动算出下行：' + (up - off).toFixed(3) + ' MHz';
+  } else {
+    els.rmOffsetVal.textContent = '填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行，或都填自动算偏差';
+  }
+}
+[els.rmDown, els.rmUp, els.rmOffset].forEach(el => el.addEventListener('input', () => updateRmOffset(el.id)));
+els.btnRptManage.addEventListener('click', openRepeaterManager);
+els.btnRptManageSettings.addEventListener('click', () => {
+  els.settingsOverlay.classList.add('hidden');
+  openRepeaterManager();
+});
+els.btnRmClose.addEventListener('click', closeRepeaterManager);
+els.btnRmReset.addEventListener('click', () => {
+  rmEditing = -1;
+  els.btnRmSave.textContent = '保存中继台';
+  els.rmName.value = '';
+  els.rmDown.value = '';
+  els.rmUp.value = '';
+  els.rmOffset.value = '';
+  els.rmCtcss.value = '';
+  updateRmHint();
+  els.rmName.focus();
+});
+els.btnRmSave.addEventListener('click', saveRmForm);
+els.btnRmWipe.addEventListener('click', () => {
+  if (repeaters.length && confirm(`确定清空全部 ${repeaters.length} 个中继台？`)) {
+    repeaters = [];
+    saveRepeaters();
+    renderRptList();
+    renderRmList();
+    toast('已清空中继台库');
+  }
+});
+els.repeaterOverlay.addEventListener('click', e => {
+  if (e.target === els.repeaterOverlay) closeRepeaterManager();
+});
 
 let pendingQsl = null;
 
@@ -4148,7 +5101,66 @@ function fillQslFrame(r, my) {
     set('qsoGridCn', my ? my.grid : '');
     set('qsoGridEn', my ? my.grid : '');
     set('qsoRemark', r.remark);
+    // ── 我方信息与卡片常量（来自设置）──
+    const cc = settings.cardCall || settings.myCall || 'BI9DAS';
+    set('cardCall', cc);
+    set('qmMyCall', cc);
+    set('mailFrom', cc);
+    set('qsoOp', [settings.opNameCn, settings.opNameEn].filter(Boolean).join(' · '));
+    set('qsoOpCn', [settings.opNameCn, settings.opNameEn].filter(Boolean).join(' · '));
+    set('mNameCn', settings.opNameCn);
+    set('mAddrCn', settings.qslAddrCn);
+    set('mPost', settings.qslPost ? '邮编 ' + settings.qslPost : '');
+    set('mNameEn', settings.opNameEn);
+    set('mAddrEn', settings.qslAddrEn);
+    set('specPromise', settings.qslPromise);
+    const siteHost = String(settings.website || '').replace(/^https?:\/\//i, '').replace(/\/+$/, '');
+    if (siteHost) {
+      set('stampCapText', siteHost.toUpperCase() + ' / ARCHIVES / ' + cc);
+    } else {
+      const st = d.getElementById('stampCapText');
+      if (st) st.style.display = 'none';
+    }
+    const siteEl = d.getElementById('linkSite');
+    if (siteEl) {
+      if (siteHost) { siteEl.href = settings.website; siteEl.textContent = siteHost.toUpperCase(); }
+      else siteEl.style.display = 'none';
+    }
+    const qrzUrl = settings.qrz || '';
+    const qrzEl = d.getElementById('linkQrz');
+    const tbQrz = d.getElementById('tbQrzLink');
+    if (qrzUrl) {
+      if (qrzEl) { qrzEl.href = qrzUrl; qrzEl.textContent = 'QRZ'; }
+      if (tbQrz) tbQrz.href = qrzUrl;
+    } else {
+      if (qrzEl) qrzEl.style.display = 'none';
+      if (tbQrz) tbQrz.style.display = 'none';
+    }
+    const cp1 = d.getElementById('callP1'), cp2 = d.getElementById('callP2');
+    if (cp1) cp1.textContent = cc.slice(0, Math.max(0, cc.length - 3));
+    if (cp2) cp2.textContent = cc.slice(-3);
+    // ── 二维码模块：仅 OP 呼号为 BI9DAS 时显示 ──
+    const stampCard = d.querySelector('.stamp-card');
+    if (stampCard) stampCard.style.display = (String(cc).toUpperCase() === 'BI9DAS') ? '' : 'none';
     if (r.mode && w.applyMode) w.applyMode(r.mode);
+    // ── 中继台规格条同步 ──
+    const rpt = r.repeater;
+    if (rpt && w.setMode) {
+      w.setMode('rpt');
+      const esc = s => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      const ed = '<span class="editable mono" contenteditable="true" spellcheck="false">';
+      const setV = (id, html) => { const el = d.getElementById(id); if (el) el.innerHTML = html; };
+      setV('specV1', ed + esc(rpt.name || 'RPT') + '</span>');
+      setV('specV2', ed + esc(rpt.down || r.freq || '—') + '</span> <i>MHz</i>');
+      const off = (rpt.offset !== null && rpt.offset !== undefined && !isNaN(parseFloat(rpt.offset)))
+        ? ((parseFloat(rpt.offset) >= 0 ? '+' : '−') + Math.abs(parseFloat(rpt.offset)).toFixed(3))
+        : '0';
+      setV('specV3', ed + esc(off) + '</span> <i>MHz</i>');
+      if (!rpt.ctcss || rpt.ctcss === 'NONE') setV('specV4', 'NONE');
+      else setV('specV4', ed + esc(rpt.ctcss) + '</span> <i>Hz</i>');
+    } else if (w.setMode) {
+      w.setMode('simp');
+    }
     if (w.updateDiagram) w.updateDiagram();
   } catch (e) {
     /* 内嵌卡片填充异常忽略 */
@@ -4167,22 +5179,74 @@ els.btnQslClose.addEventListener('click', () => {
 els.qslOverlay.addEventListener('click', e => {
   if (e.target === els.qslOverlay) els.qslOverlay.classList.add('hidden');
 });
-els.guideToggle.addEventListener('click', () => {
-  const willOpen = els.guideCard.classList.contains('hidden');
-  els.guideCard.classList.toggle('hidden', !willOpen);
-  els.guideCard.classList.toggle('open', willOpen);
-  els.guideBody.classList.toggle('hidden', !willOpen);
-  if (willOpen && els.guideCard.scrollIntoView) {
-    els.guideCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
+function openHelp() {
+  els.helpOverlay.classList.remove('hidden');
+  requestAnimationFrame(() => els.helpOverlay.classList.add('show'));
+}
+function closeHelp() {
+  els.helpOverlay.classList.remove('show');
+  setTimeout(() => els.helpOverlay.classList.add('hidden'), 220);
+}
+els.guideToggle.addEventListener('click', openHelp);
+els.btnHelpClose.addEventListener('click', closeHelp);
+els.helpOverlay.addEventListener('click', e => {
+  if (e.target === els.helpOverlay) closeHelp();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !els.helpOverlay.classList.contains('hidden')) closeHelp();
 });
 els.btnJumpLog.addEventListener('click', () => {
-  const sec = document.getElementById('logSection');
+  const back = els.btnJumpLog.classList.contains('jump-back');
+  const sec = document.getElementById(back ? 'formCard' : 'logSection');
   if (!sec) return;
   if (sec.scrollIntoView) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  sec.classList.remove('log-flash');
-  if (sec.offsetWidth !== undefined) void sec.offsetWidth;
-  sec.classList.add('log-flash');
+  if (!back) {
+    sec.classList.remove('log-flash');
+    if (sec.offsetWidth !== undefined) void sec.offsetWidth;
+    sec.classList.add('log-flash');
+  }
+});
+
+// ── 悬浮保存栏跟随表单可见性 ──
+let dockRaf = null;
+function updateDockVisibility() {
+  dockRaf = null;
+  const formEl = document.getElementById('formCard');
+  if (!formEl) return;
+  const rect = formEl.getBoundingClientRect();
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  const formVisible = rect.bottom > 70 && rect.top < vh * 0.72;
+  const inLog = rect.bottom < 30;
+  const back = inLog && !formVisible;
+  els.dock.classList.toggle('dock-hidden', !formVisible);
+  els.btnJumpLog.classList.toggle('jump-back', back);
+  const lbl = els.btnJumpLog.querySelector('.jump-label');
+  const ic = els.btnJumpLog.querySelector('.jump-ic');
+  if (lbl) lbl.textContent = back ? '表单' : '记录';
+  if (ic) ic.textContent = back ? '↑' : '📋';
+}
+window.addEventListener('scroll', () => {
+  if (!dockRaf) dockRaf = requestAnimationFrame(updateDockVisibility);
+}, { passive: true });
+window.addEventListener('resize', () => {
+  if (!dockRaf) dockRaf = requestAnimationFrame(updateDockVisibility);
+});
+updateDockVisibility();
+
+// ── 按钮墨迹涟漪（从点击处铺满）──
+document.addEventListener('pointerdown', e => {
+  const btn = e.target.closest ? e.target.closest('.dock-save,.dock-clear,.btn-primary,.btn-ghost,.chip,.mini-btn,.rpt-manage-link,.row-edit,.row-del,.row-qsl') : null;
+  if (!btn) return;
+  const r = btn.getBoundingClientRect();
+  const d = Math.max(r.width, r.height) * 2;
+  const sp = document.createElement('span');
+  sp.className = 'ripple';
+  sp.style.width = d + 'px';
+  sp.style.height = d + 'px';
+  sp.style.left = (e.clientX - r.left - d / 2) + 'px';
+  sp.style.top = (e.clientY - r.top - d / 2) + 'px';
+  btn.appendChild(sp);
+  setTimeout(() => sp.remove(), 650);
 });
 
 function fallbackAnchor(blob, name) {
@@ -4241,7 +5305,11 @@ function exportADIF() {
     f.push(adifField('NAME', r.name));
     f.push(adifField('QTH', r.qth));
     if (settings.myCall) f.push(adifField('MY_CALL', settings.myCall));
-    const extras = [r.rig ? 'Rig: ' + r.rig : '', r.ant ? 'Ant: ' + r.ant : '', r.pwr ? 'PWR: ' + r.pwr + ' W' : ''].filter(Boolean);
+    if (settings.myGrid) f.push(adifField('MY_GRIDSQUARE', settings.myGrid));
+    const rptInfo = r.repeater
+      ? 'RPT: ' + r.repeater.name + (r.repeater.down ? ' ' + r.repeater.down + ' MHz' : '') + (r.repeater.offset ? ' (' + r.repeater.offset + ')' : '') + (r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? ' CTCSS ' + r.repeater.ctcss : '')
+      : '';
+    const extras = [rptInfo, r.rig ? 'Rig: ' + r.rig : '', r.ant ? 'Ant: ' + r.ant : '', r.pwr ? 'PWR: ' + r.pwr + ' W' : ''].filter(Boolean);
     if (r.remark) extras.push('Notes: ' + r.remark);
     if (extras.length) f.push(adifField('COMMENTS', extras.join('; ')));
     lines.push(f.join('') + '<EOR>');
@@ -4334,8 +5402,17 @@ function openSettings() {
   els.setMyPwr.value = settings.myPwr || '5';
   els.setMyQth.value = settings.myQth || '';
   els.setMyGrid.value = settings.myGrid || '';
+  els.setCardCall.value = settings.cardCall || '';
+  els.setOpNameCn.value = settings.opNameCn || '';
+  els.setOpNameEn.value = settings.opNameEn || '';
+  els.setQslAddrCn.value = settings.qslAddrCn || '';
+  els.setQslAddrEn.value = settings.qslAddrEn || '';
+  els.setQslPost.value = settings.qslPost || '';
+  els.setQslPromise.value = settings.qslPromise || '';
+  els.setWebsite.value = settings.website || '';
+  els.setQrz.value = settings.qrz || '';
   els.settingsOverlay.classList.remove('hidden');
-  els.setMyCall.focus();
+  els.setMode.focus();
 }
 
 function closeSettings() {
@@ -4358,6 +5435,15 @@ els.btnSaveSettings.addEventListener('click', () => {
   settings.myPwr = els.setMyPwr.value.trim() || '5';
   settings.myQth = els.setMyQth.value.trim();
   settings.myGrid = els.setMyGrid.value.trim().toUpperCase();
+  settings.cardCall = els.setCardCall.value.trim().toUpperCase();
+  settings.opNameCn = els.setOpNameCn.value.trim();
+  settings.opNameEn = els.setOpNameEn.value.trim();
+  settings.qslAddrCn = els.setQslAddrCn.value.trim();
+  settings.qslAddrEn = els.setQslAddrEn.value.trim();
+  settings.qslPost = els.setQslPost.value.trim();
+  settings.qslPromise = els.setQslPromise.value.trim() || 'QSL 100% CONFIRMED';
+  settings.website = els.setWebsite.value.trim();
+  settings.qrz = els.setQrz.value.trim();
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
   applyTheme();
   closeSettings();
@@ -4373,6 +5459,70 @@ els.btnWipe.addEventListener('click', () => {
     toast('已清空全部记录');
   }
 });
+
+// ── 首次启动引导（三步向导）──
+let frStep = 1;
+const FR_TOTAL = 3;
+function frShow(step) {
+  frStep = step;
+  for (let i = 1; i <= FR_TOTAL; i++) {
+    const page = document.getElementById('frPage' + i);
+    if (page) page.classList.toggle('hidden', i !== step);
+  }
+  const dots = els.frSteps.querySelectorAll('.fr-dot');
+  dots.forEach((d, i) => d.classList.toggle('on', i < step));
+  els.btnFrPrev.classList.toggle('hidden', step === 1);
+  els.btnFrNext.textContent = step === FR_TOTAL ? '开始使用 🎉' : '下一步';
+  els.frSub.textContent = step === 1
+    ? '先填基本信息，之后记录和 QSL 卡片都会自动带上'
+    : (step === 2 ? '这些只是默认值，记录时随时可改' : '30 秒熟悉核心操作');
+}
+function maybeFirstRun() {
+  if (localStorage.getItem(LS_WELCOME)) return;
+  if (localStorage.getItem(LS_SET) && settings.myCall) return;
+  frShow(1);
+  els.firstRunOverlay.classList.remove('hidden');
+  els.frCall.focus();
+}
+function finishFirstRun() {
+  try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
+  localStorage.setItem(LS_WELCOME, '1');
+  els.firstRunOverlay.classList.add('hidden');
+  applyDefaults();
+  renderModeChips();
+  updateBand();
+  toast('欢迎使用通联速记，73！');
+}
+els.btnFrPrev.addEventListener('click', () => { if (frStep > 1) frShow(frStep - 1); });
+els.btnFrNext.addEventListener('click', () => {
+  if (frStep === 1) {
+    const call = els.frCall.value.trim().toUpperCase();
+    if (!call) { toast('请先填写呼号'); els.frCall.focus(); return; }
+    settings.myCall = call;
+    if (els.frOpName.value.trim()) settings.opNameCn = els.frOpName.value.trim();
+    if (els.frOpNameEn.value.trim()) settings.opNameEn = els.frOpNameEn.value.trim();
+    if (els.frQth.value.trim()) settings.myQth = els.frQth.value.trim();
+    if (els.frGrid.value.trim()) settings.myGrid = els.frGrid.value.trim().toUpperCase();
+    if (els.frQslAddr.value.trim()) settings.qslAddrCn = els.frQslAddr.value.trim();
+    frShow(2);
+  } else if (frStep === 2) {
+    if (els.frMode.value.trim()) settings.defaultMode = els.frMode.value.trim().toUpperCase();
+    const f = normalizeFreq(els.frFreq.value);
+    if (f) settings.defaultFreq = f;
+    if (els.frRst.value.trim()) settings.defaultRst = els.frRst.value.trim();
+    frShow(3);
+  } else {
+    finishFirstRun();
+  }
+});
+els.btnFrLater.addEventListener('click', () => {
+  localStorage.setItem(LS_WELCOME, '1');
+  els.firstRunOverlay.classList.add('hidden');
+});
+els.firstRunOverlay.addEventListener('click', e => {
+  if (e.target === els.firstRunOverlay) els.firstRunOverlay.classList.add('hidden');
+});
+maybeFirstRun();
 
 let toastTimer;
 function toast(msg) {
