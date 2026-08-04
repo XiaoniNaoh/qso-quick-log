@@ -1,12 +1,12 @@
 # 📻 通联速记 · QSO Quick Log
 
-呼号一输，`Enter` 一路按下去，一条 QSO 就这么记好了——是不是很顺？
+呼号一输，`Enter` 一路按下去，一条 QSO 就这么记好了。
 
-这是为业余无线电（Ham Radio）爱好者做的一个**单文件网页小工具**：不用安装、不用注册、不占内存，电脑和手机浏览器打开就能用，还能「添加到主屏幕」变成全屏 App 的感觉。
+这是为业余无线电（Ham Radio）爱好者做的一个**单文件网页小工具**。
 
 **在线地址：<https://xiaoninaoh.github.io/qso-quick-log/>**
 
-**作者：BI9DAS** · 个人网站：<https://bioez.xyz>
+**DE BI9DAS** · 个人网站：<https://bioez.xyz>
 
 ## 怎么用？
 
@@ -83,17 +83,12 @@
 
 纯静态、零构建：推 `main` 分支，GitHub Pages 自动更新；想换平台，把这几个文件拖进 Netlify Drop / Vercel 也一样跑。
 
-## 🛠️ 技术小抄
+## 🛠️ 技术
 
 - 单文件 HTML / CSS / JS，无框架；
 - 存储：浏览器 `localStorage`；
 - 字体：Google Fonts（Anton / Martian Mono / Inter / Noto Sans SC）；
 - PWA：`manifest.json` + `apple-touch-icon`。
 
-## 🧑‍🚀 关于作者
-
-BI9DAS，业余无线电爱好者一枚。这个工具本来是做给自己通联速记用的，顺手开源出来，希望也能帮到频率上认识的你。
-
-个人网站：<https://bioez.xyz> —— 欢迎来串门。
 
 **73！频率上见。** 📡
