@@ -803,7 +803,7 @@ footer{
 <title>eQSL · BI9DAS — Radio Card System v4.8 · QSO CONTOUR</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Martian+Mono:wght@400;500;700&family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500;700&family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 /* ───────────────────────── 基础 ───────────────────────── */
 :root{
@@ -816,7 +816,7 @@ footer{
   --hair:#E3E3DC;
   --panel:#FFFFFF;
   --dark:#0C0C0B;
-  --font-display:"Anton","Arial Narrow","Helvetica Neue","Segoe UI","PingFang SC","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;
+  --font-display:"Helvetica Neue",Helvetica,Arial,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
   --font-mono:"Martian Mono","SF Mono",ui-monospace,"JetBrains Mono",Menlo,monospace;
   --font-sans:"Inter","SF Pro Text",-apple-system,"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;
   --radius:12px;
@@ -899,7 +899,7 @@ body{
 /* ───────────────────────── 卡片 ───────────────────────── */
 .card{
   width:1240px;
-  max-width:96vw;
+  max-width:100%;
   background:var(--paper);
   border:1px solid rgba(10,10,10,.09);
   border-radius:var(--radius);
@@ -2428,7 +2428,19 @@ body.is-printing .footer{padding:10px 44px 14px}
   .footer{padding:14px 22px 20px}
   body{padding:16px 10px 44px}
   .toolbar{max-width:100%;flex-wrap:wrap}
+  .spec{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .spec-cell{padding:12px 14px;border-right:1px solid rgba(255,255,255,.12)}
+  .spec-cell:nth-child(2n){border-right:none}
+  .sc-val{white-space:normal;overflow-wrap:break-word;font-size:13px}
+  .spec-badge{grid-column:1/-1;align-items:flex-start;padding:14px 18px}
+  .spec-badge .badge-zh{align-self:flex-start;white-space:normal}
+  .spec-hf-note{grid-column:1/-1}
   .spec-badge{text-align:left}
+}
+
+@media(max-width:400px){
+  .spec{grid-template-columns:1fr}
+  .spec-cell:nth-child(2n){border-right:1px solid rgba(255,255,255,.12)}
 }
 
 /* ───────────────────────── 打印 ───────────────────────── */
