@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="面向业余无线电爱好者的通联速记与电子 QSL 工具：呼号识别、中继台库、双向信号报告、本地存储、离线可用。">
+<meta name="author" content="BI9DAS">
+<meta name="application-name" content="通联速记">
 <meta name="theme-color" content="#f7f7f4">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#141519">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -907,6 +911,17 @@ button{min-width:0}
   box-shadow:var(--shadow);
 }
 
+/* ── 品牌氛围：页面微光 + 许可链接 ── */
+body::before{
+  content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(circle at 10% 12%, color-mix(in srgb, var(--accent) 7%, transparent) 0, transparent 30%),
+    radial-gradient(circle at 92% 86%, color-mix(in srgb, var(--accent) 6%, transparent) 0, transparent 34%);
+}
+.copyright a{color:var(--accent)}
+footer a{color:var(--ink-2)}
+footer a:hover{color:var(--accent)}
+
 /* ── 惊喜感小动画（优雅、克制） ── */
 @keyframes float{
   0%,100%{transform:translateY(0)}
@@ -1356,10 +1371,10 @@ button{min-width:0}
         </div>
       </details>
     </div>
-    <div class="copyright">© 2026 BI9DAS · HAM STATION — 本工具版权归 <b>BI9DAS</b> 所有，欢迎电台爱好者自由使用。</div>
+    <div class="copyright">© 2026 BI9DAS · HAM STATION — 本项目采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可，欢迎自由使用与分享。</div>
   </div>
 </div>
-<footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · © 2026 BI9DAS</footer>
+<footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · © 2026 BI9DAS · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> · 73 📡</footer>
 <div class="dock" id="dock">
   <span class="dock-hint"><kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 随时保存</span>
   <button type="button" class="dock-clear" id="btnClear" title="清空当前表单">清空表单</button>
@@ -3665,7 +3680,7 @@ body.is-printing .footer{padding:10px 44px 14px}
       <a id="linkQrz" href="https://qrz.com/db/BI9DAS" target="_blank">QRZ</a>
       <span class="license">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="12" r="3.2"/><circle cx="15" cy="12" r="3.2"/></svg>
-        CC BY-SA 4.0
+        CC BY-NC-SA 4.0
       </span>
     </div>
   </div>
@@ -6270,6 +6285,19 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(() => {});
   });
+}
+// 安装提示：可安装时温和提醒一次
+let installPromptShown = false;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  if (!installPromptShown) {
+    installPromptShown = true;
+    setTimeout(() => toast('可安装到主屏幕：点地址栏「安装」即可'), 5000);
+  }
+});
+// PWA 快捷方式「新通联」：直接聚焦呼号输入
+if (location.search.indexOf('new=1') !== -1) {
+  setTimeout(() => softFocus(els.inCall), 500);
 }
 })();
 </script>
