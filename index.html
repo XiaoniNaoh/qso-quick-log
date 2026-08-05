@@ -639,6 +639,11 @@ textarea.inp{min-height:74px;resize:vertical;line-height:1.55}
 .rpt-box.show{display:block;animation:rise .28s ease both}
 .rpt-pick{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:11px}
 .rpt-pick label{font-size:11px;font-weight:700;color:var(--ink-2);white-space:nowrap}
+.rpt-count{
+  font-size:10px;font-weight:800;color:var(--accent);
+  background:var(--accent-soft);border-radius:999px;padding:1px 7px;margin-left:2px;
+  vertical-align:1px;white-space:nowrap;
+}
 .rpt-pick-field{position:relative;flex:1;min-width:200px}
 .rpt-pick-field .inp{
   padding-right:40px;
@@ -1192,7 +1197,7 @@ button{min-width:0}
         </div>
         <div class="field span2 rpt-box" id="rptBox">
           <div class="rpt-pick">
-            <label for="inRptPick">已存中继台</label>
+            <label for="inRptPick">已存中继台 <span id="rptCount" class="rpt-count"></span></label>
             <div class="rpt-pick-field">
               <span class="rpt-pick-ic">🔁</span>
               <input class="inp has-ic" id="inRptPick" list="rptList" placeholder="选择，或输入新名称" autocomplete="off">
@@ -4039,6 +4044,7 @@ const els = {
   rptBox: $('rptBox'),
   inRptPick: $('inRptPick'),
   rptList: $('rptList'),
+  rptCount: $('rptCount'),
   inRptName: $('inRptName'),
   inRptDown: $('inRptDown'),
   inRptUp: $('inRptUp'),
@@ -4100,6 +4106,7 @@ const LS_RPT = 'hamqso.repeaters.v1';
 const LS_WELCOME = 'hamqso.welcome.v1';
 let repeaters = [];
 try { repeaters = JSON.parse(localStorage.getItem(LS_RPT) || '[]'); } catch (e) {}
+let repeaterSaveNote = '';
 
 let editingId = null;
 let qsoStart = null;
@@ -4657,10 +4664,10 @@ function save() {
   if (editingId) {
     const i = records.findIndex(r => r.id === editingId);
     if (i >= 0) records[i] = rec; else records.push(rec);
-    toast(`已更新 ${rec.call}`);
+    toast(`已更新 ${rec.call}${repeaterSaveNote}`);
   } else {
     records.push(rec);
-    toast(`已记录 ${rec.call} ✓`);
+    toast(`已记录 ${rec.call} ✓${repeaterSaveNote}`);
     burstConfetti();
   }
   saveRecords();
@@ -4905,15 +4912,30 @@ function saveRepeaters() { try { localStorage.setItem(LS_RPT, JSON.stringify(rep
 function renderRptList() {
   if (!els.rptList) return;
   els.rptList.innerHTML = '';
-  repeaters.forEach(r => {
+  const items = repeaters.slice().sort((a, b) => (b.ts || 0) - (a.ts || 0));
+  items.forEach(r => {
     const o = document.createElement('option');
-    o.value = r.name;
+    const dl = r.down || '';
+    const ul = r.up || '';
+    o.value = (dl || ul) ? (r.name + ' · ' + [dl, ul].filter(Boolean).join(' / ') + ' MHz') : r.name;
     els.rptList.appendChild(o);
   });
+  if (els.rptCount) els.rptCount.textContent = repeaters.length ? '(' + repeaters.length + ')' : '';
 }
 function findRepeater(name) {
   const n = String(name || '').trim().toLowerCase();
   return repeaters.find(r => r.name.toLowerCase() === n);
+}
+function findRepeaterByFreq(down, up) {
+  const d = parseFloat(down), u = parseFloat(up);
+  if (!isNaN(d) && d > 0) {
+    const hit = repeaters.find(r => parseFloat(r.down) === d);
+    if (hit) return hit;
+  }
+  if (!isNaN(u) && u > 0) {
+    return repeaters.find(r => parseFloat(r.up) === u);
+  }
+  return null;
 }
 function setLinkMode(mode) {
   els.inLinkMode.value = mode;
@@ -4985,6 +5007,7 @@ function updateRptOffset(src) {
   }
 }
 function collectRepeater() {
+  repeaterSaveNote = '';
   if (els.inLinkMode.value !== 'rpt') return null;
   const name = els.inRptName.value.trim().toUpperCase();
   if (!name) return null;
@@ -4996,14 +5019,19 @@ function collectRepeater() {
   if (!isNaN(dUp) && !isNaN(dDown) && dUp > 0 && dDown > 0) offset = (dUp - dDown).toFixed(3);
   const rpt = { name, down, up, ctcss: ctcss || 'NONE', offset };
   const existing = findRepeater(name);
-  if (existing) {
-    if (down) existing.down = down;
-    if (up) existing.up = up;
-    if (ctcss) existing.ctcss = ctcss;
-    existing.offset = offset;
-    existing.ts = Date.now();
+  const byFreq = existing ? null : findRepeaterByFreq(down, up);
+  const target = existing || byFreq;
+  if (target) {
+    let changed = false;
+    if (down && target.down !== down) { target.down = down; changed = true; }
+    if (up && target.up !== up) { target.up = up; changed = true; }
+    if (ctcss && target.ctcss !== ctcss) { target.ctcss = ctcss; changed = true; }
+    if (target.offset !== offset) { target.offset = offset; changed = true; }
+    target.ts = Date.now();
+    if (changed) repeaterSaveNote = byFreq ? ' · 已并入中继台库' : ' · 中继台已更新';
   } else {
     repeaters.push({ name, down, up, ctcss: ctcss || 'NONE', offset, ts: Date.now() });
+    repeaterSaveNote = ' · 中继台已入库';
   }
   saveRepeaters();
   renderRptList();
@@ -5023,8 +5051,10 @@ els.linkSimpBtn.addEventListener('click', () => { setLinkMode('simp'); });
 els.linkRptBtn.addEventListener('click', () => { setLinkMode('rpt'); softFocus(els.inRptName); });
 [els.inRptUp, els.inRptDown, els.inRptOffset].forEach(el => el.addEventListener('input', () => updateRptOffset(el.id)));
 els.inRptPick.addEventListener('change', () => {
-  const r = findRepeater(els.inRptPick.value);
+  const raw = els.inRptPick.value.trim();
+  const r = findRepeater(raw) || findRepeater(String(raw).split(' · ')[0].trim());
   if (r) {
+    els.inRptPick.value = r.name;
     els.inRptName.value = r.name;
     els.inRptDown.value = r.down || '';
     els.inRptUp.value = r.up || '';
@@ -5149,13 +5179,15 @@ function saveRmForm() {
     toast('已更新 ' + name);
   } else {
     const existing = findRepeater(name);
-    if (existing) {
-      if (down) existing.down = down;
-      if (up) existing.up = up;
-      if (ctcss) existing.ctcss = ctcss;
-      existing.offset = offset;
-      existing.ts = Date.now();
-      toast('已更新 ' + name);
+    const byFreq = existing ? null : findRepeaterByFreq(down, up);
+    const target = existing || byFreq;
+    if (target) {
+      if (down) target.down = down;
+      if (up) target.up = up;
+      if (ctcss) target.ctcss = ctcss;
+      target.offset = offset;
+      target.ts = Date.now();
+      toast(byFreq ? '已按频率并入 ' + target.name : '已更新 ' + name);
     } else {
       repeaters.push(rp);
       toast('已保存 ' + name);
