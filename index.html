@@ -560,6 +560,7 @@ footer{
 .toast-act:active{transform:scale(.93)}
 #toast.show{
   opacity:1;transform:translateX(-50%) translateY(0) scale(1);
+  pointer-events:auto;
   transition:opacity .38s cubic-bezier(.16,1,.3,1), transform .38s cubic-bezier(.16,1,.3,1);
 }
 .qsl-overlay{position:fixed;inset:0;z-index:70;background:rgba(23,24,28,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px}
@@ -1582,9 +1583,6 @@ button{min-width:0}
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>eQSL · BI9DAS — Radio Card System v4.8 · QSO CONTOUR</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500;700&family=Inter:wght@400;500;700&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 /* ───────────────────────── 基础 ───────────────────────── */
 :root{
@@ -5507,11 +5505,19 @@ function openQslFrame(r, my) {
   els.qslOverlay.classList.remove('hidden');
   const tpl = document.getElementById('eqslTemplate');
   const html = (tpl ? tpl.textContent : '').replace(/<\\\/script>/g, '</scr' + 'ipt>');
+  let qslFilled = false;
+  const fillNow = () => {
+    if (!qslFilled) {
+      qslFilled = true;
+      fillQslFrame(r, my);
+    }
+  };
   els.qslFrame.srcdoc = html;
-  els.qslFrame.onload = () => fillQslFrame(r, my);
+  els.qslFrame.onload = fillNow;
   if (els.qslFrame.contentDocument && els.qslFrame.contentDocument.readyState === 'complete') {
-    fillQslFrame(r, my);
+    fillNow();
   }
+  setTimeout(fillNow, 700);
   toast('已导出电子 QSL 卡片，可打印存为 PDF');
 }
 
@@ -5649,8 +5655,23 @@ function fillQslFrame(r, my) {
 
 els.btnQslPrint.addEventListener('click', () => {
   const w = els.qslFrame.contentWindow;
-  if (w) {
-    try { w.focus(); w.print(); } catch (e) { /* noop */ }
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (w && !isIOS) {
+    try { w.focus(); w.print(); return; } catch (e) { /* 继续走兜底 */ }
+  }
+  // 兜底：把已填充的卡片在新窗口打开并打印（iOS Safari 无法直接打印 iframe）
+  try {
+    const doc = els.qslFrame.contentDocument;
+    if (!doc) { toast('卡片尚未加载，请稍候再试'); return; }
+    const win = window.open('', '_blank');
+    if (!win) { toast('浏览器拦截了新窗口，请允许弹出窗口后重试'); return; }
+    win.document.open();
+    win.document.write('<!DOCTYPE html>' + doc.documentElement.outerHTML);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { try { win.print(); } catch (e) { toast('已在新窗口打开，请在窗口中打印'); } }, 700);
+  } catch (e) {
+    toast('打印失败，请截图或使用系统分享');
   }
 });
 els.btnQslClose.addEventListener('click', () => {
