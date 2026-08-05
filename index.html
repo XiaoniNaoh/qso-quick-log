@@ -3212,15 +3212,20 @@ body.is-printing .footer{padding:10px 44px 14px}
   .spec-cell{padding:12px 14px;border-right:1px solid rgba(255,255,255,.12)}
   .spec-cell:nth-child(2n){border-right:none}
   .sc-val{white-space:normal;overflow-wrap:break-word;font-size:13px}
+  .mode-switch{width:100%}
+  .mode-btn{flex:1;text-align:center;padding:7px 6px;white-space:nowrap}
   .spec-badge{grid-column:1/-1;align-items:flex-start;padding:14px 18px}
   .spec-badge .badge-zh{align-self:flex-start;white-space:normal}
   .spec-hf-note{grid-column:1/-1}
+  .spec:not(.hf) .spec-cell:nth-child(5){grid-column:1/-1}
   .spec-badge{text-align:left}
 }
 
 @media(max-width:400px){
   .spec{grid-template-columns:1fr}
   .spec-cell:nth-child(2n){border-right:1px solid rgba(255,255,255,.12)}
+  .stamp svg{width:84px;height:84px}
+  .stamp-card{gap:12px}
 }
 
 /* ───────────────────────── 打印 ───────────────────────── */
@@ -5505,19 +5510,14 @@ function openQslFrame(r, my) {
   els.qslOverlay.classList.remove('hidden');
   const tpl = document.getElementById('eqslTemplate');
   const html = (tpl ? tpl.textContent : '').replace(/<\\\/script>/g, '</scr' + 'ipt>');
-  let qslFilled = false;
-  const fillNow = () => {
-    if (!qslFilled) {
-      qslFilled = true;
-      fillQslFrame(r, my);
-    }
-  };
+  // 填充可重复执行（幂等）：无论 iframe 是否重新加载，都确保读到最新设置与记录
+  const fillCard = () => fillQslFrame(r, my);
   els.qslFrame.srcdoc = html;
-  els.qslFrame.onload = fillNow;
+  els.qslFrame.onload = fillCard;
   if (els.qslFrame.contentDocument && els.qslFrame.contentDocument.readyState === 'complete') {
-    fillNow();
+    fillCard();
   }
-  setTimeout(fillNow, 700);
+  setTimeout(fillCard, 900);
   toast('已导出电子 QSL 卡片，可打印存为 PDF');
 }
 
