@@ -817,34 +817,34 @@ button{min-width:0}
     <form id="qsoForm" autocomplete="off">
       <div class="guide">
         <span class="guide-t">⚡ 快记流程</span>
-        <span>呼号起头 · <kbd>Enter</kbd> 一路下移 · 最后一下自动保存</span>
+        <span>呼号起头 · 逐项填写 · 点「保存并继续」开下一条</span>
       </div>
       <div class="sec"><span class="sec-no">01</span>👤 对方信息</div>
       <div class="grid">
         <div class="field span2" id="f-inCall">
           <label for="inCall">对方呼号</label>
-          <input class="inp" id="inCall" placeholder="对方呼号，输完按 Enter" spellcheck="false" autocomplete="off" autocapitalize="characters" enterkeyhint="next">
+          <input class="inp" id="inCall" placeholder="对方呼号，如 BA5AB" spellcheck="false" autocomplete="off" autocapitalize="characters">
           <span id="matchHint" class="match-hint hidden">↺ 与上次通联匹配，已自动填充</span>
           <div class="recent-wrap hidden" id="recentWrap">
             <span class="recent-label">最近呼号</span>
             <div class="scroll-chips" id="recentChips"></div>
           </div>
-          <p class="field-hint">输完按 Enter 继续 · 老呼号自动带出上次信息</p>
+          <p class="field-hint">输完点下一栏继续 · 老呼号自动带出上次信息</p>
         </div>
         <div class="field" id="f-inName">
           <label for="inName">姓名</label>
-          <input class="inp" id="inName" placeholder="名字或昵称" autocomplete="off" enterkeyhint="next">
+          <input class="inp" id="inName" placeholder="名字或昵称" autocomplete="off">
         </div>
         <div class="field" id="f-inQth">
           <label for="inQth">QTH / 位置</label>
-          <input class="inp" id="inQth" placeholder="城市 / 位置，如 北京 朝阳" enterkeyhint="next">
+          <input class="inp" id="inQth" placeholder="城市 / 位置，如 北京 朝阳">
         </div>
       </div>
       <div class="sec"><span class="sec-no">02</span>📡 频率 · 信号</div>
       <div class="grid">
         <div class="field span2" id="f-inFreq">
           <label for="inFreq">频率 (MHz)</label>
-          <input class="inp" id="inFreq" inputmode="decimal" placeholder="14.074（也认 14074）" enterkeyhint="next">
+          <input class="inp" id="inFreq" inputmode="decimal" placeholder="14.074（也认 14074）">
           <span id="bandHint" class="band-hint">波段：—</span>
           <div class="scroll-chips" id="bandChips"></div>
           <p class="field-hint">支持 145.500 或 14074（kHz）· 自动换算波段</p>
@@ -925,18 +925,18 @@ button{min-width:0}
       <div class="grid">
         <div class="field" id="f-inRig">
           <label for="inRig">对方设备</label>
-          <input class="inp" id="inRig" placeholder="对方报的电台型号，如 IC-7300" enterkeyhint="next">
+          <input class="inp" id="inRig" placeholder="对方报的电台型号，如 IC-7300">
           <div class="chips" id="rigChips"></div>
           <p class="field-hint">对方报什么填什么 · 常用项可直接点选</p>
         </div>
         <div class="field" id="f-inAnt">
           <label for="inAnt">对方天线</label>
-          <input class="inp" id="inAnt" placeholder="对方报的天线，如 771 天线" enterkeyhint="next">
+          <input class="inp" id="inAnt" placeholder="对方报的天线，如 771 天线">
           <div class="chips" id="antChips"></div>
         </div>
         <div class="field span2" id="f-inPwr">
           <label for="inPwr">对方功率</label>
-          <input class="inp" id="inPwr" inputmode="numeric" placeholder="对方报的功率，如 5 / 100 / 高功率" enterkeyhint="next">
+          <input class="inp" id="inPwr" inputmode="numeric" placeholder="对方报的功率，如 5 / 100 / 高功率">
           <div class="chips" id="pwrChips"></div>
         </div>
       </div>
@@ -944,7 +944,7 @@ button{min-width:0}
       <div class="grid">
         <div class="field span2" id="f-inRemark">
           <label for="inRemark">备注 / 交换内容</label>
-          <input class="inp" id="inRemark" placeholder="交换内容，如 73 / QSL" enterkeyhint="next">
+          <input class="inp" id="inRemark" placeholder="交换内容，如 73 / QSL">
         </div>
         <div class="field span2" id="f-time">
           <label for="inDate">通联时间（CST 录入 · UTC 自动换算）</label>
@@ -952,8 +952,8 @@ button{min-width:0}
             <div class="time-box">
               <span class="tz">CST 本地</span>
               <div class="cst-inputs">
-                <input type="date" class="inp" id="inDate" enterkeyhint="next" aria-label="日期 CST">
-                <input type="time" class="inp" id="inTime" step="1" enterkeyhint="done" aria-label="时间 CST">
+                <input type="date" class="inp" id="inDate" aria-label="日期 CST">
+                <input type="time" class="inp" id="inTime" step="1" aria-label="时间 CST">
               </div>
             </div>
             <span class="time-arrow">→</span>
@@ -981,17 +981,17 @@ button{min-width:0}
             <label for="inRptPick">已存中继台</label>
             <div class="rpt-pick-field">
               <span class="rpt-pick-ic">🔁</span>
-              <input class="inp has-ic" id="inRptPick" list="rptList" placeholder="选择，或输入新名称" autocomplete="off" enterkeyhint="next">
+              <input class="inp has-ic" id="inRptPick" list="rptList" placeholder="选择，或输入新名称" autocomplete="off">
             </div>
             <datalist id="rptList"></datalist>
             <button type="button" class="rpt-manage-link" id="btnRptManage" title="管理已保存的中继台">管理库</button>
           </div>
           <div class="grid">
-            <div class="field"><label for="inRptName">中继台名称 / 呼号</label><input class="inp" id="inRptName" placeholder="如 BR5AD" enterkeyhint="next"></div>
-            <div class="field"><label for="inRptDown">下行频率（你收听）MHz</label><input class="inp" id="inRptDown" inputmode="decimal" placeholder="145.520" enterkeyhint="next"></div>
-            <div class="field"><label for="inRptUp">上行频率（你发射）MHz</label><input class="inp" id="inRptUp" inputmode="decimal" placeholder="144.920" enterkeyhint="next"></div>
-            <div class="field"><label for="inRptOffset">偏移 ±MHz（上差 / 下差）</label><input class="inp" id="inRptOffset" inputmode="decimal" placeholder="如 -0.600 或 +0.600" enterkeyhint="next"></div>
-            <div class="field span2"><label for="inRptCtcss">哑音 CTCSS (Hz)</label><input class="inp" id="inRptCtcss" inputmode="decimal" placeholder="88.5 或留空" enterkeyhint="next"></div>
+            <div class="field"><label for="inRptName">中继台名称 / 呼号</label><input class="inp" id="inRptName" placeholder="如 BR5AD"></div>
+            <div class="field"><label for="inRptDown">下行频率（你收听）MHz</label><input class="inp" id="inRptDown" inputmode="decimal" placeholder="145.520"></div>
+            <div class="field"><label for="inRptUp">上行频率（你发射）MHz</label><input class="inp" id="inRptUp" inputmode="decimal" placeholder="144.920"></div>
+            <div class="field"><label for="inRptOffset">偏移 ±MHz（上差 / 下差）</label><input class="inp" id="inRptOffset" inputmode="decimal" placeholder="如 -0.600 或 +0.600"></div>
+            <div class="field span2"><label for="inRptCtcss">哑音 CTCSS (Hz)</label><input class="inp" id="inRptCtcss" inputmode="decimal" placeholder="88.5 或留空"></div>
           </div>
           <div class="rpt-offset" id="rptOffsetVal">填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行</div>
           <p class="field-hint">新中继台保存后会自动记住，下次直接选</p>
@@ -1041,7 +1041,7 @@ button{min-width:0}
         <summary><span class="h-ic">⚡</span>快速上手<span class="h-arrow">▾</span></summary>
         <div class="h-body">
           <ul>
-            <li>从「呼号」开始打字，<kbd>Enter</kbd> 逐项下移，最后一项按 <kbd>Enter</kbd> 即保存并开始下一条。</li>
+            <li>从「呼号」开始，逐项点选或点下一栏填写；老呼号会自动带出上次的信息。</li>
             <li>老呼号自动带出上次信息；频率自动换算波段（也认 kHz，如 <kbd>14074</kbd>）；模式、RST、设备、天线、功率均可点选。</li>
             <li><kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 随时保存当前记录。</li>
           </ul>
@@ -1090,7 +1090,7 @@ button{min-width:0}
 </div>
 <footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · © 2026 BI9DAS</footer>
 <div class="dock" id="dock">
-  <span class="dock-hint"><kbd>Enter</kbd> 下一项 · <kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 保存</span>
+  <span class="dock-hint"><kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 随时保存</span>
   <button type="button" class="dock-clear" id="btnClear" title="清空当前表单">清空表单</button>
   <button type="submit" class="dock-save" id="btnSave" form="qsoForm">
     <span class="save-label">保存并继续</span>
@@ -1135,7 +1135,7 @@ button{min-width:0}
     <div class="fr-page hidden" id="frPage3">
       <div class="fr-sec-h">⚡ 30 秒上手</div>
       <div class="fr-tips">
-        <div class="fr-tip"><span class="fr-tip-ic">⌨️</span><div><b>一路 Enter</b><p>呼号起头，Enter 逐项下移，最后一下自动保存，立刻开始下一条。</p></div></div>
+        <div class="fr-tip"><span class="fr-tip-ic">⌨️</span><div><b>点选填写</b><p>呼号起头，逐项点选填写；老呼号自动带出上次信息，最后点「保存并继续」立刻开始下一条。</p></div></div>
         <div class="fr-tip"><span class="fr-tip-ic">✨</span><div><b>自动带出</b><p>老呼号自动补全上次信息；频率自动换算波段。</p></div></div>
         <div class="fr-tip"><span class="fr-tip-ic">🃏</span><div><b>QSL 卡片</b><p>记录右侧点 QSL 出电子卡片，可打印；卡片内容都能直接点改。</p></div></div>
         <div class="fr-tip"><span class="fr-tip-ic">🔁</span><div><b>中继台</b><p>通联方式选「经中继」，填频率 + 差频自动算另一个，保存后下次直接选。</p></div></div>
@@ -3725,14 +3725,14 @@ if(window.matchMedia){
 if(orientQ.addEventListener){
   orientQ.addEventListener('change', scaleCardForPrint);
 }
-<\/script>
-</body>
-</html>
-
 </script>
 <script>
 (() => {
 'use strict';
+
+// 移动端不主动拉起键盘：自动聚焦只在桌面端生效，手机端由用户自己点选后再弹键盘
+const IS_TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+function softFocus(el) { if (!IS_TOUCH && el) el.focus(); }
 
 const LS_LOG = 'hamqso.log.v1';
 const LS_SET = 'hamqso.settings.v1';
@@ -4264,17 +4264,11 @@ function renderAntChips() {
 }
 els.inAnt.addEventListener('input', renderAntChips);
 
-const FLOW = ['inCall', 'inName', 'inQth', 'inRig', 'inAnt', 'inPwr', 'inFreq', 'inRemark', 'inDate', 'inTime'];
-
 els.form.addEventListener('keydown', e => {
   if (e.key === 'Enter') {
     if (e.metaKey || e.ctrlKey) { e.preventDefault(); save(); return; }
-    if (!(e.target instanceof HTMLInputElement)) return;
-    e.preventDefault();
-    const i = FLOW.indexOf(e.target.id);
-    const next = FLOW[i + 1];
-    if (next) $(next).focus();
-    else save();
+    // 已移除「回车自动跳下一项」：仅拦截表单默认提交，避免误保存
+    if (e.target instanceof HTMLInputElement) e.preventDefault();
     return;
   }
   if (e.key === 'Escape') {
@@ -4331,7 +4325,7 @@ function renderRecentChips() {
     b.addEventListener('click', () => {
       els.inCall.value = c;
       applyCallPrefill();
-      els.inName.focus();
+      softFocus(els.inName);
     });
     els.recentChips.appendChild(b);
   });
@@ -4442,7 +4436,7 @@ function save() {
   stats();
   resetForm();
   sweepSaveDone();
-  els.inCall.focus();
+  softFocus(els.inCall);
 }
 
 function resetForm() {
@@ -4656,7 +4650,7 @@ function edit(id) {
   qsoStart = Date.now();
   tickTimer();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  els.inCall.focus();
+  softFocus(els.inCall);
 }
 
 els.search.addEventListener('input', renderList);
@@ -4781,7 +4775,7 @@ function resetRepeaterForm() {
   setLinkMode('simp');
 }
 els.linkSimpBtn.addEventListener('click', () => { setLinkMode('simp'); });
-els.linkRptBtn.addEventListener('click', () => { setLinkMode('rpt'); els.inRptName.focus(); });
+els.linkRptBtn.addEventListener('click', () => { setLinkMode('rpt'); softFocus(els.inRptName); });
 [els.inRptUp, els.inRptDown, els.inRptOffset].forEach(el => el.addEventListener('input', () => updateRptOffset(el.id)));
 els.inRptPick.addEventListener('change', () => {
   const r = findRepeater(els.inRptPick.value);
@@ -4820,7 +4814,7 @@ function openRepeaterManager() {
   updateRmHint();
   renderRmList();
   els.repeaterOverlay.classList.remove('hidden');
-  els.rmName.focus();
+  softFocus(els.rmName);
 }
 function closeRepeaterManager() {
   els.repeaterOverlay.classList.add('hidden');
@@ -4860,7 +4854,7 @@ function renderRmList() {
       els.rmCtcss.value = (rp.ctcss && rp.ctcss !== 'NONE') ? rp.ctcss : '';
       els.btnRmSave.textContent = '保存修改';
       updateRmOffset();
-      els.rmName.focus();
+      softFocus(els.rmName);
       els.rmName.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
     const delBtn = document.createElement('button');
@@ -4986,7 +4980,7 @@ els.btnRmReset.addEventListener('click', () => {
   els.rmOffset.value = '';
   els.rmCtcss.value = '';
   updateRmHint();
-  els.rmName.focus();
+  softFocus(els.rmName);
 });
 els.btnRmSave.addEventListener('click', saveRmForm);
 els.btnRmWipe.addEventListener('click', () => {
@@ -5012,7 +5006,7 @@ function exportQsl(r) {
   els.myQthInput.value = settings.myQth || '';
   els.myGridInput.value = settings.myGrid || '';
   els.qslConfirmOverlay.classList.remove('hidden');
-  els.myRigInput.focus();
+  softFocus(els.myRigInput);
 }
 
 function openQslFrame(r, my) {
@@ -5412,7 +5406,7 @@ function openSettings() {
   els.setWebsite.value = settings.website || '';
   els.setQrz.value = settings.qrz || '';
   els.settingsOverlay.classList.remove('hidden');
-  els.setMode.focus();
+  softFocus(els.setMode);
 }
 
 function closeSettings() {
@@ -5482,7 +5476,7 @@ function maybeFirstRun() {
   if (localStorage.getItem(LS_SET) && settings.myCall) return;
   frShow(1);
   els.firstRunOverlay.classList.remove('hidden');
-  els.frCall.focus();
+  softFocus(els.frCall);
 }
 function finishFirstRun() {
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
@@ -5542,7 +5536,7 @@ applyDefaults();
 renderList();
 stats();
 applyTheme();
-els.inCall.focus();
+softFocus(els.inCall);
 })();
 </script>
 </body>
