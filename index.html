@@ -80,7 +80,7 @@ body{
   color:var(--ink);
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   -webkit-font-smoothing:antialiased;
-  font-size:15px;line-height:1.55;
+  font-size:15px;line-height:1.6;
   min-height:100vh;
 }
 header{
@@ -89,21 +89,33 @@ header{
 }
 .brand{display:flex;align-items:center;gap:10px}
 .brand-mark{
-  width:38px;height:38px;border-radius:11px;color:#fff;
-  background:var(--mark);
+  width:38px;height:38px;border-radius:12px;color:#fff;
+  background:linear-gradient(135deg,var(--mark),var(--mark-2));
   display:grid;place-items:center;font-size:18px;
-  box-shadow:0 4px 14px rgba(23,24,28,.14);
+  box-shadow:0 4px 14px rgba(23,24,28,.16);
 }
 .brand-mark{color:var(--mark-ink)}
 .brand h1{
-  margin:0;font-family:"Iowan Old Style","Noto Serif SC","Songti SC",serif;
-  font-size:20px;font-weight:600;letter-spacing:.02em;
+  margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  font-size:21px;font-weight:800;letter-spacing:-.01em;line-height:1.15;
 }
 .brand p{margin:0;font-size:10px;color:var(--ink-3);letter-spacing:.14em;text-transform:uppercase}
 .head-right{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2);flex-wrap:wrap;justify-content:flex-end}
 .pill{
   border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 10px;
   font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.pill-stat{
+  color:var(--accent);border-color:rgba(47,95,199,.24);
+  background:var(--accent-soft);font-weight:700;
+  display:inline-flex;align-items:center;gap:6px;
+}
+.pill-stat::before{
+  content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);
+}
+@media (prefers-color-scheme: dark){
+  .pill-stat{border-color:rgba(142,168,255,.3)}
 }
 .icon-btn{
   border:1px solid var(--line);background:var(--card);color:var(--ink-2);
@@ -123,19 +135,19 @@ main{
 .sheet::before{
   content:"";position:absolute;inset:0;pointer-events:none;opacity:.85;
   background:
-    linear-gradient(var(--line-2),var(--line-2)) 12px 13px/12px 1px,
-    linear-gradient(var(--line-2),var(--line-2)) 17px 8px/1px 12px,
-    linear-gradient(var(--line-2),var(--line-2)) calc(100% - 24px) 13px/12px 1px,
-    linear-gradient(var(--line-2),var(--line-2)) calc(100% - 18px) 8px/1px 12px,
-    linear-gradient(var(--line-2),var(--line-2)) 12px calc(100% - 27px)/12px 1px,
-    linear-gradient(var(--line-2),var(--line-2)) 17px calc(100% - 20px)/1px 12px,
-    linear-gradient(var(--line-2),var(--line-2)) calc(100% - 24px) calc(100% - 27px)/12px 1px,
-    linear-gradient(var(--line-2),var(--line-2)) calc(100% - 18px) calc(100% - 20px)/1px 12px;
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) 12px 13px/12px 1px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) 17px 8px/1px 12px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) calc(100% - 24px) 13px/12px 1px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) calc(100% - 18px) 8px/1px 12px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) 12px calc(100% - 27px)/12px 1px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) 17px calc(100% - 20px)/1px 12px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) calc(100% - 24px) calc(100% - 27px)/12px 1px,
+    linear-gradient(color-mix(in srgb, var(--accent) 42%, var(--line-2)),color-mix(in srgb, var(--accent) 42%, var(--line-2))) calc(100% - 18px) calc(100% - 20px)/1px 12px;
   background-repeat:no-repeat;
 }
 .sheet::after{
-  content:"";position:absolute;inset:12px;border:1px dashed var(--line-2);
-  border-radius:12px;pointer-events:none;opacity:.75;
+  content:"";position:absolute;inset:12px;border:1px dashed color-mix(in srgb, var(--accent) 18%, var(--line-2));
+  border-radius:12px;pointer-events:none;opacity:.7;
 }
 @keyframes rise{
   from{opacity:0;transform:translateY(10px);animation-timing-function:cubic-bezier(.16,1,.3,1)}
@@ -155,7 +167,7 @@ main{
 .stamp-main .sub{font-size:10.5px;color:var(--ink-3);letter-spacing:.08em;margin:2px 0 0}
 .stamp-grid{display:flex;gap:6px}
 .stamp-cell{
-  min-width:56px;padding:5px 7px;border:1px solid var(--line-2);border-radius:8px;
+  flex:1;min-width:0;padding:5px 7px;border:1px solid var(--line-2);border-radius:8px;
   background:var(--card);font-size:9px;color:var(--ink-3);letter-spacing:.05em;
   text-align:center;line-height:1.4;
 }
@@ -169,36 +181,40 @@ main{
 }
 .legend{
   display:flex;flex-wrap:wrap;gap:10px;align-items:center;
-  font-size:10.5px;letter-spacing:.04em;color:var(--ink-3);margin:0 0 14px;
+  font-size:11px;letter-spacing:.04em;color:var(--ink-2);margin:0 0 14px;
 }
 .guide{
-  display:flex;gap:8px;align-items:baseline;flex-wrap:wrap;
-  font-size:11.5px;color:var(--ink-2);
-  border:1px dashed var(--line-2);border-radius:10px;padding:7px 11px;margin-bottom:14px;
-  background:var(--card);
+  display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+  font-size:12px;color:var(--ink);
+  border:1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-left:3px solid var(--accent);
+  border-radius:12px;padding:9px 12px;margin-bottom:14px;
+  background:linear-gradient(90deg,var(--accent-soft),transparent 72%);
 }
 .guide-t{font-weight:800;color:var(--mark);letter-spacing:.14em;font-size:10px;white-space:nowrap}
 .lg{display:inline-flex;align-items:center;gap:5px}
 .lg::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ink-3);flex:none}
 .lg-auto{color:var(--auto)}
 .lg-auto::before{background:var(--auto);box-shadow:0 0 0 3px rgba(47,95,199,.10)}
-.lg-timer{margin-left:auto;font-variant-numeric:tabular-nums}
+.lg-timer{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--accent);font-weight:700}
 .sec{
   display:flex;align-items:center;gap:8px;margin:18px 0 11px;padding-top:14px;
   border-top:1px dashed var(--line-2);
-  font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--ink-2);
+  font-size:12.5px;font-weight:800;letter-spacing:.1em;color:var(--ink);
 }
 .sec::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line-2),transparent);margin-left:2px}
 .sec:first-of-type{border-top:none;margin-top:0;padding-top:0}
 .sec-no{
-  display:grid;place-items:center;width:22px;height:22px;border-radius:6px;flex:none;
-  border:1px solid var(--line-2);color:var(--ink-2);font-size:11px;font-weight:700;
+  display:grid;place-items:center;min-width:24px;height:24px;padding:0 6px;border-radius:8px;flex:none;
+  border:none;color:var(--mark-ink);background:var(--accent);
+  font-size:10.5px;font-weight:800;letter-spacing:.02em;
+  box-shadow:0 3px 10px var(--accent-soft);
 }
 .grid{display:grid;grid-template-columns:1fr;gap:12px}
 .span2{grid-column:1/-1}
 .field{min-width:0}
 .field label{
-  display:block;font-size:10.5px;font-weight:700;color:var(--ink-2);
+  display:block;font-size:11px;font-weight:700;color:var(--ink-2);
   margin-bottom:6px;letter-spacing:.08em;
 }
 .field.auto label{color:var(--auto)}
@@ -544,7 +560,7 @@ footer{
   animation:rise .35s ease both;
   max-height:calc(100vh - 48px);overflow-y:auto;
 }
-.modal h3{margin:0 0 4px;font-size:16px}
+.modal h3{margin:0 0 4px;font-size:17px;font-weight:800}
 .modal p.sub{color:var(--ink-2);font-size:12.5px;margin:0 0 16px}
 .modal .actions{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
 .btn-primary{
@@ -569,6 +585,13 @@ footer{
   .time-row{flex-direction:row;align-items:stretch}
 }
 @media (min-width:880px){
+  header{
+    position:sticky;top:0;z-index:25;
+    background:color-mix(in srgb, var(--bg) 74%, transparent);
+    -webkit-backdrop-filter:blur(18px) saturate(1.5);
+    backdrop-filter:blur(18px) saturate(1.5);
+    padding-top:12px;
+  }
   main{grid-template-columns:minmax(500px,640px) minmax(0,1fr);gap:22px;padding:18px 24px 120px}
   .inp{min-height:44px;font-size:15px}
   #inCall{font-size:22px}
@@ -703,12 +726,16 @@ button:focus-visible,a:focus-visible,.inp:focus-visible,select:focus-visible{
 .help-btn,.jump-btn{transition:color .15s,border-color .15s,transform .15s,box-shadow .15s}
 .help-btn:hover{box-shadow:0 6px 16px rgba(23,24,28,.12)}
 .sec .sec-no{transition:background .15s,color .15s}
-.guide{background:linear-gradient(90deg,var(--accent-soft),transparent 65%)}
 
 /* ── 窄屏按钮防溢出 ── */
 button{min-width:0}
 .btn-primary,.btn-ghost,.dock-save,.dock-clear,.mini-btn,.rpt-manage-link{max-width:100%}
 @media (max-width:480px){
+  main{padding:12px 10px 120px}
+  .sheet{padding:16px}
+  .stamp{padding:10px}
+  .stamp-cell{font-size:8.5px;padding:5px 4px}
+  .stamp-cell b{font-size:12px}
   .btn-primary,.btn-ghost{font-size:13px;padding-left:13px;padding-right:13px}
   .dock-save{font-size:14.5px;padding-left:12px;padding-right:12px;white-space:normal}
   .dock-clear{font-size:13px;padding-left:12px;padding-right:12px;white-space:normal}
@@ -788,7 +815,7 @@ button{min-width:0}
   </div>
   <div class="head-right">
     <span class="pill" id="utcClock">—</span>
-    <span class="pill" id="statToday">今日 0 · 共 0</span>
+    <span class="pill pill-stat" id="statToday">今日 0 · 共 0</span>
     <button class="icon-btn" id="btnSettings" title="设置" aria-label="设置">⚙</button>
   </div>
 </header>
@@ -1020,7 +1047,7 @@ button{min-width:0}
       <span class="lg">✎ 点记录或铅笔可修改</span>
       <span class="lg">QSL ✓ 已导出电子卡片</span>
     </div>
-    <input id="search" placeholder="搜索呼号 / QTH / 姓名 / 设备…">
+    <input id="search" placeholder="🔍 搜索呼号 / QTH / 姓名 / 设备…">
     <div id="qsoList"></div>
     <div id="emptyState" class="empty">
       <span class="big">📻</span>还没有记录<br>呼叫你的第一条通联吧
