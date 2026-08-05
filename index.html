@@ -808,6 +808,92 @@ button{min-width:0}
 .fr-tip-ic{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;font-size:16px;flex:none}
 .fr-tip b{font-size:13px;color:var(--ink)}
 .fr-tip p{margin:3px 0 0;font-size:12px;color:var(--ink-2);line-height:1.6}
+
+/* ── 更多毛玻璃材质 ── */
+.field-hint{
+  background:color-mix(in srgb, var(--card) 52%, transparent);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  backdrop-filter:blur(14px) saturate(1.4);
+  border:1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  border-radius:10px;padding:6px 10px;
+}
+.pill,.icon-btn{
+  background:color-mix(in srgb, var(--card) 58%, transparent);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  backdrop-filter:blur(14px) saturate(1.4);
+}
+.pill-stat{
+  background:color-mix(in srgb, var(--accent-soft) 82%, transparent);
+  -webkit-backdrop-filter:blur(14px) saturate(1.4);
+  backdrop-filter:blur(14px) saturate(1.4);
+}
+.stamp{
+  background:color-mix(in srgb, var(--card) 58%, transparent);
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);
+  backdrop-filter:blur(16px) saturate(1.5);
+}
+.guide{
+  background:linear-gradient(90deg,color-mix(in srgb, var(--accent-soft) 88%, transparent),transparent 72%);
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);
+  backdrop-filter:blur(16px) saturate(1.5);
+}
+#search{
+  background:color-mix(in srgb, var(--card) 52%, transparent);
+  -webkit-backdrop-filter:blur(18px) saturate(1.5);
+  backdrop-filter:blur(18px) saturate(1.5);
+}
+.rpt-offset{
+  background:color-mix(in srgb, var(--accent-soft) 82%, transparent);
+  -webkit-backdrop-filter:blur(16px) saturate(1.4);
+  backdrop-filter:blur(16px) saturate(1.4);
+}
+.qso-date span{
+  background:color-mix(in srgb, var(--accent-soft) 76%, transparent);
+  -webkit-backdrop-filter:blur(12px) saturate(1.3);
+  backdrop-filter:blur(12px) saturate(1.3);
+}
+
+/* ── 惊喜感小动画（优雅、克制） ── */
+@keyframes float{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-3px)}
+}
+.brand-mark{animation:float 6s ease-in-out infinite}
+@keyframes focusPulse{
+  0%,100%{box-shadow:0 0 0 3px var(--accent-soft)}
+  50%{box-shadow:0 0 0 5px color-mix(in srgb, var(--accent) 22%, transparent)}
+}
+.inp:focus{animation:focusPulse 2.6s ease-in-out infinite}
+@keyframes bob{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+.empty .big{animation:bob 4s ease-in-out infinite}
+@keyframes shine{
+  0%{transform:translateX(-130%) skewX(-18deg)}
+  100%{transform:translateX(230%) skewX(-18deg)}
+}
+#toast::after{
+  content:"";position:absolute;top:0;bottom:0;left:0;width:36%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
+  opacity:0;pointer-events:none;
+}
+#toast.show::after{opacity:1;animation:shine 1.5s cubic-bezier(.4,0,.2,1) .12s 1}
+@keyframes bump{
+  0%{transform:scale(1)}
+  35%{transform:scale(1.16)}
+  100%{transform:scale(1)}
+}
+.bump{animation:bump .5s cubic-bezier(.16,1,.3,1)}
+.js .sec{
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s cubic-bezier(.16,1,.3,1),transform .5s cubic-bezier(.16,1,.3,1);
+}
+.js .sec.revealed{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){
+  .brand-mark,.inp:focus,.empty .big,.bump,#toast.show::after{animation:none!important}
+  .js .sec{opacity:1;transform:none;transition:none}
+}
 </style>
 </head>
 <body>
@@ -867,10 +953,12 @@ button{min-width:0}
         <div class="field" id="f-inName">
           <label for="inName">姓名</label>
           <input class="inp" id="inName" placeholder="名字或昵称" autocomplete="off">
+          <p class="field-hint">不知道就留空，呼号才是关键</p>
         </div>
         <div class="field" id="f-inQth">
           <label for="inQth">QTH / 位置</label>
           <input class="inp" id="inQth" placeholder="城市 / 位置，如 北京 朝阳">
+          <p class="field-hint">城市 / 区域都行，老呼号自动带出</p>
         </div>
       </div>
       <div class="sec"><span class="sec-no">02</span>📡 频率 · 信号</div>
@@ -966,11 +1054,13 @@ button{min-width:0}
           <label for="inAnt">对方天线</label>
           <input class="inp" id="inAnt" placeholder="对方报的天线，如 771 天线">
           <div class="chips" id="antChips"></div>
+          <p class="field-hint">对方报的天线型号，不知道就留空</p>
         </div>
         <div class="field span2" id="f-inPwr">
           <label for="inPwr">对方功率</label>
           <input class="inp" id="inPwr" inputmode="numeric" placeholder="对方报的功率，如 5 / 100 / 高功率">
           <div class="chips" id="pwrChips"></div>
+          <p class="field-hint">对方报的功率，如 5 / 100，不知道就留空</p>
         </div>
       </div>
       <div class="sec"><span class="sec-no">04</span>📝 备注 · 时间</div>
@@ -978,6 +1068,7 @@ button{min-width:0}
         <div class="field span2" id="f-inRemark">
           <label for="inRemark">备注 / 交换内容</label>
           <input class="inp" id="inRemark" placeholder="交换内容，如 73 / QSL">
+          <p class="field-hint">交换内容、对方设备参数、73 都可以记在这里</p>
         </div>
         <div class="field span2" id="f-time">
           <label for="inDate">通联时间（CST 录入 · UTC 自动换算）</label>
@@ -1026,6 +1117,7 @@ button{min-width:0}
             <div class="field"><label for="inRptOffset">偏移 ±MHz（上差 / 下差）</label><input class="inp" id="inRptOffset" inputmode="decimal" placeholder="如 -0.600 或 +0.600"></div>
             <div class="field span2"><label for="inRptCtcss">哑音 CTCSS (Hz)</label><input class="inp" id="inRptCtcss" inputmode="decimal" placeholder="88.5 或留空"></div>
           </div>
+          <p class="field-hint">名称 + 下行 + 偏移最常用；哑音可留空</p>
           <div class="rpt-offset" id="rptOffsetVal">填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行</div>
           <p class="field-hint">新中继台保存后会自动记住，下次直接选</p>
         </div>
@@ -1146,7 +1238,7 @@ button{min-width:0}
     <div class="fr-page" id="frPage1">
       <div class="fr-sec-h">🧑‍🚀 关于你</div>
       <div class="grid">
-        <div class="field"><label for="frCall">我的呼号 <i class="fr-req">必填</i></label><input class="inp" id="frCall" placeholder="例：BI9DAS" spellcheck="false" autocapitalize="characters"></div>
+        <div class="field span2"><label for="frCall">我的呼号 <i class="fr-req">必填</i></label><input class="inp" id="frCall" placeholder="例：BI9DAS" spellcheck="false" autocapitalize="characters"><p class="field-hint">填你自己的呼号，之后记录会自动带上</p></div>
         <div class="field"><label for="frOpName">OP 名字（中文）</label><input class="inp" id="frOpName" placeholder="如 倪徐磊"></div>
         <div class="field"><label for="frOpNameEn">OP 名字（英文）</label><input class="inp" id="frOpNameEn" placeholder="如 Xulei Ni"></div>
         <div class="field"><label for="frQth">我方 QTH</label><input class="inp" id="frQth" placeholder="如 浙江金华 · 永康"></div>
@@ -1196,6 +1288,7 @@ button{min-width:0}
         <div class="field"><label for="setFreq">默认频率 MHz</label><input class="inp" id="setFreq" inputmode="decimal" placeholder="145.100"></div>
         <div class="field"><label for="setRst">默认信号报告</label><input class="inp" id="setRst" placeholder="59"></div>
       </div>
+      <p class="field-hint">这些是记录时的默认值，每一条都可以单独改</p>
     </div>
 
     <div class="set-section">
@@ -1208,6 +1301,7 @@ button{min-width:0}
         <div class="field"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="浙江金华 · 永康"></div>
         <div class="field"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
       </div>
+      <p class="field-hint">会用在电子 QSL 卡片和导出信息里</p>
     </div>
 
     <div class="set-section">
@@ -1237,6 +1331,7 @@ button{min-width:0}
           </select>
         </div>
       </div>
+      <p class="field-hint">自动跟随系统，也可以手动固定深浅</p>
     </div>
 
     <div class="set-section">
@@ -1264,6 +1359,7 @@ button{min-width:0}
         <div class="field"><label for="rmOffset">偏移 ±MHz（上差 / 下差）</label><input class="inp" id="rmOffset" inputmode="decimal" placeholder="如 -0.600 或 +0.600"></div>
         <div class="field span2"><label for="rmCtcss">哑音 CTCSS (Hz)</label><input class="inp" id="rmCtcss" inputmode="decimal" placeholder="88.5 或留空"></div>
       </div>
+      <p class="field-hint">名称 + 下行 + 偏移最常用；哑音可留空</p>
       <div class="rpt-offset" id="rmOffsetVal">填「下行 + 偏差」自动算上行，或「上行 + 偏差」自动算下行</div>
       <div class="actions" style="margin-top:12px;margin-bottom:0">
         <button class="btn-primary" id="btnRmSave">保存中继台</button>
@@ -3763,6 +3859,8 @@ if(orientQ.addEventListener){
 (() => {
 'use strict';
 
+document.documentElement.classList.add('js');
+
 // 移动端不主动拉起键盘：自动聚焦只在桌面端生效，手机端由用户自己点选后再弹键盘
 const IS_TOUCH = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
 function softFocus(el) { if (!IS_TOUCH && el) el.focus(); }
@@ -4032,10 +4130,24 @@ tickTimer();
 function stats() {
   const today = nowUTC().date;
   const n = records.filter(r => r.date === today).length;
-  els.statToday.textContent = `今日 ${n} · 共 ${records.length}`;
-  els.stampCount.textContent = String(records.length);
-  if (els.jumpCount) els.jumpCount.textContent = records.length > 99 ? '99+' : String(records.length);
+  const statTxt = `今日 ${n} · 共 ${records.length}`;
+  if (els.statToday && els.statToday.textContent !== statTxt) {
+    els.statToday.textContent = statTxt;
+    bumpOnce(els.statToday);
+  }
+  const countTxt = records.length > 99 ? '99+' : String(records.length);
+  if (els.stampCount && els.stampCount.textContent !== countTxt) els.stampCount.textContent = countTxt;
+  if (els.jumpCount && els.jumpCount.textContent !== countTxt) {
+    els.jumpCount.textContent = countTxt;
+    bumpOnce(els.jumpCount);
+  }
   updateStamp();
+}
+
+function bumpOnce(el) {
+  el.classList.remove('bump');
+  void el.offsetWidth;
+  el.classList.add('bump');
 }
 
 function updateStamp() {
@@ -5570,6 +5682,22 @@ renderList();
 stats();
 applyTheme();
 softFocus(els.inCall);
+
+// 区块滚动浮现：进入视口时优雅淡入（仅静态表单区块）
+const secEls = Array.prototype.slice.call(document.querySelectorAll('.sec'));
+if ('IntersectionObserver' in window) {
+  const secObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add('revealed');
+        secObserver.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  secEls.forEach(s => secObserver.observe(s));
+} else {
+  secEls.forEach(s => s.classList.add('revealed'));
+}
 })();
 </script>
 </body>
