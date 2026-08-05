@@ -1,21 +1,44 @@
 {
+  "id": "./",
   "name": "通联速记 · QSO Quick Log",
   "short_name": "通联速记",
-  "description": "业余无线电通联快速记录工具",
+  "description": "面向业余无线电爱好者的通联速记与电子 QSL 工具：呼号识别、中继台库、双向信号报告、本地存储、离线可用。",
+  "lang": "zh-CN",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#f7f7f4",
   "theme_color": "#f7f7f4",
+  "categories": ["utilities", "productivity"],
+  "orientation": "any",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "新通联",
+      "short_name": "记录",
+      "description": "开始记录一条新通联",
+      "url": "./?new=1",
+      "icons": [
+        {
+          "src": "icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
     }
   ]
 }
