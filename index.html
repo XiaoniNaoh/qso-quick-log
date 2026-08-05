@@ -11,7 +11,7 @@
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="manifest" href="manifest.json">
 <title>通联速记 · QSO Quick Log</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📻%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
 <style>
 :root{
   --bg:#f7f7f4;
@@ -241,6 +241,19 @@ select.inp option{color:var(--ink);background:var(--card)}
   font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
 .match-hint{display:inline-block;font-size:11.5px;color:var(--auto);margin-top:5px}
+.call-info{
+  display:inline-flex;align-items:center;gap:6px;margin-top:6px;
+  font-size:11.5px;font-weight:700;color:var(--ink-2);
+  background:color-mix(in srgb, var(--card) 52%, transparent);
+  border:1px solid color-mix(in srgb, var(--line) 80%, transparent);
+  border-radius:999px;padding:3px 11px;
+  -webkit-backdrop-filter:blur(12px) saturate(1.3);
+  backdrop-filter:blur(12px) saturate(1.3);
+}
+.call-info .ci-new{
+  color:#fff;background:var(--accent);border-radius:999px;
+  padding:1px 8px;font-size:9.5px;font-weight:800;letter-spacing:.05em;
+}
 .recent-wrap{display:flex;align-items:center;gap:8px;margin-top:8px}
 .recent-label{font-size:10px;font-weight:800;letter-spacing:.1em;color:var(--ink-3);white-space:nowrap}
 .recent-chip{background:var(--bg);border-color:var(--line-2);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.02em}
@@ -536,6 +549,15 @@ footer{
   white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;
 }
 #toast::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 3px var(--accent-soft)}
+#toastMsg{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.toast-act{
+  border:none;background:var(--accent);color:#fff;border-radius:999px;
+  padding:4px 13px;font-size:12px;font-weight:800;font-family:inherit;cursor:pointer;
+  white-space:nowrap;flex:none;margin-left:2px;
+  transition:transform .15s cubic-bezier(.16,1,.3,1), background .15s;
+}
+.toast-act:hover{background:var(--mark-2)}
+.toast-act:active{transform:scale(.93)}
 #toast.show{
   opacity:1;transform:translateX(-50%) translateY(0) scale(1);
   transition:opacity .38s cubic-bezier(.16,1,.3,1), transform .38s cubic-bezier(.16,1,.3,1);
@@ -610,6 +632,17 @@ footer{
   .dock-clear{min-height:48px}
   .dock-hint{display:block;width:100%;text-align:center;padding:0 0 6px}
   footer{padding:0 24px 104px}
+}
+
+/* ── 平板断点（720–879px 双栏，字段仍单列避免拥挤） ── */
+@media (min-width:720px) and (max-width:879px){
+  main{grid-template-columns:1fr 1fr;gap:18px;padding:16px 18px 120px}
+  .sheet{padding:18px}
+  .grid{grid-template-columns:1fr}
+  .rst-sides{grid-template-columns:1fr}
+  .rst-box{grid-template-columns:1fr}
+  .cst-inputs{grid-template-columns:1fr}
+  .span2{grid-column:1/-1}
 }
 
 /* ── 设置页分类 ── */
@@ -858,6 +891,21 @@ button{min-width:0}
   backdrop-filter:blur(12px) saturate(1.3);
 }
 
+/* ── 拖放导入遮罩 ── */
+.drop-veil{
+  position:fixed;inset:0;z-index:90;display:grid;place-items:center;
+  background:color-mix(in srgb, var(--bg) 45%, transparent);
+  -webkit-backdrop-filter:blur(14px) saturate(1.3);
+  backdrop-filter:blur(14px) saturate(1.3);
+  pointer-events:none;
+}
+.drop-box{
+  font-size:16px;font-weight:800;color:var(--ink);
+  background:color-mix(in srgb, var(--card) 72%, transparent);
+  border:2px dashed var(--accent);border-radius:20px;padding:26px 40px;
+  box-shadow:var(--shadow);
+}
+
 /* ── 惊喜感小动画（优雅、克制） ── */
 @keyframes float{
   0%,100%{transform:translateY(0)}
@@ -875,13 +923,14 @@ button{min-width:0}
 }
 .empty .big{animation:bob 4s ease-in-out infinite}
 @keyframes shine{
-  0%{transform:translateX(-130%) skewX(-18deg)}
-  100%{transform:translateX(230%) skewX(-18deg)}
+  0%{transform:translateX(-130%) skewX(-18deg);opacity:.9}
+  100%{transform:translateX(230%) skewX(-18deg);opacity:0}
 }
 #toast::after{
   content:"";position:absolute;top:0;bottom:0;left:0;width:36%;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);
   opacity:0;pointer-events:none;
+  transform:translateX(-150%) skewX(-18deg);
 }
 #toast.show::after{opacity:1;animation:shine 1.5s cubic-bezier(.4,0,.2,1) .12s 1}
 @keyframes bump{
@@ -1044,6 +1093,7 @@ button{min-width:0}
           <label for="inCall">对方呼号</label>
           <input class="inp" id="inCall" placeholder="对方呼号，如 BA5AB" spellcheck="false" autocomplete="off" autocapitalize="characters">
           <span id="matchHint" class="match-hint hidden">↺ 与上次通联匹配，已自动填充</span>
+          <span id="callInfo" class="call-info hidden"></span>
           <div class="recent-wrap hidden" id="recentWrap">
             <span class="recent-label">最近呼号</span>
             <div class="scroll-chips" id="recentChips"></div>
@@ -1228,6 +1278,7 @@ button{min-width:0}
         <button class="mini-btn" data-export="adif" title="标准电台日志格式">⬇ ADIF</button>
         <button class="mini-btn" data-export="csv" title="Excel / Numbers 可直接打开">⬇ CSV</button>
         <button class="mini-btn" data-export="json" title="完整备份">⬇ JSON</button>
+        <button class="mini-btn" id="btnBackupLink" title="生成备份链接，跨设备恢复">🔗 链接</button>
         <button class="mini-btn" id="btnImport" title="从手机或其他设备导入 JSON 备份">⬆ 导入</button>
         <input type="file" id="importFile" accept=".json,application/json" hidden>
       </div>
@@ -1495,8 +1546,34 @@ button{min-width:0}
     <iframe id="qslFrame" title="电子 QSL 卡片"></iframe>
   </div>
 </div>
+<div class="overlay hidden" id="shareOverlay">
+  <div class="modal">
+    <h3>🔗 备份链接</h3>
+    <p class="sub">复制或分享给任意设备，打开链接即可恢复</p>
+    <input class="inp" id="backupLink" readonly onclick="this.select()">
+    <p class="field-hint">链接已压缩，包含记录、设置与中继台库</p>
+    <div class="actions">
+      <button class="btn-primary" id="btnCopyLink">复制链接</button>
+      <button type="button" class="btn-ghost" id="btnShareLink">分享</button>
+      <button type="button" class="btn-ghost" id="btnCloseShare">关闭</button>
+    </div>
+  </div>
+</div>
+<div class="overlay hidden" id="backupOverlay">
+  <div class="modal">
+    <h3>📦 检测到备份链接</h3>
+    <p class="sub" id="backupMeta"></p>
+    <p class="field-hint">「合并」保留现有记录并加入备份；「替换」用备份覆盖本机数据</p>
+    <div class="actions">
+      <button class="btn-primary" id="btnBackupMerge">合并</button>
+      <button type="button" class="btn-primary" id="btnBackupReplace" style="background:var(--danger);color:#fff">替换</button>
+      <button type="button" class="btn-ghost" id="btnBackupCancel">取消</button>
+    </div>
+  </div>
+</div>
+<div class="drop-veil hidden" id="dropVeil"><div class="drop-box">📂 松开导入备份</div></div>
 <div id="confetti" aria-hidden="true"></div>
-<div id="toast"></div>
+<div id="toast"><span id="toastMsg"></span><button type="button" id="toastAction" class="toast-act hidden"></button></div>
 <!--@@E_QSL_TEMPLATE@@-->
 <script type="text/template" id="eqslTemplate">
 <!DOCTYPE html>
@@ -3964,6 +4041,7 @@ const $ = id => document.getElementById(id);
 const els = {
   form: $('qsoForm'),
   inCall: $('inCall'),
+  callInfo: $('callInfo'),
   inRst: $('inRst'),
   inRstSent: $('inRstSent'),
   inRstRecv: $('inRstRecv'),
@@ -4001,6 +4079,8 @@ const els = {
   recentWrap: $('recentWrap'),
   recentChips: $('recentChips'),
   toast: $('toast'),
+  toastMsg: $('toastMsg'),
+  toastAction: $('toastAction'),
   confetti: $('confetti'),
   qslOverlay: $('qslOverlay'),
   qslFrame: $('qslFrame'),
@@ -4017,6 +4097,18 @@ const els = {
   btnQslCancel: $('btnQslCancel'),
   btnImport: $('btnImport'),
   importFile: $('importFile'),
+  btnBackupLink: $('btnBackupLink'),
+  shareOverlay: $('shareOverlay'),
+  backupLink: $('backupLink'),
+  btnCopyLink: $('btnCopyLink'),
+  btnShareLink: $('btnShareLink'),
+  btnCloseShare: $('btnCloseShare'),
+  backupOverlay: $('backupOverlay'),
+  backupMeta: $('backupMeta'),
+  btnBackupMerge: $('btnBackupMerge'),
+  btnBackupReplace: $('btnBackupReplace'),
+  btnBackupCancel: $('btnBackupCancel'),
+  dropVeil: $('dropVeil'),
   settingsOverlay: $('settingsOverlay'),
   setMyCall: $('setMyCall'),
   setMode: $('setMode'),
@@ -4111,6 +4203,7 @@ let repeaterSaveNote = '';
 let editingId = null;
 let qsoStart = null;
 let timeLocked = false;
+let saveLock = false;
 
 const pad = n => String(n).padStart(2, '0');
 
@@ -4544,6 +4637,67 @@ function applyCallPrefill() {
   } else {
     els.matchHint.classList.add('hidden');
   }
+  updateCallInfo();
+}
+
+// ── 呼号智能识别：中国分区 / 常用前缀 / 首次通联 ──
+const CN_ZONES = {
+  '1': '北京',
+  '2': '黑龙江 / 吉林 / 辽宁',
+  '3': '河北 / 山西 / 内蒙古 / 天津',
+  '4': '江苏 / 山东 / 上海',
+  '5': '浙江 / 福建 / 江西',
+  '6': '安徽 / 河南 / 湖北',
+  '7': '广东 / 广西 / 海南 / 湖南',
+  '8': '四川 / 贵州 / 云南 / 重庆 / 西藏',
+  '9': '甘肃 / 宁夏 / 青海 / 陕西 / 新疆'
+};
+const DXCC_TABLE = [
+  ['VR2', '中国香港'], ['XX9', '中国澳门'], ['BV', '中国台湾'], ['HL', '韩国'], ['JA', '日本'],
+  ['W', '美国'], ['K', '美国'], ['N', '美国'], ['VE', '加拿大'], ['VK', '澳大利亚'],
+  ['ZL', '新西兰'], ['GM', '苏格兰'], ['GI', '北爱尔兰'], ['GW', '威尔士'], ['G', '英格兰'],
+  ['DL', '德国'], ['HB9', '瑞士'], ['F', '法国'], ['I', '意大利'], ['EA', '西班牙'],
+  ['SP', '波兰'], ['OK', '捷克'], ['OM', '斯洛伐克'], ['HA', '匈牙利'], ['OE', '奥地利'],
+  ['PA', '荷兰'], ['ON', '比利时'], ['OZ', '丹麦'], ['LA', '挪威'], ['OH', '芬兰'],
+  ['SM', '瑞典'], ['CT', '葡萄牙'], ['RA', '俄罗斯'], ['UA', '俄罗斯'], ['YB', '印度尼西亚'],
+  ['9M', '马来西亚'], ['9V', '新加坡'], ['HS', '泰国'], ['DU', '菲律宾'], ['XV', '越南'],
+  ['XU', '柬埔寨'], ['VU', '印度'], ['AP', '巴基斯坦'], ['4X', '以色列'], ['TA', '土耳其'],
+  ['SU', '埃及'], ['ZS', '南非'], ['5B', '塞浦路斯'], ['PY', '巴西'], ['LU', '阿根廷'],
+  ['CE', '智利'], ['CX', '乌拉圭'], ['OA', '秘鲁'], ['HK', '哥伦比亚'], ['XE', '墨西哥']
+].sort((a, b) => b[0].length - a[0].length);
+
+function callInfo(call) {
+  const c = String(call || '').trim().toUpperCase();
+  if (!c) return null;
+  const m = c.match(/^([A-Z0-9]+?)(\d+)([A-Z]+)$/);
+  if (!m) return { call: c };
+  const px = m[1], num = m[2];
+  if (c.startsWith('VR2')) return { call: c, flag: '🇭🇰', region: '中国香港', prefix: 'VR2' };
+  if (c.startsWith('XX9')) return { call: c, flag: '🇲🇴', region: '中国澳门', prefix: 'XX9' };
+  if (c.startsWith('BV')) return { call: c, flag: '🇨🇳', region: '中国台湾', prefix: 'BV' };
+  if (px.startsWith('B')) return { call: c, flag: '🇨🇳', region: '中国 · ' + (CN_ZONES[num] || num + ' 区'), zone: num };
+  const hit = DXCC_TABLE.find(e => c.startsWith(e[0]));
+  return hit ? { call: c, flag: '🌐', region: hit[1], prefix: hit[0] } : { call: c };
+}
+
+function updateCallInfo() {
+  const el = els.callInfo;
+  if (!el) return;
+  const info = callInfo(els.inCall.value);
+  if (!info || !info.region) { el.classList.add('hidden'); return; }
+  const c = info.call;
+  const isNew = c && !records.some(r => String(r.call || '').toUpperCase() === c);
+  el.innerHTML = '';
+  const t = document.createElement('span');
+  t.textContent = info.flag + ' ' + info.region;
+  el.appendChild(t);
+  if (isNew) {
+    const b = document.createElement('span');
+    b.className = 'ci-new';
+    b.textContent = '首次通联 NEW';
+    el.appendChild(b);
+  }
+  el.classList.remove('hidden');
 }
 
 els.inCall.addEventListener('input', applyCallPrefill);
@@ -4631,8 +4785,11 @@ function sweepSaveDone() {
 }
 
 function save() {
+  if (saveLock) return;
   const call = els.inCall.value.trim().toUpperCase();
   if (!call) { toast('请先输入呼号'); els.inCall.focus(); return; }
+  saveLock = true;
+  setTimeout(() => { saveLock = false; }, 1200);
   const u = nowUTC();
   const freq = normalizeFreq(els.inFreq.value);
   const utc = cstToUtc(els.inDate.value, els.inTime.value);
@@ -4842,12 +4999,21 @@ function renderRow(r) {
     }
     clearTimeout(delTimer);
     row.classList.add('removing');
+    const deletedRec = records.find(x => x.id === r.id);
     setTimeout(() => {
       records = records.filter(x => x.id !== r.id);
       saveRecords();
       renderList();
       stats();
-      toast('已删除 ' + r.call + ' ✓');
+      toast('已删除 ' + r.call + ' ✓', { label: '撤销', onClick: () => {
+        if (deletedRec) {
+          records.push(deletedRec);
+          saveRecords();
+          renderList();
+          stats();
+          toast('已恢复 ' + deletedRec.call + ' ✓');
+        }
+      }});
     }, 300);
   });
   acts.append(editBtn, qslBtn, del);
@@ -5151,12 +5317,21 @@ function renderRmList() {
       clearTimeout(rmDelTimer);
       const item = delBtn.closest('.rpt-item');
       if (item) item.classList.add('removing');
+      const deletedRpt = repeaters[i];
       setTimeout(() => {
         repeaters.splice(i, 1);
         saveRepeaters();
         renderRptList();
         renderRmList();
-        toast('已删除中继台 ' + rp.name + ' ✓');
+        toast('已删除中继台 ' + rp.name + ' ✓', { label: '撤销', onClick: () => {
+          if (deletedRpt) {
+            repeaters.push(deletedRpt);
+            saveRepeaters();
+            renderRptList();
+            renderRmList();
+            toast('已恢复中继台 ' + deletedRpt.name + ' ✓');
+          }
+        }});
       }, 280);
     });
     acts.append(editBtn, delBtn);
@@ -5290,11 +5465,18 @@ els.btnRmWipe.addEventListener('click', () => {
   clearTimeout(rmWipeTimer);
   els.btnRmWipe.classList.remove('confirming');
   els.btnRmWipe.textContent = '清空全部中继台';
+  const rptBackup = repeaters.slice();
   repeaters = [];
   saveRepeaters();
   renderRptList();
   renderRmList();
-  toast('已清空中继台库 ✓');
+  toast('已清空中继台库 ✓', { label: '撤销', onClick: () => {
+    repeaters = rptBackup;
+    saveRepeaters();
+    renderRptList();
+    renderRmList();
+    toast('已恢复中继台库 ✓');
+  }});
 });
 els.repeaterOverlay.addEventListener('click', e => {
   if (e.target === els.repeaterOverlay) closeRepeaterManager();
@@ -5656,37 +5838,197 @@ function applyTheme() {
 els.btnImport.addEventListener('click', () => {
   els.importFile.click();
 });
+function importJsonData(data) {
+  const arr = Array.isArray(data) ? data : (data && Array.isArray(data.records) ? data.records : null);
+  if (!arr) { toast('导入失败：不是有效的 JSON 备份'); return; }
+  let added = 0;
+  arr.forEach(inr => {
+    if (!inr || !inr.call) return;
+    if (!records.some(r => r.id === inr.id)) {
+      records.push(inr);
+      added++;
+    }
+  });
+  if (added > 0) {
+    saveRecords();
+    renderList();
+    stats();
+    toast('已导入 ' + added + ' 条记录 ✓');
+  } else {
+    toast('没有需要导入的新记录');
+  }
+}
 els.importFile.addEventListener('change', () => {
   const f = els.importFile.files && els.importFile.files[0];
   if (!f) return;
   const reader = new FileReader();
   reader.onload = () => {
-    try {
-      const data = JSON.parse(reader.result);
-      const arr = Array.isArray(data) ? data : (data && Array.isArray(data.records) ? data.records : null);
-      if (!arr) { toast('导入失败：不是有效的 JSON 备份'); return; }
-      let added = 0;
-      arr.forEach(inr => {
-        if (!inr || !inr.call) return;
-        if (!records.some(r => r.id === inr.id)) {
-          records.push(inr);
-          added++;
-        }
-      });
-      if (added > 0) {
-        saveRecords();
-        renderList();
-        stats();
-        toast('已导入 ' + added + ' 条记录');
-      } else {
-        toast('没有需要导入的新记录');
-      }
-    } catch (e) {
-      toast('导入失败：文件解析出错');
-    }
+    try { importJsonData(JSON.parse(reader.result)); }
+    catch (e) { toast('导入失败：文件解析出错'); }
   };
   reader.readAsText(f);
   els.importFile.value = '';
+});
+
+// ── 零后端备份链接：压缩 → URL 片段 → 打开即恢复 ──
+let pendingBackup = null;
+async function compressText(text) {
+  if (typeof CompressionStream === 'undefined') return null;
+  const stream = new Blob([text]).stream().pipeThrough(new CompressionStream('deflate'));
+  const buf = await new Response(stream).arrayBuffer();
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  for (let i = 0; i < bytes.length; i += 0x8000) {
+    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000));
+  }
+  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+async function decompressText(code) {
+  if (typeof DecompressionStream === 'undefined') return null;
+  let s = code.replace(/-/g, '+').replace(/_/g, '/');
+  while (s.length % 4) s += '=';
+  const bin = atob(s);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate'));
+  return new Response(stream).text();
+}
+function clearBackupHash() {
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+}
+async function buildBackupLink() {
+  const payload = { v: 1, at: Date.now(), settings, records, repeaters };
+  const json = JSON.stringify(payload);
+  const comp = await compressText(json);
+  return location.href.split('#')[0] + '#backup=' + (comp || encodeURIComponent(json));
+}
+els.btnBackupLink.addEventListener('click', async () => {
+  try {
+    els.backupLink.value = '生成中…';
+    els.shareOverlay.classList.remove('hidden');
+    els.backupLink.value = await buildBackupLink();
+  } catch (e) {
+    els.shareOverlay.classList.add('hidden');
+    toast('生成失败：' + (e && e.message ? e.message : '未知错误'));
+  }
+});
+function copyText(t) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(() => toast('已复制 ✓'), () => toast('复制失败，请长按手动复制'));
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = t;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); toast('已复制 ✓'); } catch (e) { toast('复制失败，请长按手动复制'); }
+    ta.remove();
+  }
+}
+els.btnCopyLink.addEventListener('click', () => copyText(els.backupLink.value));
+els.btnShareLink.addEventListener('click', () => {
+  if (navigator.share) {
+    navigator.share({ title: '通联速记备份', text: '通联速记备份链接', url: els.backupLink.value }).catch(() => {});
+  } else {
+    copyText(els.backupLink.value);
+  }
+});
+els.btnCloseShare.addEventListener('click', () => els.shareOverlay.classList.add('hidden'));
+els.shareOverlay.addEventListener('click', e => { if (e.target === els.shareOverlay) els.shareOverlay.classList.add('hidden'); });
+
+function applyBackup(mode) {
+  if (!pendingBackup) return;
+  if (mode === 'replace') {
+    records = Array.isArray(pendingBackup.records) ? pendingBackup.records.slice() : [];
+    repeaters = Array.isArray(pendingBackup.repeaters) ? pendingBackup.repeaters.slice() : [];
+    if (pendingBackup.settings) Object.assign(settings, pendingBackup.settings);
+    saveRecords();
+    saveRepeaters();
+    try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
+    renderList();
+    stats();
+    renderRptList();
+    applyDefaults();
+    applyTheme();
+    toast('已替换为备份数据 ✓');
+  } else {
+    let added = 0;
+    (pendingBackup.records || []).forEach(inr => {
+      if (inr && inr.call && !records.some(r => r.id === inr.id)) { records.push(inr); added++; }
+    });
+    if (added) { saveRecords(); renderList(); stats(); }
+    let rAdded = 0;
+    (pendingBackup.repeaters || []).forEach(rp => {
+      if (rp && rp.name && !repeaters.some(r => r.name === rp.name)) { repeaters.push(rp); rAdded++; }
+    });
+    if (rAdded) { saveRepeaters(); renderRptList(); }
+    toast(added || rAdded ? '已合并 ' + added + ' 条记录' + (rAdded ? ' · ' + rAdded + ' 个中继台' : '') + ' ✓' : '没有需要合并的新数据');
+  }
+  pendingBackup = null;
+  els.backupOverlay.classList.add('hidden');
+  clearBackupHash();
+}
+els.btnBackupMerge.addEventListener('click', () => applyBackup('merge'));
+els.btnBackupReplace.addEventListener('click', () => applyBackup('replace'));
+els.btnBackupCancel.addEventListener('click', () => {
+  pendingBackup = null;
+  els.backupOverlay.classList.add('hidden');
+  clearBackupHash();
+});
+els.backupOverlay.addEventListener('click', e => { if (e.target === els.backupOverlay) els.btnBackupCancel.click(); });
+
+async function restoreFromHash() {
+  const h = location.hash;
+  if (!h || h.indexOf('#backup=') !== 0) return;
+  const code = h.slice(8);
+  try {
+    let json = null;
+    if (typeof DecompressionStream !== 'undefined') {
+      try { json = await decompressText(code); } catch (e) { json = null; }
+    }
+    if (json === null) json = decodeURIComponent(code);
+    const data = JSON.parse(json);
+    if (!data || !Array.isArray(data.records)) throw new Error('bad backup');
+    pendingBackup = data;
+    const n = (data.records || []).length;
+    const when = data.at ? new Date(data.at).toLocaleString() : '未知时间';
+    els.backupMeta.textContent = '备份于 ' + when + ' · ' + n + ' 条记录' + ((data.repeaters || []).length ? ' · ' + data.repeaters.length + ' 个中继台' : '');
+    els.backupOverlay.classList.remove('hidden');
+  } catch (e) {
+    clearBackupHash();
+  }
+}
+
+// ── 拖放导入 ──
+let dragDepth = 0;
+document.addEventListener('dragenter', e => {
+  e.preventDefault();
+  dragDepth++;
+  els.dropVeil.classList.remove('hidden');
+});
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('dragleave', () => {
+  dragDepth--;
+  if (dragDepth <= 0) { dragDepth = 0; els.dropVeil.classList.add('hidden'); }
+});
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  dragDepth = 0;
+  els.dropVeil.classList.add('hidden');
+  const f = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
+  if (!f) return;
+  if (/\.json$/i.test(f.name)) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try { importJsonData(JSON.parse(reader.result)); }
+      catch (err) { toast('导入失败：文件解析出错'); }
+    };
+    reader.readAsText(f);
+  } else if (/\.adif$/i.test(f.name)) {
+    toast('目前支持拖入 JSON 备份；ADIF 导入敬请期待');
+  } else {
+    toast('请拖入 .json 备份文件');
+  }
 });
 
 function openSettings() {
@@ -5763,12 +6105,19 @@ els.btnWipe.addEventListener('click', () => {
   clearTimeout(wipeTimer);
   els.btnWipe.classList.remove('confirming');
   els.btnWipe.textContent = '清空全部记录';
+  const recBackup = records.slice();
   records = [];
   saveRecords();
   renderList();
   stats();
   resetForm();
-  toast('已清空全部记录 ✓');
+  toast('已清空全部记录 ✓', { label: '撤销', onClick: () => {
+    records = recBackup;
+    saveRecords();
+    renderList();
+    stats();
+    toast('已恢复全部记录 ✓');
+  }});
 });
 
 // ── 首次启动引导（三步向导）──
@@ -5836,11 +6185,25 @@ els.firstRunOverlay.addEventListener('click', e => {
 maybeFirstRun();
 
 let toastTimer;
-function toast(msg) {
-  els.toast.textContent = msg;
+function hideToast() {
+  els.toast.classList.remove('show');
+}
+function toast(msg, action) {
+  els.toastMsg.textContent = msg;
+  const act = els.toastAction;
+  if (action && action.label) {
+    act.textContent = action.label;
+    act.classList.remove('hidden');
+    act.onclick = () => {
+      try { action.onClick && action.onClick(); } finally { hideToast(); }
+    };
+  } else {
+    act.classList.add('hidden');
+    act.onclick = null;
+  }
   els.toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => els.toast.classList.remove('show'), 2400);
+  toastTimer = setTimeout(hideToast, action && action.label ? 6000 : 2400);
 }
 
 renderModeChips();
@@ -5879,6 +6242,14 @@ function startupGreet() {
   toast(who ? `${greet}，${who} · 通联愉快` : `${greet} · 通联愉快`);
 }
 setTimeout(startupGreet, 700);
+restoreFromHash();
+
+// PWA 离线可用
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
 })();
 </script>
 </body>
