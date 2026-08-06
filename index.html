@@ -640,9 +640,7 @@ footer{
 @media (min-width:880px){
   header{
     position:sticky;top:0;z-index:25;
-    background:color-mix(in srgb, var(--bg) 74%, transparent);
-    -webkit-backdrop-filter:blur(18px) saturate(1.5);
-    backdrop-filter:blur(18px) saturate(1.5);
+    background:var(--bg);
     padding-top:12px;
   }
   main{grid-template-columns:minmax(500px,640px) minmax(0,1fr);gap:22px;padding:18px 24px 120px}
@@ -721,7 +719,7 @@ footer{
 }
 .cselect-trigger.open .cselect-caret{transform:rotate(180deg)}
 .cselect-menu{
-  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:40;
+  position:fixed;left:-9999px;top:-9999px;z-index:90;
   max-height:264px;overflow-y:auto;overscroll-behavior:contain;
   background:color-mix(in srgb, var(--card) 82%, transparent);
   -webkit-backdrop-filter:blur(22px) saturate(1.5);
@@ -822,7 +820,7 @@ textarea.inp{min-height:74px;resize:vertical;line-height:1.55}
 }
 .rpt-pick-trigger.open .rpt-pick-caret{transform:rotate(180deg)}
 .rpt-pick-menu{
-  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:40;
+  position:fixed;left:-9999px;top:-9999px;z-index:90;
   max-height:264px;overflow-y:auto;overscroll-behavior:contain;
   background:color-mix(in srgb, var(--card) 82%, transparent);
   -webkit-backdrop-filter:blur(22px) saturate(1.5);
@@ -943,12 +941,13 @@ button{min-width:0}
 }
 
 /* ── 毛玻璃 ── */
-.dock,.help-btn,.qsl-bar,.sheet{
+.dock,.help-btn,.qsl-bar{
   background:var(--card);
   background:color-mix(in srgb, var(--card) 78%, transparent);
   -webkit-backdrop-filter:blur(22px) saturate(1.5);
   backdrop-filter:blur(22px) saturate(1.5);
 }
+.sheet{background:var(--card)}
 .modal{
   background:var(--card);
   background:color-mix(in srgb, var(--card) 88%, transparent);
@@ -1037,14 +1036,25 @@ button{min-width:0}
 .fr-theme-name{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:.02em;padding-right:20px}
 .fr-theme-shots{display:flex;gap:6px}
 .fr-shot{
-  flex:1;height:52px;border-radius:8px;background:var(--pb);
-  border:1px solid rgba(0,0,0,.07);position:relative;overflow:hidden;
+  flex:1;height:76px;border-radius:10px;background:var(--pb);
+  border:1px solid rgba(0,0,0,.08);position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:5px;padding:7px;
 }
-.fr-shot::before{
-  content:"";position:absolute;top:7px;right:7px;width:9px;height:9px;border-radius:50%;background:var(--pa);
+.fs-head{display:flex;align-items:center;gap:4px;flex:none}
+.fs-logo{width:9px;height:9px;border-radius:3px;background:var(--pa);flex:none}
+.fs-line{height:4px;border-radius:2px;background:var(--pm);opacity:.85;flex:1}
+.fs-line.w40{flex:none;width:40%}
+.fs-body{
+  flex:1;display:flex;flex-direction:column;gap:4px;
+  background:color-mix(in srgb, #ffffff 42%, var(--pb));
+  border-radius:5px;padding:5px;min-height:0;
 }
-.fr-shot::after{
-  content:"";position:absolute;left:7px;bottom:7px;width:58%;height:7px;border-radius:4px;background:var(--pm);
+.fs-body .fs-line{opacity:.45}
+.fs-body .fs-line.w70{flex:none;width:70%}
+.fs-btn{width:34%;height:7px;border-radius:4px;background:var(--pa);margin-top:auto;flex:none}
+.fs-tag{
+  position:absolute;right:5px;bottom:4px;font-size:8px;font-weight:800;line-height:14px;
+  color:var(--pb);background:var(--pm);border-radius:3px;padding:0 5px;opacity:.92;
 }
 .fr-theme-check{
   position:absolute;top:9px;right:9px;width:18px;height:18px;border-radius:50%;
@@ -1076,45 +1086,29 @@ button{min-width:0}
 /* ── 更多毛玻璃材质 ── */
 .field-hint{
   background:color-mix(in srgb, var(--card) 52%, transparent);
-  -webkit-backdrop-filter:blur(14px) saturate(1.4);
-  backdrop-filter:blur(14px) saturate(1.4);
   border:1px solid color-mix(in srgb, var(--line) 78%, transparent);
   border-radius:10px;padding:6px 10px;
 }
 .pill,.icon-btn{
   background:color-mix(in srgb, var(--card) 58%, transparent);
-  -webkit-backdrop-filter:blur(14px) saturate(1.4);
-  backdrop-filter:blur(14px) saturate(1.4);
 }
 .pill-stat{
   background:color-mix(in srgb, var(--accent-soft) 82%, transparent);
-  -webkit-backdrop-filter:blur(14px) saturate(1.4);
-  backdrop-filter:blur(14px) saturate(1.4);
 }
 .stamp{
-  background:color-mix(in srgb, var(--card) 58%, transparent);
-  -webkit-backdrop-filter:blur(16px) saturate(1.5);
-  backdrop-filter:blur(16px) saturate(1.5);
+  background:var(--card);
 }
 .guide{
   background:linear-gradient(90deg,color-mix(in srgb, var(--accent-soft) 88%, transparent),transparent 72%);
-  -webkit-backdrop-filter:blur(16px) saturate(1.5);
-  backdrop-filter:blur(16px) saturate(1.5);
 }
 #search{
   background:color-mix(in srgb, var(--card) 52%, transparent);
-  -webkit-backdrop-filter:blur(18px) saturate(1.5);
-  backdrop-filter:blur(18px) saturate(1.5);
 }
 .rpt-offset{
   background:color-mix(in srgb, var(--accent-soft) 82%, transparent);
-  -webkit-backdrop-filter:blur(16px) saturate(1.4);
-  backdrop-filter:blur(16px) saturate(1.4);
 }
 .qso-date span{
   background:color-mix(in srgb, var(--accent-soft) 76%, transparent);
-  -webkit-backdrop-filter:blur(12px) saturate(1.3);
-  backdrop-filter:blur(12px) saturate(1.3);
 }
 
 /* ── 拖放导入遮罩 ── */
@@ -2123,11 +2117,11 @@ footer a:hover{color:var(--accent)}
       <div class="fr-sec-h">🎨 个性化</div>
       <p class="fr-pick-hint">挑一套喜欢的界面风格，浅色 / 深色效果都能看到</p>
       <div class="fr-theme-grid" id="frThemeGrid">
-        <button type="button" class="fr-theme" data-skin="classic"><span class="fr-theme-name">经典 · 靛蓝</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#f7f7f4;--pa:#2f5fc7;--pm:#17181c"></span><span class="fr-shot" style="--pb:#141519;--pa:#8ea8ff;--pm:#eaeaea"></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="eqsl"><span class="fr-theme-name">信笺 · 鼠尾草</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F7F8F6;--pa:#3E8A68;--pm:#1B201C"></span><span class="fr-shot" style="--pb:#121412;--pa:#7FC7A3;--pm:#E9EBE7"></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="sunset"><span class="fr-theme-name">日暮 · 琥珀</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F6F2;--pa:#C47A33;--pm:#221D16"></span><span class="fr-shot" style="--pb:#171310;--pa:#E8A862;--pm:#F0EAE1"></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="aurora"><span class="fr-theme-name">极光 · 紫</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F7FA;--pa:#6D5AE0;--pm:#1F1B29"></span><span class="fr-shot" style="--pb:#141220;--pa:#A99BFF;--pm:#ECEAF7"></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="ocean"><span class="fr-theme-name">深海 · 青</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F4F8F8;--pa:#0E8F8F;--pm:#16211F"></span><span class="fr-shot" style="--pb:#0F1716;--pa:#5FD6D0;--pm:#E4F0ED"></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="classic"><span class="fr-theme-name">经典 · 靛蓝</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#f7f7f4;--pa:#2f5fc7;--pm:#17181c"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141519;--pa:#8ea8ff;--pm:#eaeaea"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="eqsl"><span class="fr-theme-name">信笺 · 鼠尾草</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F7F8F6;--pa:#3E8A68;--pm:#1B201C"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#121412;--pa:#7FC7A3;--pm:#E9EBE7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="sunset"><span class="fr-theme-name">日暮 · 琥珀</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F6F2;--pa:#C47A33;--pm:#221D16"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#171310;--pa:#E8A862;--pm:#F0EAE1"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="aurora"><span class="fr-theme-name">极光 · 紫</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F7FA;--pa:#6D5AE0;--pm:#1F1B29"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141220;--pa:#A99BFF;--pm:#ECEAF7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean"><span class="fr-theme-name">深海 · 青</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F4F8F8;--pa:#0E8F8F;--pm:#16211F"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#0F1716;--pa:#5FD6D0;--pm:#E4F0ED"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
@@ -2311,7 +2305,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.19</b>
+      <b>电子 QSL 卡片 · v4.20</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5236,7 +5230,7 @@ function sideValue(side) {
   return st.r + st.s + (cwMode() ? st.t : '') + (st.db ? '+' + st.db : '');
 }
 
-function updateRstSide(side) {
+function updateRstSide(side, skipChips) {
   const ids = SIDE_IDS[side];
   const st = rstSides[side];
   const dbEl = document.getElementById(ids.db);
@@ -5246,7 +5240,7 @@ function updateRstSide(side) {
   if (pv) pv.textContent = val;
   if (side === 'recv') els.inRst.value = val;
   document.getElementById(side === 'sent' ? 'inRstSent' : 'inRstRecv').value = val;
-  renderRstChips(side);
+  if (!skipChips) renderRstChips(side);
 }
 
 function renderRstChips(side) {
@@ -5303,7 +5297,7 @@ function renderRstChips(side) {
 ['sent', 'recv'].forEach(side => {
   document.getElementById(SIDE_IDS[side].db).addEventListener('input', () => {
     markAuto('inRst', false);
-    updateRstSide(side);
+    updateRstSide(side, true);
   });
 });
 
@@ -5495,8 +5489,10 @@ function applyCallPrefill() {
   } else {
     els.matchHint.classList.add('hidden');
   }
-  updateCallInfo();
+  clearTimeout(callInfoTimer);
+  callInfoTimer = setTimeout(updateCallInfo, 90);
 }
+let callInfoTimer = null;
 
 // ── 呼号智能识别：中国分区 / 常用前缀 / 首次通联 ──
 const CN_ZONES = {
@@ -5987,15 +5983,25 @@ function selectRepeater(name) {
 }
 function toggleRptPick() {
   const opening = els.rptPickMenu.classList.contains('hidden');
+  if (opening) {
+    const r = els.rptPickTrigger.getBoundingClientRect();
+    els.rptPickMenu.style.position = 'fixed';
+    els.rptPickMenu.style.left = r.left + 'px';
+    els.rptPickMenu.style.top = (r.bottom + 6) + 'px';
+    els.rptPickMenu.style.width = r.width + 'px';
+    els.rptPickMenu.style.maxHeight = Math.max(120, Math.min(264, window.innerHeight - r.bottom - 16)) + 'px';
+    renderRptList();
+    document.addEventListener('pointerdown', rptPickOutside);
+    window.addEventListener('scroll', rptPickCloseOnMove, { capture: true, passive: true });
+    window.addEventListener('resize', rptPickCloseOnMove);
+  } else {
+    document.removeEventListener('pointerdown', rptPickOutside);
+    window.removeEventListener('scroll', rptPickCloseOnMove, { capture: true });
+    window.removeEventListener('resize', rptPickCloseOnMove);
+  }
   els.rptPickMenu.classList.toggle('hidden', !opening);
   els.rptPickTrigger.classList.toggle('open', opening);
   els.rptPickTrigger.setAttribute('aria-expanded', String(opening));
-  if (opening) {
-    renderRptList();
-    document.addEventListener('pointerdown', rptPickOutside);
-  } else {
-    document.removeEventListener('pointerdown', rptPickOutside);
-  }
 }
 function closeRptPick() {
   if (!els.rptPickMenu) return;
@@ -6003,6 +6009,11 @@ function closeRptPick() {
   els.rptPickTrigger.classList.remove('open');
   els.rptPickTrigger.setAttribute('aria-expanded', 'false');
   document.removeEventListener('pointerdown', rptPickOutside);
+  window.removeEventListener('scroll', rptPickCloseOnMove, { capture: true });
+  window.removeEventListener('resize', rptPickCloseOnMove);
+}
+function rptPickCloseOnMove() {
+  if (!els.rptPickMenu.classList.contains('hidden')) closeRptPick();
 }
 function rptPickOutside(e) {
   const field = document.getElementById('rptPickField');
@@ -6987,7 +6998,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.19';
+const APP_VERSION = '4.20';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7138,16 +7149,29 @@ function initCustomSelect(sel) {
   }
   function open() {
     render();
+    const r = trigger.getBoundingClientRect();
+    menu.style.position = 'fixed';
+    menu.style.left = r.left + 'px';
+    menu.style.top = (r.bottom + 6) + 'px';
+    menu.style.width = r.width + 'px';
+    menu.style.maxHeight = Math.max(120, Math.min(264, window.innerHeight - r.bottom - 16)) + 'px';
     menu.classList.remove('hidden');
     trigger.classList.add('open');
     trigger.setAttribute('aria-expanded', 'true');
     document.addEventListener('pointerdown', outside);
+    window.addEventListener('scroll', closeOnScroll, { capture: true, passive: true });
+    window.addEventListener('resize', closeOnScroll);
   }
   function close() {
     menu.classList.add('hidden');
     trigger.classList.remove('open');
     trigger.setAttribute('aria-expanded', 'false');
     document.removeEventListener('pointerdown', outside);
+    window.removeEventListener('scroll', closeOnScroll, { capture: true });
+    window.removeEventListener('resize', closeOnScroll);
+  }
+  function closeOnScroll() {
+    if (!menu.classList.contains('hidden')) close();
   }
   function outside(e) {
     if (wrap && !wrap.contains(e.target)) close();
