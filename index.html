@@ -1040,18 +1040,27 @@ button{min-width:0}
   border:1px solid rgba(0,0,0,.08);position:relative;overflow:hidden;
   display:flex;flex-direction:column;gap:5px;padding:7px;
 }
+.fr-shot::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:6px;background:var(--pa);
+}
 .fs-head{display:flex;align-items:center;gap:4px;flex:none}
-.fs-logo{width:9px;height:9px;border-radius:3px;background:var(--pa);flex:none}
+.fs-logo{
+  width:12px;height:12px;border-radius:4px;background:var(--pa);flex:none;
+  box-shadow:0 0 0 2.5px color-mix(in srgb, var(--pa) 28%, transparent);
+}
 .fs-line{height:4px;border-radius:2px;background:var(--pm);opacity:.85;flex:1}
 .fs-line.w40{flex:none;width:40%}
 .fs-body{
   flex:1;display:flex;flex-direction:column;gap:4px;
   background:color-mix(in srgb, #ffffff 42%, var(--pb));
-  border-radius:5px;padding:5px;min-height:0;
+  border-radius:6px;padding:6px;min-height:0;
 }
 .fs-body .fs-line{opacity:.45}
 .fs-body .fs-line.w70{flex:none;width:70%}
-.fs-btn{width:34%;height:7px;border-radius:4px;background:var(--pa);margin-top:auto;flex:none}
+.fs-btn{
+  width:66%;height:9px;border-radius:5px;background:var(--pa);margin-top:auto;flex:none;
+  box-shadow:0 3px 8px color-mix(in srgb, var(--pa) 45%, transparent);
+}
 .fs-tag{
   position:absolute;right:5px;bottom:4px;font-size:8px;font-weight:800;line-height:14px;
   color:var(--pb);background:var(--pm);border-radius:3px;padding:0 5px;opacity:.92;
@@ -2117,11 +2126,11 @@ footer a:hover{color:var(--accent)}
       <div class="fr-sec-h">🎨 个性化</div>
       <p class="fr-pick-hint">挑一套喜欢的界面风格，浅色 / 深色效果都能看到</p>
       <div class="fr-theme-grid" id="frThemeGrid">
-        <button type="button" class="fr-theme" data-skin="classic"><span class="fr-theme-name">经典 · 靛蓝</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#f7f7f4;--pa:#2f5fc7;--pm:#17181c"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141519;--pa:#8ea8ff;--pm:#eaeaea"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="eqsl"><span class="fr-theme-name">信笺 · 鼠尾草</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F7F8F6;--pa:#3E8A68;--pm:#1B201C"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#121412;--pa:#7FC7A3;--pm:#E9EBE7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="sunset"><span class="fr-theme-name">日暮 · 琥珀</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F6F2;--pa:#C47A33;--pm:#221D16"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#171310;--pa:#E8A862;--pm:#F0EAE1"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="aurora"><span class="fr-theme-name">极光 · 紫</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F7FA;--pa:#6D5AE0;--pm:#1F1B29"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141220;--pa:#A99BFF;--pm:#ECEAF7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="ocean"><span class="fr-theme-name">深海 · 青</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F4F8F8;--pa:#0E8F8F;--pm:#16211F"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#0F1716;--pa:#5FD6D0;--pm:#E4F0ED"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="classic"><span class="fr-theme-name">靛蓝</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#f7f7f4;--pa:#2f5fc7;--pm:#17181c"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141519;--pa:#8ea8ff;--pm:#eaeaea"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="eqsl"><span class="fr-theme-name">苔青</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F7F8F6;--pa:#3E8A68;--pm:#1B201C"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#121412;--pa:#7FC7A3;--pm:#E9EBE7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="sunset"><span class="fr-theme-name">琥珀</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F6F2;--pa:#C47A33;--pm:#221D16"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#171310;--pa:#E8A862;--pm:#F0EAE1"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="aurora"><span class="fr-theme-name">极光</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F7FA;--pa:#6D5AE0;--pm:#1F1B29"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141220;--pa:#A99BFF;--pm:#ECEAF7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean"><span class="fr-theme-name">深海</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F4F8F8;--pa:#0E8F8F;--pm:#16211F"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#0F1716;--pa:#5FD6D0;--pm:#E4F0ED"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
@@ -2223,11 +2232,11 @@ footer a:hover{color:var(--accent)}
           </div>
           <div class="field"><label for="setSkin">界面风格</label>
             <select class="inp" id="setSkin">
-              <option value="classic">经典 · 靛蓝</option>
-              <option value="eqsl">信笺 · 鼠尾草</option>
-              <option value="sunset">日暮 · 琥珀</option>
-              <option value="aurora">极光 · 紫</option>
-              <option value="ocean">深海 · 青</option>
+              <option value="classic">靛蓝</option>
+              <option value="eqsl">苔青</option>
+              <option value="sunset">琥珀</option>
+              <option value="aurora">极光</option>
+              <option value="ocean">深海</option>
             </select>
           </div>
         </div>
@@ -2305,7 +2314,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.20</b>
+      <b>电子 QSL 卡片 · v4.21</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5984,12 +5993,18 @@ function selectRepeater(name) {
 function toggleRptPick() {
   const opening = els.rptPickMenu.classList.contains('hidden');
   if (opening) {
-    const r = els.rptPickTrigger.getBoundingClientRect();
-    els.rptPickMenu.style.position = 'fixed';
-    els.rptPickMenu.style.left = r.left + 'px';
-    els.rptPickMenu.style.top = (r.bottom + 6) + 'px';
-    els.rptPickMenu.style.width = r.width + 'px';
-    els.rptPickMenu.style.maxHeight = Math.max(120, Math.min(264, window.innerHeight - r.bottom - 16)) + 'px';
+    // 挂到 body：避免毛玻璃弹窗成为 fixed 的包含块导致错位
+    document.body.appendChild(els.rptPickMenu);
+    positionRptMenu();
+    clearTimeout(rptMenuSettle);
+    rptMenuSettle = setTimeout(positionRptMenu, 420);
+  } else {
+    clearTimeout(rptMenuSettle);
+  }
+  els.rptPickMenu.classList.toggle('hidden', !opening);
+  els.rptPickTrigger.classList.toggle('open', opening);
+  els.rptPickTrigger.setAttribute('aria-expanded', String(opening));
+  if (opening) {
     renderRptList();
     document.addEventListener('pointerdown', rptPickOutside);
     window.addEventListener('scroll', rptPickCloseOnMove, { capture: true, passive: true });
@@ -5999,12 +6014,18 @@ function toggleRptPick() {
     window.removeEventListener('scroll', rptPickCloseOnMove, { capture: true });
     window.removeEventListener('resize', rptPickCloseOnMove);
   }
-  els.rptPickMenu.classList.toggle('hidden', !opening);
-  els.rptPickTrigger.classList.toggle('open', opening);
-  els.rptPickTrigger.setAttribute('aria-expanded', String(opening));
+}
+let rptMenuSettle = null;
+function positionRptMenu() {
+    const r = els.rptPickTrigger.getBoundingClientRect();
+    els.rptPickMenu.style.left = r.left + 'px';
+    els.rptPickMenu.style.top = (r.bottom + 6) + 'px';
+    els.rptPickMenu.style.width = r.width + 'px';
+    els.rptPickMenu.style.maxHeight = Math.max(120, Math.min(264, window.innerHeight - r.bottom - 16)) + 'px';
 }
 function closeRptPick() {
   if (!els.rptPickMenu) return;
+  clearTimeout(rptMenuSettle);
   els.rptPickMenu.classList.add('hidden');
   els.rptPickTrigger.classList.remove('open');
   els.rptPickTrigger.setAttribute('aria-expanded', 'false');
@@ -6017,7 +6038,7 @@ function rptPickCloseOnMove() {
 }
 function rptPickOutside(e) {
   const field = document.getElementById('rptPickField');
-  if (field && !field.contains(e.target)) closeRptPick();
+  if (field && !field.contains(e.target) && els.rptPickMenu && !els.rptPickMenu.contains(e.target)) closeRptPick();
 }
 function findRepeater(name) {
   const n = String(name || '').trim().toLowerCase();
@@ -6998,7 +7019,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.20';
+const APP_VERSION = '4.21';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7120,6 +7141,7 @@ function initCustomSelect(sel) {
   const menu = document.createElement('div');
   menu.className = 'cselect-menu hidden';
   menu.setAttribute('role', 'listbox');
+  menu.dataset.owner = sel.id;
   wrap.append(trigger, menu);
   sel.parentNode.insertBefore(wrap, sel);
   sel.classList.add('cselect-native');
@@ -7149,12 +7171,12 @@ function initCustomSelect(sel) {
   }
   function open() {
     render();
-    const r = trigger.getBoundingClientRect();
-    menu.style.position = 'fixed';
-    menu.style.left = r.left + 'px';
-    menu.style.top = (r.bottom + 6) + 'px';
-    menu.style.width = r.width + 'px';
-    menu.style.maxHeight = Math.max(120, Math.min(264, window.innerHeight - r.bottom - 16)) + 'px';
+    // 挂到 body：避免弹窗 backdrop-filter 成为 fixed 的包含块导致错位
+    document.body.appendChild(menu);
+    positionMenu();
+    // 弹窗/面板入场动画期间坐标会漂移，动画结束后重新对齐一次
+    clearTimeout(menuSettleTimer);
+    menuSettleTimer = setTimeout(positionMenu, 420);
     menu.classList.remove('hidden');
     trigger.classList.add('open');
     trigger.setAttribute('aria-expanded', 'true');
@@ -7162,7 +7184,16 @@ function initCustomSelect(sel) {
     window.addEventListener('scroll', closeOnScroll, { capture: true, passive: true });
     window.addEventListener('resize', closeOnScroll);
   }
+  let menuSettleTimer = null;
+  function positionMenu() {
+    const r = trigger.getBoundingClientRect();
+    menu.style.left = r.left + 'px';
+    menu.style.top = (r.bottom + 6) + 'px';
+    menu.style.width = r.width + 'px';
+    menu.style.maxHeight = Math.max(120, Math.min(264, window.innerHeight - r.bottom - 16)) + 'px';
+  }
   function close() {
+    clearTimeout(menuSettleTimer);
     menu.classList.add('hidden');
     trigger.classList.remove('open');
     trigger.setAttribute('aria-expanded', 'false');
@@ -7174,7 +7205,7 @@ function initCustomSelect(sel) {
     if (!menu.classList.contains('hidden')) close();
   }
   function outside(e) {
-    if (wrap && !wrap.contains(e.target)) close();
+    if (wrap && !wrap.contains(e.target) && menu && !menu.contains(e.target)) close();
   }
   trigger.addEventListener('click', () => { if (menu.classList.contains('hidden')) open(); else close(); });
   trigger.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); close(); } });
@@ -7416,12 +7447,27 @@ if ('IntersectionObserver' in window) {
   secEls.forEach(s => s.classList.add('revealed'));
 }
 
-// 启动问候：时段问候 + 呼号/OP + 通联愉快
+// 启动问候：时段问候 + 呼号/OP + 温暖的随机祝福
 function startupGreet() {
   const h = new Date().getHours();
-  const greet = h < 5 ? '夜深了' : h < 11 ? '早上好' : h < 13 ? '中午好' : h < 18 ? '下午好' : '晚上好';
   const who = settings.opNameCn || settings.opNameEn || settings.myCall || '';
-  toast(who ? `${greet}，${who} · 通联愉快` : `${greet} · 通联愉快`);
+  const name = who ? `${who}，` : '';
+  let greet;
+  if (h < 5) {
+    greet = ['夜深了，守听也是电台人的浪漫', '凌晨的电波格外安静，适合守听'];
+  } else if (h < 11) {
+    greet = ['早上好，把清晨的第一声 CQ 送给你', '早安，愿你的频率一整天都热闹'];
+  } else if (h < 13) {
+    greet = ['中午好，午后的信号正清晰', '午安，喝口水，继续享受通联'];
+  } else if (h < 18) {
+    greet = ['下午好，愿每次呼叫都有回应', '下午好，继续收集你的频率故事'];
+  } else {
+    greet = ['晚上好，夜色里的电波最温柔', '晚安前，再来一条 QSO 吧'];
+  }
+  const warm = ['通联愉快', '愿电波常伴', '73，常通联', '愿信号满格'];
+  const g = greet[Math.floor(Math.random() * greet.length)];
+  const w = warm[Math.floor(Math.random() * warm.length)];
+  toast(`${name}${g} · ${w}`);
 }
 setTimeout(startupGreet, 700);
 restoreFromHash();
