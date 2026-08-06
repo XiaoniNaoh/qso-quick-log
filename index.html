@@ -1053,6 +1053,194 @@ footer a:hover{color:var(--accent)}
     --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
   }
 }
+/* ── 日暮 · 琥珀主题：暖调高级，重点色落日琥珀（浅色） ── */
+:root.theme-sunset{
+  --bg:#F8F6F2;
+  --card:#FFFFFF;
+  --ink:#221D16;
+  --ink-2:#675F53;
+  --ink-3:#A69C8D;
+  --line:#ECE7DF;
+  --line-2:#DBD2C5;
+  --accent:#C47A33;
+  --accent-soft:rgba(196,122,51,.10);
+  --mark:#221D16;
+  --mark-2:#3A3127;
+  --mark-ink:#FFFFFF;
+  --mark-soft:rgba(34,29,22,.08);
+  --auto:#C47A33;
+  --ok:#A57A2C;
+  --danger:#C23B22;
+  --edit:#2F7D74;
+  --edit-2:#1F615A;
+  --edit-ink:#F4FBF9;
+  --edit-soft:rgba(47,125,116,.14);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(34,29,22,.04), 0 10px 30px rgba(34,29,22,.06);
+}
+:root.theme-sunset.dark{
+  --bg:#171310;
+  --card:#211C17;
+  --ink:#F0EAE1;
+  --ink-2:#B0A79A;
+  --ink-3:#786F62;
+  --line:#332C25;
+  --line-2:#463D32;
+  --accent:#E8A862;
+  --accent-soft:rgba(232,168,98,.13);
+  --mark:#F0EAE1;
+  --mark-2:#CDC3B5;
+  --mark-ink:#171310;
+  --mark-soft:rgba(240,234,225,.08);
+  --auto:#E8A862;
+  --ok:#C99A52;
+  --danger:#E0765B;
+  --edit:#63B7AC;
+  --edit-2:#4A9A90;
+  --edit-ink:#14201E;
+  --edit-soft:rgba(99,183,172,.16);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root.theme-sunset:not(.light){
+    --bg:#171310;
+    --card:#211C17;
+    --ink:#F0EAE1;
+    --ink-2:#B0A79A;
+    --ink-3:#786F62;
+    --line:#332C25;
+    --line-2:#463D32;
+    --accent:#E8A862;
+    --accent-soft:rgba(232,168,98,.13);
+    --mark:#F0EAE1;
+    --mark-2:#CDC3B5;
+    --mark-ink:#171310;
+    --mark-soft:rgba(240,234,225,.08);
+    --auto:#E8A862;
+    --ok:#C99A52;
+    --danger:#E0765B;
+    --edit:#63B7AC;
+    --edit-2:#4A9A90;
+    --edit-ink:#14201E;
+    --edit-soft:rgba(99,183,172,.16);
+    --radius:16px;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+  }
+}
+/* 修改记录态：深青，与琥珀新记录明确区分 */
+:root.theme-sunset #formCard.editing{
+  border-color:color-mix(in srgb, var(--edit) 55%, transparent);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--edit) 14%, transparent),var(--shadow);
+}
+:root.theme-sunset #formCard.editing .stamp-main h2{color:var(--edit-2)}
+:root.theme-sunset #formCard.editing .badge{
+  background:linear-gradient(135deg,var(--edit),var(--edit-2));color:var(--edit-ink);
+  box-shadow:0 2px 10px var(--edit-soft);
+}
+:root.theme-sunset .dock-save.edit-mode{
+  background:linear-gradient(135deg,var(--edit),var(--edit-2));color:var(--edit-ink);
+  box-shadow:0 6px 18px var(--edit-soft);
+}
+:root.theme-sunset .dock-clear.cancel-mode{
+  color:var(--edit-2);
+  border-color:color-mix(in srgb, var(--edit) 45%, transparent);
+  background:var(--edit-soft);
+}
+/* ── 极光 · 紫主题：冷调明快，重点色极光紫（浅色） ── */
+:root.theme-aurora{
+  --bg:#F8F7FA;
+  --card:#FFFFFF;
+  --ink:#1F1B29;
+  --ink-2:#5F596E;
+  --ink-3:#A49DB4;
+  --line:#E9E7F0;
+  --line-2:#D7D3E2;
+  --accent:#6D5AE0;
+  --accent-soft:rgba(109,90,224,.10);
+  --mark:#1F1B29;
+  --mark-2:#38324A;
+  --mark-ink:#FFFFFF;
+  --mark-soft:rgba(31,27,41,.08);
+  --auto:#6D5AE0;
+  --ok:#4B8A5C;
+  --danger:#C2335C;
+  --edit:#C08A3E;
+  --edit-2:#9A6B27;
+  --edit-ink:#FFFDF6;
+  --edit-soft:rgba(192,138,62,.14);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(31,27,41,.04), 0 10px 30px rgba(31,27,41,.06);
+}
+:root.theme-aurora.dark{
+  --bg:#141220;
+  --card:#1E1B2E;
+  --ink:#ECEAF7;
+  --ink-2:#A9A2C0;
+  --ink-3:#716B8C;
+  --line:#2B283E;
+  --line-2:#3B3754;
+  --accent:#A99BFF;
+  --accent-soft:rgba(169,155,255,.14);
+  --mark:#ECEAF7;
+  --mark-2:#C9C3E0;
+  --mark-ink:#141220;
+  --mark-soft:rgba(236,234,247,.08);
+  --auto:#A99BFF;
+  --ok:#4ADE80;
+  --danger:#F1758F;
+  --edit:#DBA75F;
+  --edit-2:#C08A4A;
+  --edit-ink:#1B1710;
+  --edit-soft:rgba(219,167,95,.16);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root.theme-aurora:not(.light){
+    --bg:#141220;
+    --card:#1E1B2E;
+    --ink:#ECEAF7;
+    --ink-2:#A9A2C0;
+    --ink-3:#716B8C;
+    --line:#2B283E;
+    --line-2:#3B3754;
+    --accent:#A99BFF;
+    --accent-soft:rgba(169,155,255,.14);
+    --mark:#ECEAF7;
+    --mark-2:#C9C3E0;
+    --mark-ink:#141220;
+    --mark-soft:rgba(236,234,247,.08);
+    --auto:#A99BFF;
+    --ok:#4ADE80;
+    --danger:#F1758F;
+    --edit:#DBA75F;
+    --edit-2:#C08A4A;
+    --edit-ink:#1B1710;
+    --edit-soft:rgba(219,167,95,.16);
+    --radius:16px;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+  }
+}
+/* 修改记录态：暖赭，与极光紫新记录明确区分 */
+:root.theme-aurora #formCard.editing{
+  border-color:color-mix(in srgb, var(--edit) 55%, transparent);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--edit) 14%, transparent),var(--shadow);
+}
+:root.theme-aurora #formCard.editing .stamp-main h2{color:var(--edit-2)}
+:root.theme-aurora #formCard.editing .badge{
+  background:linear-gradient(135deg,var(--edit),var(--edit-2));color:var(--edit-ink);
+  box-shadow:0 2px 10px var(--edit-soft);
+}
+:root.theme-aurora .dock-save.edit-mode{
+  background:linear-gradient(135deg,var(--edit),var(--edit-2));color:var(--edit-ink);
+  box-shadow:0 6px 18px var(--edit-soft);
+}
+:root.theme-aurora .dock-clear.cancel-mode{
+  color:var(--edit-2);
+  border-color:color-mix(in srgb, var(--edit) 45%, transparent);
+  background:var(--edit-soft);
+}
 /* 明信片排版：衬线题头 · 手写备注 · 邮戳角 · 内衬细框 · 印章化控件 */
 :root.theme-eqsl .brand h1,
 :root.theme-eqsl .brand p,
@@ -1747,6 +1935,8 @@ footer a:hover{color:var(--accent)}
           <select class="inp" id="setSkin">
             <option value="classic">经典 · 靛蓝</option>
             <option value="eqsl">信笺 · 鼠尾草</option>
+            <option value="sunset">日暮 · 琥珀</option>
+            <option value="aurora">极光 · 紫</option>
           </select>
         </div>
       </div>
@@ -1823,7 +2013,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.15</b>
+      <b>电子 QSL 卡片 · v4.16</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6221,11 +6411,13 @@ document.querySelectorAll('[data-export]').forEach(btn => {
 
 function applyTheme() {
   const t = settings.theme || 'auto';
+  const skin = settings.skin || 'classic';
   const root = document.documentElement;
   if (root && root.classList) {
     root.classList.toggle('dark', t === 'dark');
     root.classList.toggle('light', t === 'light');
-    root.classList.toggle('theme-eqsl', (settings.skin || 'classic') === 'eqsl');
+    root.classList.remove('theme-eqsl', 'theme-sunset', 'theme-aurora');
+    if (skin !== 'classic') root.classList.add('theme-' + skin);
   }
 }
 
@@ -6425,7 +6617,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.15';
+const APP_VERSION = '4.16';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
