@@ -679,6 +679,67 @@ footer{
 .set-sec-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--ink-2);margin-bottom:13px}
 .set-sec-h::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);flex:none}
 .set-sec-h small{font-weight:500;color:var(--ink-3);letter-spacing:.02em;margin-left:2px}
+.set-tabs{
+  display:flex;gap:8px;flex-wrap:wrap;
+  margin:2px 0 16px;
+}
+.set-tab{
+  border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);
+  border-radius:999px;padding:8px 16px;font:inherit;font-size:12.5px;font-weight:700;
+  letter-spacing:.02em;cursor:pointer;white-space:nowrap;
+  transition:color .18s cubic-bezier(.16,1,.3,1), background .18s cubic-bezier(.16,1,.3,1), border-color .18s cubic-bezier(.16,1,.3,1);
+}
+.set-tab:hover{border-color:var(--accent);color:var(--accent)}
+.set-tab.on{
+  background:var(--accent);border-color:transparent;color:var(--mark-ink);
+  box-shadow:0 4px 14px var(--accent-soft);
+}
+.set-panel{display:none}
+.set-panel.on{display:block;animation:setPanelIn .22s cubic-bezier(.16,1,.3,1)}
+@keyframes setPanelIn{
+  from{opacity:0;transform:translateY(6px)}
+  to{opacity:1;transform:none}
+}
+.cselect{position:relative}
+.cselect-trigger{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  width:100%;min-height:44px;padding:10px 14px;
+  background:color-mix(in srgb, var(--card) 70%, transparent);
+  -webkit-backdrop-filter:blur(18px) saturate(1.4);
+  backdrop-filter:blur(18px) saturate(1.4);
+  border:1px solid var(--line-2);border-radius:13px;
+  font:inherit;font-size:13.5px;color:var(--ink);text-align:left;cursor:pointer;
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+.cselect-trigger:hover{border-color:color-mix(in srgb, var(--accent) 45%, transparent)}
+.cselect-trigger:focus-visible{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.cselect-trigger.open{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.cselect-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cselect-caret{
+  flex:none;font-size:11px;color:var(--ink-3);
+  transition:transform .25s cubic-bezier(.16,1,.3,1);
+}
+.cselect-trigger.open .cselect-caret{transform:rotate(180deg)}
+.cselect-menu{
+  position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:40;
+  max-height:264px;overflow-y:auto;overscroll-behavior:contain;
+  background:color-mix(in srgb, var(--card) 82%, transparent);
+  -webkit-backdrop-filter:blur(22px) saturate(1.5);
+  backdrop-filter:blur(22px) saturate(1.5);
+  border:1px solid var(--line-2);border-radius:14px;
+  box-shadow:0 16px 44px rgba(23,24,28,.18);
+  padding:6px;
+  animation:setPanelIn .2s cubic-bezier(.16,1,.3,1);
+}
+.cselect-menu.hidden{display:none}
+.cselect-item{
+  display:block;width:100%;padding:10px 12px;border:none;background:transparent;border-radius:10px;
+  font:inherit;font-size:13px;text-align:left;cursor:pointer;color:var(--ink);
+  transition:background .15s ease;
+}
+.cselect-item:hover,.cselect-item:focus-visible{background:var(--accent-soft);outline:none}
+.cselect-item.on{color:var(--accent);font-weight:800}
+.cselect-native{display:none}
 .set-about{
   display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
   padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--bg);
@@ -2025,82 +2086,99 @@ footer a:hover{color:var(--accent)}
     <h3>⚙️ 设置</h3>
     <p class="sub">设置一次，日志和 QSL 卡片都会自动带上</p>
 
-    <div class="set-section">
-      <div class="set-sec-h">📋 通联默认值<small>DEFAULT QSO</small></div>
-      <div class="grid">
-        <div class="field"><label for="setMode">默认模式</label><input class="inp" id="setMode" placeholder="FM"></div>
-        <div class="field"><label for="setFreq">默认频率 MHz</label><input class="inp" id="setFreq" inputmode="decimal" placeholder="145.100"></div>
-        <div class="field"><label for="setRst">默认信号报告</label><input class="inp" id="setRst" placeholder="59"></div>
-      </div>
-      <p class="field-hint">这些是记录时的默认值，每一条都可以单独改</p>
+    <div class="set-tabs" role="tablist">
+      <button type="button" class="set-tab on" data-stab="log">📋 通联</button>
+      <button type="button" class="set-tab" data-stab="station">📡 电台</button>
+      <button type="button" class="set-tab" data-stab="qsl">🃏 QSL 卡片</button>
+      <button type="button" class="set-tab" data-stab="appearance">🎨 外观</button>
+      <button type="button" class="set-tab" data-stab="about">ℹ️ 关于</button>
     </div>
 
-    <div class="set-section">
-      <div class="set-sec-h">📡 我的电台<small>MY STATION</small></div>
-      <div class="grid">
-        <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"></div>
-        <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="如 FT-991A"></div>
-        <div class="field"><label for="setMyAnt">我方天线</label><input class="inp" id="setMyAnt" placeholder="如 X510 天线"></div>
-        <div class="field"><label for="setMyPwr">我方功率 (W)</label><input class="inp" id="setMyPwr" inputmode="numeric" placeholder="5"></div>
-        <div class="field"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="如 杭州"></div>
-        <div class="field"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="如 PM01"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
-      </div>
-      <p class="field-hint">会用在电子 QSL 卡片和导出信息里</p>
-    </div>
-
-    <div class="set-section">
-      <div class="set-sec-h">🃏 QSL 卡片信息<small>PRINTED ON CARDS</small></div>
-      <div class="grid">
-        <div class="field"><label for="setCardCall">卡片呼号</label><input class="inp" id="setCardCall" placeholder="默认同我的呼号" spellcheck="false" autocapitalize="characters"></div>
-        <div class="field"><label for="setOpNameCn">OP 名字（中文）</label><input class="inp" id="setOpNameCn" placeholder="如 王小明"></div>
-        <div class="field"><label for="setOpNameEn">OP 名字（英文）</label><input class="inp" id="setOpNameEn" placeholder="如 Xiao Ming"></div>
-        <div class="field span2"><label for="setQslAddrCn">收卡地址（中文）</label><textarea class="inp" id="setQslAddrCn" rows="2" placeholder="每行一段，如：&#10;某市某区某街道&#10;某小区 12 栋 301"></textarea></div>
-        <div class="field span2"><label for="setQslAddrEn">收卡地址（英文）</label><textarea class="inp" id="setQslAddrEn" rows="3" placeholder="No. 12, Building 3,&#10;Some Street, Some District,&#10;Hangzhou · Zhejiang · China"></textarea></div>
-        <div class="field"><label for="setQslPost">邮编 / 国家</label><input class="inp" id="setQslPost" placeholder="如 310000 · 中国"></div>
-        <div class="field"><label for="setQslPromise">回卡承诺语</label><input class="inp" id="setQslPromise" placeholder="QSL 100% CONFIRMED"></div>
-        <div class="field"><label for="setWebsite">个人网站（可选）</label><input class="inp" id="setWebsite" inputmode="url" placeholder="https://你的网站 · 留空则不显示"></div>
-        <div class="field"><label for="setQrz">QRZ 主页（可选）</label><input class="inp" id="setQrz" inputmode="url" placeholder="https://qrz.com/db/你的呼号 · 留空则不显示"></div>
-      </div>
-      <p class="field-hint">会印在电子 QSL 的邮寄区和页脚；留空则卡片上不显示网站 / QRZ。导出预览时也能直接点卡片修改。</p>
-    </div>
-
-    <div class="set-section">
-      <div class="set-sec-h">🎨 外观<small>APPEARANCE</small></div>
-      <div class="grid">
-        <div class="field"><label for="setTheme">深色模式</label>
-          <select class="inp" id="setTheme">
-            <option value="auto">跟随系统（自动适配）</option>
-            <option value="light">始终浅色</option>
-            <option value="dark">始终深色</option>
-          </select>
+    <div class="set-panel on" id="setPanel-log">
+      <div class="set-section">
+        <div class="set-sec-h">📋 通联默认值<small>DEFAULT QSO</small></div>
+        <div class="grid">
+          <div class="field"><label for="setMode">默认模式</label><input class="inp" id="setMode" placeholder="FM"></div>
+          <div class="field"><label for="setFreq">默认频率 MHz</label><input class="inp" id="setFreq" inputmode="decimal" placeholder="145.100"></div>
+          <div class="field"><label for="setRst">默认信号报告</label><input class="inp" id="setRst" placeholder="59"></div>
         </div>
-        <div class="field"><label for="setSkin">界面风格</label>
-          <select class="inp" id="setSkin">
-            <option value="classic">经典 · 靛蓝</option>
-            <option value="eqsl">信笺 · 鼠尾草</option>
-            <option value="sunset">日暮 · 琥珀</option>
-            <option value="aurora">极光 · 紫</option>
-            <option value="ocean">深海 · 青</option>
-          </select>
+        <p class="field-hint">这些是记录时的默认值，每一条都可以单独改</p>
+      </div>
+    </div>
+
+    <div class="set-panel" id="setPanel-station">
+      <div class="set-section">
+        <div class="set-sec-h">📡 我的电台<small>MY STATION</small></div>
+        <div class="grid">
+          <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"></div>
+          <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="如 FT-991A"></div>
+          <div class="field"><label for="setMyAnt">我方天线</label><input class="inp" id="setMyAnt" placeholder="如 X510 天线"></div>
+          <div class="field"><label for="setMyPwr">我方功率 (W)</label><input class="inp" id="setMyPwr" inputmode="numeric" placeholder="5"></div>
+          <div class="field"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="如 杭州"></div>
+          <div class="field"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="如 PM01"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
+        </div>
+        <p class="field-hint">会用在电子 QSL 卡片和导出信息里</p>
+      </div>
+      <div class="set-section">
+        <div class="set-sec-h">🔁 中继台库<small>REPEATERS</small></div>
+        <p class="field-hint">记录表单里也能直接管理已保存的中继台</p>
+        <button type="button" class="btn-ghost" id="btnRptManageSettings">管理已存中继台</button>
+      </div>
+    </div>
+
+    <div class="set-panel" id="setPanel-qsl">
+      <div class="set-section">
+        <div class="set-sec-h">🃏 QSL 卡片信息<small>PRINTED ON CARDS</small></div>
+        <div class="grid">
+          <div class="field"><label for="setCardCall">卡片呼号</label><input class="inp" id="setCardCall" placeholder="默认同我的呼号" spellcheck="false" autocapitalize="characters"></div>
+          <div class="field"><label for="setOpNameCn">OP 名字（中文）</label><input class="inp" id="setOpNameCn" placeholder="如 王小明"></div>
+          <div class="field"><label for="setOpNameEn">OP 名字（英文）</label><input class="inp" id="setOpNameEn" placeholder="如 Xiao Ming"></div>
+          <div class="field span2"><label for="setQslAddrCn">收卡地址（中文）</label><textarea class="inp" id="setQslAddrCn" rows="2" placeholder="每行一段，如：&#10;某市某区某街道&#10;某小区 12 栋 301"></textarea></div>
+          <div class="field span2"><label for="setQslAddrEn">收卡地址（英文）</label><textarea class="inp" id="setQslAddrEn" rows="3" placeholder="No. 12, Building 3,&#10;Some Street, Some District,&#10;Hangzhou · Zhejiang · China"></textarea></div>
+          <div class="field"><label for="setQslPost">邮编 / 国家</label><input class="inp" id="setQslPost" placeholder="如 310000 · 中国"></div>
+          <div class="field"><label for="setQslPromise">回卡承诺语</label><input class="inp" id="setQslPromise" placeholder="QSL 100% CONFIRMED"></div>
+          <div class="field"><label for="setWebsite">个人网站（可选）</label><input class="inp" id="setWebsite" inputmode="url" placeholder="https://你的网站 · 留空则不显示"></div>
+          <div class="field"><label for="setQrz">QRZ 主页（可选）</label><input class="inp" id="setQrz" inputmode="url" placeholder="https://qrz.com/db/你的呼号 · 留空则不显示"></div>
+        </div>
+        <p class="field-hint">会印在电子 QSL 的邮寄区和页脚；留空则卡片上不显示网站 / QRZ。导出预览时也能直接点卡片修改。</p>
+      </div>
+    </div>
+
+    <div class="set-panel" id="setPanel-appearance">
+      <div class="set-section">
+        <div class="set-sec-h">🎨 外观<small>APPEARANCE</small></div>
+        <div class="grid">
+          <div class="field"><label for="setTheme">深色模式</label>
+            <select class="inp" id="setTheme">
+              <option value="auto">跟随系统（自动适配）</option>
+              <option value="light">始终浅色</option>
+              <option value="dark">始终深色</option>
+            </select>
+          </div>
+          <div class="field"><label for="setSkin">界面风格</label>
+            <select class="inp" id="setSkin">
+              <option value="classic">经典 · 靛蓝</option>
+              <option value="eqsl">信笺 · 鼠尾草</option>
+              <option value="sunset">日暮 · 琥珀</option>
+              <option value="aurora">极光 · 紫</option>
+              <option value="ocean">深海 · 青</option>
+            </select>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="set-section">
-      <div class="set-sec-h">🔁 中继台库<small>REPEATERS</small></div>
-      <p class="field-hint">记录表单里也能直接管理已保存的中继台</p>
-      <button type="button" class="btn-ghost" id="btnRptManageSettings">管理已存中继台</button>
-    </div>
-
-    <div class="set-section">
-      <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
-      <div class="set-about">
-        <span class="set-ver">版本 <b id="setVersion">v4.12</b></span>
-        <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
-      </div>
-      <div class="update-banner hidden" id="updateBanner">
-        <span class="ub-txt">✨ 发现新版本 <b id="updateVer"></b></span>
-        <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
+    <div class="set-panel" id="setPanel-about">
+      <div class="set-section">
+        <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
+        <div class="set-about">
+          <span class="set-ver">版本 <b id="setVersion">v4.12</b></span>
+          <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
+        </div>
+        <div class="update-banner hidden" id="updateBanner">
+          <span class="ub-txt">✨ 发现新版本 <b id="updateVer"></b></span>
+          <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
+        </div>
       </div>
     </div>
 
@@ -2157,7 +2235,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.17</b>
+      <b>电子 QSL 卡片 · v4.18</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5892,22 +5970,25 @@ function updateRptOffset(src) {
     const downOk = downS !== '' && !isNaN(down) && down > 0;
     const upOk = upS !== '' && !isNaN(up) && up > 0;
     const hasOff = offS !== '' && !isNaN(off);
+    let computed = '';
     if (src === 'inRptOffset') {
       // 用户正在改偏差：以「偏差 + 锚定频率」为准重算另一频率，不再覆盖用户输入
       if (hasOff) {
-        if (rptAnchor === 'up' && upOk) els.inRptDown.value = (up - off).toFixed(3);
-        else if (rptAnchor === 'down' && downOk) els.inRptUp.value = (down + off).toFixed(3);
-        else if (downOk) els.inRptUp.value = (down + off).toFixed(3);
-        else if (upOk) els.inRptDown.value = (up - off).toFixed(3);
+        if (rptAnchor === 'up' && upOk) { els.inRptDown.value = (up - off).toFixed(3); computed = 'down'; }
+        else if (rptAnchor === 'down' && downOk) { els.inRptUp.value = (down + off).toFixed(3); computed = 'up'; }
+        else if (downOk) { els.inRptUp.value = (down + off).toFixed(3); computed = 'up'; }
+        else if (upOk) { els.inRptDown.value = (up - off).toFixed(3); computed = 'down'; }
       } else if (downOk && upOk) {
         els.inRptOffset.value = fmtOffset(up - down);
+        computed = 'offset';
       }
     } else if (downOk && upOk) {
       // 下行/上行都填了：偏差始终重算，避免改频率后偏差陈旧
       els.inRptOffset.value = fmtOffset(up - down);
+      computed = 'offset';
     } else if (hasOff) {
-      if (downOk) els.inRptUp.value = (down + off).toFixed(3);
-      else if (upOk) els.inRptDown.value = (up - off).toFixed(3);
+      if (downOk) { els.inRptUp.value = (down + off).toFixed(3); computed = 'up'; }
+      else if (upOk) { els.inRptDown.value = (up - off).toFixed(3); computed = 'down'; }
     }
     // 实时提示
     const d2 = parseFloat(els.inRptDown.value);
@@ -5916,7 +5997,13 @@ function updateRptOffset(src) {
     const dOk = els.inRptDown.value.trim() !== '' && !isNaN(d2) && d2 > 0;
     const uOk = els.inRptUp.value.trim() !== '' && !isNaN(u2) && u2 > 0;
     const oOk = els.inRptOffset.value.trim() !== '' && !isNaN(o2);
-    if (dOk && uOk) {
+    if (computed === 'up') {
+      els.rptOffsetVal.textContent = '已自动算出上行：' + els.inRptUp.value + ' MHz';
+    } else if (computed === 'down') {
+      els.rptOffsetVal.textContent = '已自动算出下行：' + els.inRptDown.value + ' MHz';
+    } else if (computed === 'offset') {
+      els.rptOffsetVal.textContent = '已自动算出频差：' + fmtOffset(u2 - d2) + ' MHz';
+    } else if (dOk && uOk) {
       els.rptOffsetVal.textContent = '偏差 ' + fmtOffset(u2 - d2) + ' MHz · 已算好';
     } else if (oOk && dOk) {
       els.rptOffsetVal.textContent = '将自动算出上行：' + (d2 + o2).toFixed(3) + ' MHz';
@@ -6822,7 +6909,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.17';
+const APP_VERSION = '4.18';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -6835,6 +6922,7 @@ function cmpVer(a, b) {
 }
 async function checkUpdate(silent) {
   if (!els.btnCheckUpdate || !els.updateBanner) return;
+  try { localStorage.setItem(LS_UPD, String(Date.now())); } catch (e) {}
   els.updateBanner.classList.add('hidden');
   try {
     const r = await fetch('index.html?v=' + Date.now(), { cache: 'no-store' });
@@ -6852,6 +6940,13 @@ async function checkUpdate(silent) {
   } catch (e) {
     if (!silent) toast('检查更新失败，请稍后再试');
   }
+}
+const LS_UPD = 'hamqso.updateCheck.v1';
+const UPDATE_INTERVAL = 30 * 24 * 60 * 60 * 1000;
+function maybeAutoCheckUpdate() {
+  let last = 0;
+  try { last = parseInt(localStorage.getItem(LS_UPD) || '0', 10) || 0; } catch (e) {}
+  if (Date.now() - last >= UPDATE_INTERVAL) checkUpdate(true);
 }
 async function doUpdate() {
   try {
@@ -6886,8 +6981,11 @@ function openSettings() {
   els.setQrz.value = settings.qrz || '';
   if (els.setVersion) els.setVersion.textContent = 'v' + APP_VERSION;
   els.updateBanner.classList.add('hidden');
+  document.querySelectorAll('.set-tab').forEach(b => b.classList.toggle('on', b.dataset.stab === 'log'));
+  document.querySelectorAll('.set-panel').forEach(p => p.classList.toggle('on', p.id === 'setPanel-log'));
+  customSelects.forEach(cs => cs.updateLabel());
   els.settingsOverlay.classList.remove('hidden');
-  checkUpdate(true);
+  maybeAutoCheckUpdate();
   softFocus(els.setMode);
 }
 
@@ -6899,6 +6997,87 @@ els.btnSettings.addEventListener('click', openSettings);
 els.btnCloseSettings.addEventListener('click', closeSettings);
 els.btnCheckUpdate.addEventListener('click', () => checkUpdate(false));
 els.btnDoUpdate.addEventListener('click', doUpdate);
+document.querySelectorAll('.set-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.set-tab').forEach(b => b.classList.toggle('on', b === btn));
+    document.querySelectorAll('.set-panel').forEach(p => p.classList.toggle('on', p.id === 'setPanel-' + btn.dataset.stab));
+  });
+});
+// ── 通用现代下拉（替换原生 select）──
+const customSelects = [];
+function initCustomSelect(sel) {
+  if (!sel || sel.dataset.custom) return null;
+  sel.dataset.custom = '1';
+  const wrap = document.createElement('div');
+  wrap.className = 'cselect';
+  const trigger = document.createElement('button');
+  trigger.type = 'button';
+  trigger.className = 'cselect-trigger';
+  trigger.setAttribute('aria-haspopup', 'listbox');
+  trigger.setAttribute('aria-expanded', 'false');
+  const label = document.createElement('span');
+  label.className = 'cselect-label';
+  const caret = document.createElement('span');
+  caret.className = 'cselect-caret';
+  caret.setAttribute('aria-hidden', 'true');
+  caret.textContent = '▾';
+  trigger.append(label, caret);
+  const menu = document.createElement('div');
+  menu.className = 'cselect-menu hidden';
+  menu.setAttribute('role', 'listbox');
+  wrap.append(trigger, menu);
+  sel.parentNode.insertBefore(wrap, sel);
+  sel.classList.add('cselect-native');
+  sel.setAttribute('aria-hidden', 'true');
+  sel.tabIndex = -1;
+  function render() {
+    menu.innerHTML = '';
+    Array.prototype.forEach.call(sel.options, (o, i) => {
+      const it = document.createElement('button');
+      it.type = 'button';
+      it.className = 'cselect-item' + (o.selected ? ' on' : '');
+      it.setAttribute('role', 'option');
+      it.textContent = o.textContent;
+      it.addEventListener('click', () => {
+        sel.selectedIndex = i;
+        sel.dispatchEvent(new Event('change', { bubbles: true }));
+        updateLabel();
+        close();
+      });
+      menu.appendChild(it);
+    });
+  }
+  function updateLabel() {
+    const o = sel.options[sel.selectedIndex];
+    label.textContent = o ? o.textContent : '';
+    Array.prototype.forEach.call(menu.querySelectorAll('.cselect-item'), (it, i) => it.classList.toggle('on', i === sel.selectedIndex));
+  }
+  function open() {
+    render();
+    menu.classList.remove('hidden');
+    trigger.classList.add('open');
+    trigger.setAttribute('aria-expanded', 'true');
+    document.addEventListener('pointerdown', outside);
+  }
+  function close() {
+    menu.classList.add('hidden');
+    trigger.classList.remove('open');
+    trigger.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('pointerdown', outside);
+  }
+  function outside(e) {
+    if (wrap && !wrap.contains(e.target)) close();
+  }
+  trigger.addEventListener('click', () => { if (menu.classList.contains('hidden')) open(); else close(); });
+  trigger.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); close(); } });
+  menu.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); close(); } });
+  updateLabel();
+  const api = { updateLabel, close, open };
+  customSelects.push(api);
+  return api;
+}
+initCustomSelect(els.setTheme);
+initCustomSelect(els.setSkin);
 els.settingsOverlay.addEventListener('click', e => {
   if (e.target === els.settingsOverlay) closeSettings();
 });
