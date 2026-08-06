@@ -1823,7 +1823,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.14</b>
+      <b>电子 QSL 卡片 · v4.15</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -4499,30 +4499,29 @@ const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig
 let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
 
-// 开发者入口：默认不暴露个人信息；开发者码以哈希存储，源码不含明文
-const DEV_SALT = 'qso-quick-log-dev';
-function devHash(s) {
-  let h = 0x811c9dc5;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 0x01000193) >>> 0;
-  }
-  return h.toString(16);
-}
-// 如需更换开发者码：devHash('新码'.toUpperCase() + '::' + DEV_SALT) 生成新哈希填入下面
-const DEV_CODE_HASH = '582797db';
-const DEV_PROFILE = {
-  myCall: 'BI9DAS', cardCall: 'BI9DAS',
-  opNameCn: '倪徐磊', opNameEn: 'Xulei Ni',
-  qslAddrCn: '浙江省金华市永康市花街镇\n双溪村南苑5号',
-  qslAddrEn: 'No. 5, Nanyuan, Shuangxi Village,\nHuajie Town, Yongkang City,\nJinhua · Zhejiang · 321300 · China',
-  qslPost: '321300 · 中国',
-  qslPromise: 'QSL 100% CONFIRMED',
-  website: 'https://bioez.xyz',
-  qrz: 'https://qrz.com/db/BI9DAS',
-  myQth: '浙江金华 · 永康', myGrid: 'PL08',
-  myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5'
+// 开发者档案：AES-GCM 加密存储，密钥由开发者码经 PBKDF2 派生；源码不含任何明文个人信息
+// 如需更换开发者码：用同一档案 + 新码重新生成 s/i/d，并保持 n 一致
+const DEV_PROFILE_ENC = {
+  s: 'p8xbAvgq/Sf/lX8Gn43S6Q==',
+  i: 'FI8diNNKiI98dBH3',
+  d: 'owTPjjTnliI7QGdrc0zCacO1A66AS1Zl13PDce0nX/oLJ4WJBEdoagbsHzRq4igH+XHO/SPruIg/eq0aLPGlp8jjbgmScVMmtEWS9oNsQgyVaMtpeYEZIezR8yCcGK95YU3X4wlb73rAi/jPNiSn44x0LoTdLckLOlQldduH1qU6xPsgIkmJLFntmzDyu1U7KPGfEy6h7KONLojul8YuOkgCXlclOFVEV2sVEvvi6VETjdm9sIlhdT97vtjHJldy/rtCB8tBzWE1wzNeLNLqxNSGLDzMkFLcQFjVapRrZVDpzJlDjI6iTZU/2PMSwBXZVrHnO1OQKELuQvK8J7IPfBRlQVuxmiJ8vAAq2XblAU/5G2ontMtcJZmuyVjdRi2El2luqX631/z2tdhT+L/k1Pid25865UGbHJADtuZ6hvqSW92z/HvqHhGtS3BfEz/MSP8plumY/AABr+vGez4Ay4elbJwUzUrEA4xL7o3cOaI4posKo0/447ZG1HaBphir1BRsTZrhgQM82Mn2BV/at+OLbJeIUNPQX3vbg6GRY66OI1gVwY0vY7uxMAHz5eRgu4b5axNM1XYqINXiGkWb6XPFQNn2YaXpN61vdZGAI9ZlvDoZBBxMrEhIE27zQr00JXv7xjGEdRTIRDrLda6hf9C+5wE4EPGmnaZsx0eY/sw5w/OJkdgUZg==',
+  n: 150000
 };
+function b64ToU8(b64) {
+  const bin = atob(b64);
+  const u = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+  return u;
+}
+async function devDecrypt(code) {
+  const enc = DEV_PROFILE_ENC;
+  const te = new TextEncoder();
+  const baseKey = await crypto.subtle.importKey('raw', te.encode(code), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', salt: b64ToU8(enc.s), iterations: enc.n, hash: 'SHA-256' }, baseKey, 256);
+  const key = await crypto.subtle.importKey('raw', bits, 'AES-GCM', false, ['decrypt']);
+  const pt = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64ToU8(enc.i) }, key, b64ToU8(enc.d));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
 
 let records = [];
 try { records = JSON.parse(localStorage.getItem(LS_LOG) || '[]'); } catch (e) {}
@@ -6426,7 +6425,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.14';
+const APP_VERSION = '4.15';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -6574,17 +6573,23 @@ els.devOverlay.addEventListener('click', e => { if (e.target === els.devOverlay)
 els.devCode.addEventListener('keydown', e => {
   if (e.key === 'Enter') { e.preventDefault(); els.btnDevConfirm.click(); }
 });
-els.btnDevConfirm.addEventListener('click', () => {
+els.btnDevConfirm.addEventListener('click', async () => {
   const code = els.devCode.value.trim().toUpperCase();
-  if (code && devHash(code + '::' + DEV_SALT) === DEV_CODE_HASH) {
-    Object.assign(settings, DEV_PROFILE);
+  if (!code) { toast('请输入开发者码'); return; }
+  if (!(window.crypto && crypto.subtle)) { toast('当前浏览器不支持加密，无法载入档案'); return; }
+  els.btnDevConfirm.disabled = true;
+  try {
+    const profile = await devDecrypt(code);
+    Object.assign(settings, profile);
     try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
     applyDefaults();
     applyTheme();
     els.devOverlay.classList.add('hidden');
     toast('开发者信息已填入 ✓');
-  } else {
+  } catch (e) {
     toast('代码不正确');
+  } finally {
+    els.btnDevConfirm.disabled = false;
   }
 });
 
