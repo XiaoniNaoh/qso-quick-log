@@ -507,7 +507,7 @@ kbd{
 }
 .jump-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 12px 26px rgba(47,95,199,.4)}
 .jump-btn:active{transform:scale(.92)}
-.jump-btn .jump-ic{display:grid;place-items:center}
+.jump-btn .jump-ic{display:grid;place-items:center;width:20px;height:20px}
 .jump-btn .jump-label{display:none}
 .jump-btn .jump-badge{
   position:absolute;top:-2px;right:-2px;
@@ -617,7 +617,9 @@ footer{
 .overlay{
   position:fixed;inset:0;background:rgba(15,20,28,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   display:block;overflow-y:auto;z-index:40;padding:24px 16px;
+  opacity:1;transition:opacity .24s cubic-bezier(.16,1,.3,1);
 }
+.overlay.closing{opacity:0;pointer-events:none}
 .modal{
   background:var(--card);border:1px solid var(--line-2);border-radius:18px;
   padding:22px;width:min(420px,100%);margin:0 auto;box-shadow:var(--shadow);
@@ -953,7 +955,6 @@ button{min-width:0}
   .dock-clear{font-size:13px;padding-left:12px;padding-right:12px;white-space:normal}
   .mini-btn{font-size:11.5px;padding-left:9px;padding-right:9px}
   .export-group{flex-wrap:wrap}
-  .jump-btn{padding-left:12px;padding-right:12px}
 }
 
 /* ── 毛玻璃 ── */
@@ -2103,7 +2104,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
     </div>
   </section>
 </main>
-<button type="button" class="jump-btn" id="btnJumpLog" title="跳转到通联记录" aria-label="跳转到通联记录"><span class="jump-ic">📋</span><span class="jump-badge" id="jumpCount">0</span></button>
+<button type="button" class="jump-btn" id="btnJumpLog" title="跳转到通联记录" aria-label="跳转到通联记录"><span class="jump-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></span><span class="jump-badge" id="jumpCount">0</span></button>
 <button type="button" class="help-btn" id="guideToggle" title="使用说明" aria-label="使用说明">?</button>
 <div class="help-overlay hidden" id="helpOverlay">
   <div class="help-panel" role="dialog" aria-label="使用说明">
@@ -2342,7 +2343,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.1.3</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.1.4</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2410,7 +2411,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.1.3</b>
+      <b>电子 QSL 卡片 · v2.1.4</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6782,6 +6783,7 @@ els.btnJumpLog.addEventListener('click', () => {
 
 // ── 悬浮保存栏跟随表单可见性 ──
 let dockLastCheck = 0;
+const JUMP_ICON_SVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>';
 function updateDockVisibility() {
   const formEl = document.getElementById('formCard');
   if (!formEl) return;
@@ -6795,7 +6797,7 @@ function updateDockVisibility() {
   const lbl = els.btnJumpLog.querySelector('.jump-label');
   const ic = els.btnJumpLog.querySelector('.jump-ic');
   if (lbl) lbl.textContent = back ? '表单' : '记录';
-  if (ic) ic.textContent = back ? '↑' : '📋';
+  if (ic) ic.innerHTML = back ? '↑' : JUMP_ICON_SVG;
 }
 function onPageScroll() {
   // 悬浮栏可见性检查节流到 120ms，避免每帧 getBoundingClientRect 强制布局
@@ -7134,7 +7136,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.1.3';
+const APP_VERSION = '2.1.4';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7185,6 +7187,8 @@ async function doUpdate() {
 }
 
 function openSettings() {
+  clearTimeout(settingsCloseTimer);
+  els.settingsOverlay.classList.remove('closing');
   els.setMyCall.value = settings.myCall;
   els.setMode.value = settings.defaultMode;
   els.setFreq.value = settings.defaultFreq;
@@ -7220,8 +7224,15 @@ function openSettings() {
   softFocus(els.setMode);
 }
 
+let settingsCloseTimer = null;
 function closeSettings() {
-  els.settingsOverlay.classList.add('hidden');
+  const ov = els.settingsOverlay;
+  if (ov.classList.contains('hidden') || ov.classList.contains('closing')) return;
+  ov.classList.add('closing');
+  settingsCloseTimer = setTimeout(() => {
+    ov.classList.remove('closing');
+    ov.classList.add('hidden');
+  }, 240);
 }
 
 els.btnSettings.addEventListener('click', openSettings);
