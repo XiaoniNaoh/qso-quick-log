@@ -1027,44 +1027,19 @@ button{min-width:0}
 }
 .fr-theme{
   position:relative;display:flex;flex-direction:column;gap:9px;
-  padding:11px 11px 11px;border:1.5px solid var(--line-2);border-radius:14px;background:var(--bg);
-  cursor:pointer;font:inherit;text-align:left;
+  align-items:center;justify-content:center;
+  padding:16px 10px 13px;border:1.5px solid var(--line-2);border-radius:16px;background:var(--bg);
+  cursor:pointer;font:inherit;text-align:center;
   transition:border-color .2s ease, box-shadow .2s ease, transform .18s cubic-bezier(.16,1,.3,1);
 }
 .fr-theme:hover{transform:translateY(-2px);border-color:var(--accent)}
 .fr-theme.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.fr-theme-name{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:.02em;padding-right:20px}
-.fr-theme-shots{display:flex;gap:6px}
-.fr-shot{
-  flex:1;height:76px;border-radius:10px;background:var(--pb);
-  border:1px solid rgba(0,0,0,.08);position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:5px;padding:7px;
+.fr-theme-swatch{
+  width:44px;height:44px;border-radius:50%;
+  background:var(--pa);
+  box-shadow:0 8px 20px color-mix(in srgb, var(--pa) 38%, transparent);
 }
-.fr-shot::before{
-  content:"";position:absolute;top:0;left:0;right:0;height:6px;background:var(--pa);
-}
-.fs-head{display:flex;align-items:center;gap:4px;flex:none}
-.fs-logo{
-  width:12px;height:12px;border-radius:4px;background:var(--pa);flex:none;
-  box-shadow:0 0 0 2.5px color-mix(in srgb, var(--pa) 28%, transparent);
-}
-.fs-line{height:4px;border-radius:2px;background:var(--pm);opacity:.85;flex:1}
-.fs-line.w40{flex:none;width:40%}
-.fs-body{
-  flex:1;display:flex;flex-direction:column;gap:4px;
-  background:color-mix(in srgb, #ffffff 42%, var(--pb));
-  border-radius:6px;padding:6px;min-height:0;
-}
-.fs-body .fs-line{opacity:.45}
-.fs-body .fs-line.w70{flex:none;width:70%}
-.fs-btn{
-  width:66%;height:9px;border-radius:5px;background:var(--pa);margin-top:auto;flex:none;
-  box-shadow:0 3px 8px color-mix(in srgb, var(--pa) 45%, transparent);
-}
-.fs-tag{
-  position:absolute;right:5px;bottom:4px;font-size:8px;font-weight:800;line-height:14px;
-  color:var(--pb);background:var(--pm);border-radius:3px;padding:0 5px;opacity:.92;
-}
+.fr-theme-name{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:.02em}
 .fr-theme-check{
   position:absolute;top:9px;right:9px;width:18px;height:18px;border-radius:50%;
   background:var(--accent);color:var(--mark-ink);font-size:11px;font-weight:900;
@@ -2126,11 +2101,11 @@ footer a:hover{color:var(--accent)}
       <div class="fr-sec-h">🎨 个性化</div>
       <p class="fr-pick-hint">挑一套喜欢的界面风格，浅色 / 深色效果都能看到</p>
       <div class="fr-theme-grid" id="frThemeGrid">
-        <button type="button" class="fr-theme" data-skin="classic"><span class="fr-theme-name">靛蓝</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#f7f7f4;--pa:#2f5fc7;--pm:#17181c"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141519;--pa:#8ea8ff;--pm:#eaeaea"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="eqsl"><span class="fr-theme-name">苔青</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F7F8F6;--pa:#3E8A68;--pm:#1B201C"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#121412;--pa:#7FC7A3;--pm:#E9EBE7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="sunset"><span class="fr-theme-name">琥珀</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F6F2;--pa:#C47A33;--pm:#221D16"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#171310;--pa:#E8A862;--pm:#F0EAE1"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="aurora"><span class="fr-theme-name">极光</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F7FA;--pa:#6D5AE0;--pm:#1F1B29"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#141220;--pa:#A99BFF;--pm:#ECEAF7"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="ocean"><span class="fr-theme-name">深海</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F4F8F8;--pa:#0E8F8F;--pm:#16211F"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">浅</span></span><span class="fr-shot" style="--pb:#0F1716;--pa:#5FD6D0;--pm:#E4F0ED"><span class="fs-head"><span class="fs-logo"></span><span class="fs-line w40"></span></span><span class="fs-body"><span class="fs-line"></span><span class="fs-line w70"></span><span class="fs-btn"></span></span><span class="fs-tag">深</span></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="classic" style="--pa:#2f5fc7"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">靛蓝</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="eqsl" style="--pa:#3E8A68"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">苔青</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="sunset" style="--pa:#C47A33"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">琥珀</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="aurora" style="--pa:#6D5AE0"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">极光</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E8F8F"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">深海</span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
@@ -2314,7 +2289,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.0.0</b>
+      <b>电子 QSL 卡片 · v2.0.1</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -4275,6 +4250,7 @@ body.is-printing .footer{padding:10px 44px 14px}
               <option value="FT8">FT8</option>
               <option value="FT4">FT4</option>
               <option value="RTTY">RTTY</option>
+              <option value="PSK">PSK</option>
               <option value="PSK31">PSK31</option>
               <option value="PSK63">PSK63</option>
               <option value="JT65">JT65</option>
@@ -4584,11 +4560,12 @@ modeBtns.forEach(function(b){
 var MODE_GROUPS = {
   fm:     ['FM','AM','WFM','SSTV','APRS','EchoLink'],
   dvoice: ['DMR','C4FM','D-STAR','P25'],
-  hf:     ['SSB','CW','FT8','FT4','RTTY','PSK31','PSK63','JT65','JS8','MFSK','Olivia','PACTOR']
+  hf:     ['SSB','CW','FT8','FT4','RTTY','PSK','PSK31','PSK63','JT65','JS8','MFSK','Olivia','PACTOR']
 };
 
 var MODE_PRESETS = {
   'FM':['145.500','2m'], 'AM':['28.500','10m'],
+  'PSK':['14.070','20m'],
   'SSB':['14.180','20m'], 'CW':['14.030','20m'],
   'FT8':['14.074','20m'], 'FT4':['14.080','20m'],
   'RTTY':['14.083','20m'], 'PSK31':['14.070','20m'], 'PSK63':['14.070','20m'],
@@ -5181,7 +5158,7 @@ function saveRecords() {
   }
 }
 
-const MODES = ['SSB', 'CW', 'FM', 'FT8', 'FT4', 'RTTY', 'PSK', 'AM'];
+const MODES = ['FM', 'SSB', 'CW', 'FT8', 'FT4', 'RTTY', 'PSK', 'AM'];
 function renderModeChips() {
   const wrap = $('modeChips');
   wrap.innerHTML = '';
@@ -6524,7 +6501,17 @@ function fillQslFrame(r, my) {
     set('qsoBand', r.band);
     if (r.mode) {
       const sel = d.getElementById('qsoMode');
-      if (sel && Array.prototype.some.call(sel.options || [], o => o.value === r.mode)) sel.value = r.mode;
+      if (sel) {
+        // 模式不在卡片下拉里时自动补一项，保证卡片永远显示真实模式
+        const found = Array.prototype.some.call(sel.options || [], o => o.value === r.mode);
+        if (!found) {
+          const opt = document.createElement('option');
+          opt.value = r.mode;
+          opt.textContent = r.mode;
+          sel.appendChild(opt);
+        }
+        sel.value = r.mode;
+      }
     }
     const sentRst = r.rstSent || r.rst || '';
     const recvRst = r.rstRecv || r.rst || '';
@@ -7019,7 +7006,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.0.0';
+const APP_VERSION = '2.0.1';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
