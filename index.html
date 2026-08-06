@@ -931,74 +931,101 @@ footer a:hover{color:var(--accent)}
   font:inherit;color:inherit;cursor:default;
 }
 
-/* ── eQSL 明信片风主题：信纸 + 邮戳（浅色） ── */
+/* ── eQSL 明信片风主题：信纸 + 邮戳（浅色 · 鼠尾草绿） ── */
 :root.theme-eqsl{
-  --bg:#F2ECDD;
-  --card:#FBF7EB;
-  --ink:#2B2922;
-  --ink-2:#6F6A58;
-  --ink-3:#A59E89;
-  --line:#E1D9C3;
-  --line-2:#CFC4A8;
-  --accent:#8A6D3B;
-  --accent-soft:rgba(138,109,59,.10);
-  --mark:#4F729F;
-  --mark-2:#3D5C85;
-  --mark-ink:#FFFDF4;
-  --mark-soft:rgba(79,114,159,.15);
-  --auto:#8A6D3B;
-  --ok:#5E7A4E;
-  --danger:#A34A3C;
+  --bg:#F4F1E9;
+  --card:#FCFAF3;
+  --ink:#2E2C26;
+  --ink-2:#6F6B5E;
+  --ink-3:#A39E8E;
+  --line:#E3DECF;
+  --line-2:#CFC8B5;
+  --accent:#5F7E6E;
+  --accent-soft:rgba(95,126,110,.11);
+  --mark:#3F5A4E;
+  --mark-2:#345043;
+  --mark-ink:#F9F7EF;
+  --mark-soft:rgba(63,90,78,.15);
+  --auto:#5F7E6E;
+  --ok:#64805B;
+  --danger:#A96A55;
   --radius:10px;
 }
-/* eQSL 明信片风 · 深色（柔和暖调，不刺眼） */
+/* eQSL 明信片风 · 深色（冷调柔和，去黄不刺眼） */
 :root.theme-eqsl.dark{
-  --bg:#17140E;
-  --card:#211D15;
-  --ink:#E9E1CE;
-  --ink-2:#A89F89;
-  --ink-3:#746C56;
-  --line:#332D22;
-  --line-2:#463F2F;
-  --accent:#C5AE72;
-  --accent-soft:rgba(197,174,114,.14);
-  --mark:#C5AE72;
-  --mark-2:#D7C38B;
-  --mark-ink:#17140E;
-  --mark-soft:rgba(197,174,114,.16);
-  --auto:#C5AE72;
-  --ok:#93A87C;
-  --danger:#C97B5D;
+  --bg:#151713;
+  --card:#1D201A;
+  --ink:#E5E7DE;
+  --ink-2:#A2A79A;
+  --ink-3:#6F7466;
+  --line:#292D25;
+  --line-2:#383D31;
+  --accent:#9DB8A6;
+  --accent-soft:rgba(157,184,166,.13);
+  --mark:#9DB8A6;
+  --mark-2:#B1C9B9;
+  --mark-ink:#151713;
+  --mark-soft:rgba(157,184,166,.15);
+  --auto:#9DB8A6;
+  --ok:#8FAA82;
+  --danger:#C08670;
 }
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light){
-    --bg:#17140E;
-    --card:#211D15;
-    --ink:#E9E1CE;
-    --ink-2:#A89F89;
-    --ink-3:#746C56;
-    --line:#332D22;
-    --line-2:#463F2F;
-    --accent:#C5AE72;
-    --accent-soft:rgba(197,174,114,.14);
-    --mark:#C5AE72;
-    --mark-2:#D7C38B;
-    --mark-ink:#17140E;
-    --mark-soft:rgba(197,174,114,.16);
-    --auto:#C5AE72;
-    --ok:#93A87C;
-    --danger:#C97B5D;
+    --bg:#151713;
+    --card:#1D201A;
+    --ink:#E5E7DE;
+    --ink-2:#A2A79A;
+    --ink-3:#6F7466;
+    --line:#292D25;
+    --line-2:#383D31;
+    --accent:#9DB8A6;
+    --accent-soft:rgba(157,184,166,.13);
+    --mark:#9DB8A6;
+    --mark-2:#B1C9B9;
+    --mark-ink:#151713;
+    --mark-soft:rgba(157,184,166,.15);
+    --auto:#9DB8A6;
+    --ok:#8FAA82;
+    --danger:#C08670;
   }
 }
-/* 明信片排版：衬线题头 · 邮戳角 · 内衬细框 · 印章化控件 */
+/* 明信片排版：衬线题头 · 手写备注 · 邮戳角 · 内衬细框 · 印章化控件 */
+:root.theme-eqsl .brand h1,
+:root.theme-eqsl .brand p,
+:root.theme-eqsl .stamp-main h2,
+:root.theme-eqsl .sec,
+:root.theme-eqsl .sec-no,
+:root.theme-eqsl .modal h3,
+:root.theme-eqsl .modal p.sub,
+:root.theme-eqsl .help-head h3,
+:root.theme-eqsl .help-sub,
+:root.theme-eqsl .fr-head h3,
+:root.theme-eqsl .set-sec-h,
+:root.theme-eqsl .fr-sec-h,
+:root.theme-eqsl .help-acc summary,
+:root.theme-eqsl .rst-side-name,
+:root.theme-eqsl .field label,
+:root.theme-eqsl .empty{
+  font-family:"Iowan Old Style","Noto Serif SC","Songti SC","STSong",serif;
+}
 :root.theme-eqsl .brand h1,
 :root.theme-eqsl .stamp-main h2,
 :root.theme-eqsl .sec,
 :root.theme-eqsl .modal h3,
 :root.theme-eqsl .help-head h3,
 :root.theme-eqsl .fr-head h3{
-  font-family:"Iowan Old Style","Noto Serif SC","Songti SC","STSong",serif;
   font-weight:600;letter-spacing:.02em;
+}
+:root.theme-eqsl .brand p{letter-spacing:.18em;font-size:9.5px}
+:root.theme-eqsl .modal p.sub,
+:root.theme-eqsl .help-sub{font-style:italic;letter-spacing:.04em}
+:root.theme-eqsl .guide{
+  font-family:"Iowan Old Style","Noto Serif SC","Songti SC","STSong",serif;
+  font-style:italic;letter-spacing:.01em;
+  background:color-mix(in srgb, var(--card) 72%, transparent);
+  border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;
 }
 :root.theme-eqsl .sheet{
   background:
@@ -1017,15 +1044,10 @@ footer a:hover{color:var(--accent)}
 }
 :root.theme-eqsl .sec-no{
   border-radius:4px;background:transparent;border:1px solid var(--accent);
-  color:var(--accent);box-shadow:none;
+  color:var(--accent);box-shadow:none;font-weight:700;
 }
 :root.theme-eqsl .sec::after{
   background:linear-gradient(90deg,var(--line-2),transparent);
-}
-:root.theme-eqsl .guide{
-  background:color-mix(in srgb, var(--card) 72%, transparent);
-  border:1px solid var(--line);border-left:3px solid var(--accent);
-  border-radius:8px;
 }
 :root.theme-eqsl .stamp{
   border:1px dashed var(--line-2);border-radius:8px;
@@ -1062,28 +1084,6 @@ footer a:hover{color:var(--accent)}
 :root.theme-eqsl .empty .big{background:var(--accent-soft)}
 :root.theme-eqsl #search{border-color:var(--line-2)}
 :root.theme-eqsl .rpt-offset{border-color:color-mix(in srgb, var(--accent) 22%, transparent)}
-}
-:root.theme-eqsl .rst-badge{background:var(--mark);color:var(--mark-ink)}
-:root.theme-eqsl .chip.active{
-  background:var(--mark);color:var(--mark-ink);border-color:transparent;
-  box-shadow:0 3px 10px var(--mark-soft);
-}
-:root.theme-eqsl .guide{
-  border-left-color:var(--mark);
-  background:linear-gradient(90deg,var(--accent-soft),transparent 72%);
-}
-:root.theme-eqsl .badge{background:var(--mark);color:var(--mark-ink)}
-:root.theme-eqsl .brand-mark{
-  background:var(--mark);color:var(--mark-ink);
-  box-shadow:0 4px 14px var(--mark-soft);
-}
-:root.theme-eqsl .jump-btn{background:var(--mark);color:var(--mark-ink);box-shadow:0 8px 22px var(--mark-soft)}
-:root.theme-eqsl .btn-primary{background:var(--mark);color:var(--mark-ink)}
-:root.theme-eqsl .dock-save{background:var(--mark);color:var(--mark-ink)}
-:root.theme-eqsl .rst-preview b{color:var(--auto)}
-:root.theme-eqsl .pill-stat{color:var(--auto);border-color:var(--line-2)}
-:root.theme-eqsl #toast::before{background:var(--auto)}
-:root.theme-eqsl .field.auto label{color:var(--auto)}
 
 /* ── 惊喜感小动画（优雅、克制） ── */
 @keyframes float{
@@ -1379,7 +1379,7 @@ footer a:hover{color:var(--accent)}
         </div>
         <div class="field" id="f-inAnt">
           <label for="inAnt">对方天线</label>
-          <input class="inp" id="inAnt" placeholder="对方报的天线，如 771 天线">
+          <input class="inp" id="inAnt" placeholder="对方报的天线型号，如 GP / 八木">
           <div class="chips" id="antChips"></div>
         </div>
         <div class="field span2" id="f-inPwr">
@@ -1562,11 +1562,11 @@ footer a:hover{color:var(--accent)}
     <div class="fr-page" id="frPage1">
       <div class="fr-sec-h">🧑‍🚀 关于你</div>
       <div class="grid">
-        <div class="field span2"><label for="frCall">我的呼号 <i class="fr-req">必填</i></label><input class="inp" id="frCall" placeholder="例：BI9DAS" spellcheck="false" autocapitalize="characters"><p class="field-hint">填你自己的呼号，之后记录会自动带上</p></div>
-        <div class="field"><label for="frOpName">OP 名字（中文）</label><input class="inp" id="frOpName" placeholder="如 倪徐磊"></div>
-        <div class="field"><label for="frOpNameEn">OP 名字（英文）</label><input class="inp" id="frOpNameEn" placeholder="如 Xulei Ni"></div>
-        <div class="field"><label for="frQth">我方 QTH</label><input class="inp" id="frQth" placeholder="如 浙江金华 · 永康"></div>
-        <div class="field span2"><label for="frGrid">我方 Grid 网格定位</label><input class="inp" id="frGrid" placeholder="如 PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
+        <div class="field span2"><label for="frCall">我的呼号 <i class="fr-req">必填</i></label><input class="inp" id="frCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"><p class="field-hint">填你自己的呼号，之后记录会自动带上</p></div>
+        <div class="field"><label for="frOpName">OP 名字（中文）</label><input class="inp" id="frOpName" placeholder="如 王小明"></div>
+        <div class="field"><label for="frOpNameEn">OP 名字（英文）</label><input class="inp" id="frOpNameEn" placeholder="如 Xiao Ming"></div>
+        <div class="field"><label for="frQth">我方 QTH</label><input class="inp" id="frQth" placeholder="如 杭州"></div>
+        <div class="field span2"><label for="frGrid">我方 Grid 网格定位</label><input class="inp" id="frGrid" placeholder="如 PM01"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
         <div class="field span2"><label for="frQslAddr">收卡地址（可选）</label><textarea class="inp" id="frQslAddr" rows="2" placeholder="中文地址，一行一段"></textarea></div>
       </div>
     </div>
@@ -1618,12 +1618,12 @@ footer a:hover{color:var(--accent)}
     <div class="set-section">
       <div class="set-sec-h">📡 我的电台<small>MY STATION</small></div>
       <div class="grid">
-        <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BI9DAS" spellcheck="false" autocapitalize="characters"></div>
-        <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="泉盛 UV-K6"></div>
-        <div class="field"><label for="setMyAnt">我方天线</label><input class="inp" id="setMyAnt" placeholder="771 天线"></div>
+        <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"></div>
+        <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="如 FT-991A"></div>
+        <div class="field"><label for="setMyAnt">我方天线</label><input class="inp" id="setMyAnt" placeholder="如 X510 天线"></div>
         <div class="field"><label for="setMyPwr">我方功率 (W)</label><input class="inp" id="setMyPwr" inputmode="numeric" placeholder="5"></div>
-        <div class="field"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="浙江金华 · 永康"></div>
-        <div class="field"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
+        <div class="field"><label for="setMyQth">我方 QTH</label><input class="inp" id="setMyQth" placeholder="如 杭州"></div>
+        <div class="field"><label for="setMyGrid">我方 Grid 网格定位</label><input class="inp" id="setMyGrid" placeholder="如 PM01"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
       </div>
       <p class="field-hint">会用在电子 QSL 卡片和导出信息里</p>
     </div>
@@ -1632,14 +1632,14 @@ footer a:hover{color:var(--accent)}
       <div class="set-sec-h">🃏 QSL 卡片信息<small>PRINTED ON CARDS</small></div>
       <div class="grid">
         <div class="field"><label for="setCardCall">卡片呼号</label><input class="inp" id="setCardCall" placeholder="默认同我的呼号" spellcheck="false" autocapitalize="characters"></div>
-        <div class="field"><label for="setOpNameCn">OP 名字（中文）</label><input class="inp" id="setOpNameCn" placeholder="倪徐磊"></div>
-        <div class="field"><label for="setOpNameEn">OP 名字（英文）</label><input class="inp" id="setOpNameEn" placeholder="Xulei Ni"></div>
-        <div class="field span2"><label for="setQslAddrCn">收卡地址（中文）</label><textarea class="inp" id="setQslAddrCn" rows="2" placeholder="每行一段，如：&#10;浙江省金华市永康市花街镇&#10;双溪村南苑5号"></textarea></div>
-        <div class="field span2"><label for="setQslAddrEn">收卡地址（英文）</label><textarea class="inp" id="setQslAddrEn" rows="3" placeholder="No. 5, Nanyuan, Shuangxi Village,&#10;Huajie Town, Yongkang City,&#10;Jinhua · Zhejiang · China"></textarea></div>
-        <div class="field"><label for="setQslPost">邮编 / 国家</label><input class="inp" id="setQslPost" placeholder="321300 · 中国"></div>
+        <div class="field"><label for="setOpNameCn">OP 名字（中文）</label><input class="inp" id="setOpNameCn" placeholder="如 王小明"></div>
+        <div class="field"><label for="setOpNameEn">OP 名字（英文）</label><input class="inp" id="setOpNameEn" placeholder="如 Xiao Ming"></div>
+        <div class="field span2"><label for="setQslAddrCn">收卡地址（中文）</label><textarea class="inp" id="setQslAddrCn" rows="2" placeholder="每行一段，如：&#10;某市某区某街道&#10;某小区 12 栋 301"></textarea></div>
+        <div class="field span2"><label for="setQslAddrEn">收卡地址（英文）</label><textarea class="inp" id="setQslAddrEn" rows="3" placeholder="No. 12, Building 3,&#10;Some Street, Some District,&#10;Hangzhou · Zhejiang · China"></textarea></div>
+        <div class="field"><label for="setQslPost">邮编 / 国家</label><input class="inp" id="setQslPost" placeholder="如 310000 · 中国"></div>
         <div class="field"><label for="setQslPromise">回卡承诺语</label><input class="inp" id="setQslPromise" placeholder="QSL 100% CONFIRMED"></div>
-        <div class="field"><label for="setWebsite">个人网站（可选）</label><input class="inp" id="setWebsite" inputmode="url" placeholder="https://bioez.xyz · 留空则不显示"></div>
-        <div class="field"><label for="setQrz">QRZ 主页（可选）</label><input class="inp" id="setQrz" inputmode="url" placeholder="https://qrz.com/db/BI9DAS · 留空则不显示"></div>
+        <div class="field"><label for="setWebsite">个人网站（可选）</label><input class="inp" id="setWebsite" inputmode="url" placeholder="https://你的网站 · 留空则不显示"></div>
+        <div class="field"><label for="setQrz">QRZ 主页（可选）</label><input class="inp" id="setQrz" inputmode="url" placeholder="https://qrz.com/db/你的呼号 · 留空则不显示"></div>
       </div>
       <p class="field-hint">会印在电子 QSL 的邮寄区和页脚；留空则卡片上不显示网站 / QRZ。导出预览时也能直接点卡片修改。</p>
     </div>
@@ -1707,11 +1707,11 @@ footer a:hover{color:var(--accent)}
     <h3>电子 QSL · 我方信息确认</h3>
     <p class="sub">卡片印我方电台信息（对方设备已在日志里）</p>
     <div class="grid">
-      <div class="field"><label for="myRigInput">我方设备</label><input class="inp" id="myRigInput" placeholder="泉盛 UV-K6"></div>
-      <div class="field"><label for="myAntInput">我方天线</label><input class="inp" id="myAntInput" placeholder="771 天线"></div>
+      <div class="field"><label for="myRigInput">我方设备</label><input class="inp" id="myRigInput" placeholder="如 FT-991A"></div>
+      <div class="field"><label for="myAntInput">我方天线</label><input class="inp" id="myAntInput" placeholder="如 X510 天线"></div>
       <div class="field span2"><label for="myPwrInput">我方功率</label><input class="inp" id="myPwrInput" inputmode="numeric" placeholder="5 W"></div>
-      <div class="field span2"><label for="myQthInput">我方当前 QTH</label><input class="inp" id="myQthInput" placeholder="如 浙江金华 · 永康"></div>
-      <div class="field span2"><label for="myGridInput">我方 Grid 网格定位</label><input class="inp" id="myGridInput" placeholder="如 PL08"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
+      <div class="field span2"><label for="myQthInput">我方当前 QTH</label><input class="inp" id="myQthInput" placeholder="如 杭州"></div>
+      <div class="field span2"><label for="myGridInput">我方 Grid 网格定位</label><input class="inp" id="myGridInput" placeholder="如 PM01"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
     </div>
     <div class="actions">
       <button class="btn-primary" id="btnQslConfirm">确认并生成卡片</button>
@@ -4392,7 +4392,7 @@ els.formCard = document.getElementById('formCard');
 
 const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig', 'inAnt', 'inPwr', 'inRemark', 'time'];
 
-let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
+let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
 
 // 开发者入口：默认不暴露个人信息；开发者码以哈希存储，源码不含明文
@@ -4786,8 +4786,8 @@ function renderPwrChips() {
 }
 els.inPwr.addEventListener('input', renderPwrChips);
 
-const RIG_PRESETS = ['泉盛 UV-K6', '宝锋 UV-5R', '建伍 TH-78', '八重洲 FT-60R'];
-const ANT_PRESETS = ['原装天线', '771 天线', '八木天线', '玻璃钢 GP'];
+const RIG_PRESETS = ['宝锋 UV-5R', '建伍 TH-78', '八重洲 FT-60R', 'ICOM IC-705'];
+const ANT_PRESETS = ['原装天线', 'SMA 手持天线', '八木天线', '玻璃钢 GP'];
 
 function renderRigChips() {
   const wrap = $('rigChips');
@@ -5715,9 +5715,9 @@ let pendingQsl = null;
 
 function exportQsl(r) {
   pendingQsl = r;
-  els.myRigInput.value = settings.myRig || '泉盛 UV-K6';
-  els.myAntInput.value = settings.myAnt || '771 天线';
-  els.myPwrInput.value = settings.myPwr || '5';
+  els.myRigInput.value = settings.myRig || '';
+  els.myAntInput.value = settings.myAnt || '';
+  els.myPwrInput.value = settings.myPwr || '';
   els.myQthInput.value = settings.myQth || '';
   els.myGridInput.value = settings.myGrid || '';
   els.qslConfirmOverlay.classList.remove('hidden');
@@ -5748,9 +5748,9 @@ function openQslFrame(r, my) {
 }
 
 els.btnQslConfirm.addEventListener('click', () => {
-  settings.myRig = els.myRigInput.value.trim() || '泉盛 UV-K6';
-  settings.myAnt = els.myAntInput.value.trim() || '771 天线';
-  settings.myPwr = els.myPwrInput.value.trim() || '5';
+  settings.myRig = els.myRigInput.value.trim() || '';
+  settings.myAnt = els.myAntInput.value.trim() || '';
+  settings.myPwr = els.myPwrInput.value.trim() || '';
   settings.myQth = els.myQthInput.value.trim();
   settings.myGrid = els.myGridInput.value.trim().toUpperCase();
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
@@ -6286,9 +6286,9 @@ function openSettings() {
   els.setRst.value = settings.defaultRst;
   els.setTheme.value = settings.theme || 'auto';
   els.setSkin.value = settings.skin || 'classic';
-  els.setMyRig.value = settings.myRig || '泉盛 UV-K6';
-  els.setMyAnt.value = settings.myAnt || '771 天线';
-  els.setMyPwr.value = settings.myPwr || '5';
+  els.setMyRig.value = settings.myRig || '';
+  els.setMyAnt.value = settings.myAnt || '';
+  els.setMyPwr.value = settings.myPwr || '';
   els.setMyQth.value = settings.myQth || '';
   els.setMyGrid.value = settings.myGrid || '';
   els.setCardCall.value = settings.cardCall || '';
@@ -6320,9 +6320,9 @@ els.btnSaveSettings.addEventListener('click', () => {
   settings.defaultRst = els.setRst.value.trim() || '59';
   settings.theme = els.setTheme.value || 'auto';
   settings.skin = els.setSkin.value || 'classic';
-  settings.myRig = els.setMyRig.value.trim() || '泉盛 UV-K6';
-  settings.myAnt = els.setMyAnt.value.trim() || '771 天线';
-  settings.myPwr = els.setMyPwr.value.trim() || '5';
+  settings.myRig = els.setMyRig.value.trim() || '';
+  settings.myAnt = els.setMyAnt.value.trim() || '';
+  settings.myPwr = els.setMyPwr.value.trim() || '';
   settings.myQth = els.setMyQth.value.trim();
   settings.myGrid = els.setMyGrid.value.trim().toUpperCase();
   settings.cardCall = els.setCardCall.value.trim().toUpperCase();
