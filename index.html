@@ -679,6 +679,21 @@ footer{
 .set-sec-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--ink-2);margin-bottom:13px}
 .set-sec-h::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);flex:none}
 .set-sec-h small{font-weight:500;color:var(--ink-3);letter-spacing:.02em;margin-left:2px}
+.set-about{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--bg);
+}
+.set-ver{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.set-ver b{color:var(--ink);font-weight:800}
+.update-banner{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  margin-top:10px;padding:12px 14px;border-radius:13px;
+  background:linear-gradient(135deg,var(--accent-soft),transparent 70%);
+  border:1px solid color-mix(in srgb, var(--accent) 32%, transparent);
+}
+.update-banner.hidden{display:none}
+.ub-txt{font-size:12.5px;font-weight:700;color:var(--ink)}
+.ub-txt b{color:var(--accent)}
 textarea.inp{min-height:74px;resize:vertical;line-height:1.55}
 .field-hint{
   margin-top:6px;font-size:11.5px;color:var(--ink-2);line-height:1.55;
@@ -873,6 +888,27 @@ button{min-width:0}
 .fr-tip-ic{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);display:grid;place-items:center;font-size:16px;flex:none}
 .fr-tip b{font-size:13px;color:var(--ink)}
 .fr-tip p{margin:3px 0 0;font-size:12px;color:var(--ink-2);line-height:1.6}
+.fr-hero{
+  text-align:center;padding:20px 8px 12px;
+}
+.fr-hero-title{
+  font-size:22px;font-weight:800;letter-spacing:-.01em;color:var(--ink);
+  font-family:var(--font-display,inherit);
+}
+.fr-hero-sub{
+  margin:10px auto 0;max-width:360px;
+  font-size:13px;line-height:1.75;color:var(--ink-2);
+}
+.fr-hero-pts{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:8px;
+  margin-top:18px;
+}
+.fr-hero-pts span{
+  font-size:11.5px;font-weight:700;color:var(--ink-2);
+  background:var(--accent-soft);
+  border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+  border-radius:999px;padding:7px 14px;
+}
 
 /* ── 更多毛玻璃材质 ── */
 .field-hint{
@@ -1605,8 +1641,8 @@ footer a:hover{color:var(--accent)}
     <div class="fr-head">
       <span class="fr-logo">📻</span>
       <div>
-        <h3>欢迎使用通联速记</h3>
-        <p class="sub" id="frSub">先填基本信息，之后记录和 QSL 卡片都会自动带上</p>
+        <h3>通联速记</h3>
+        <p class="sub" id="frSub">QSO QUICK LOGGER · 随时记录，即刻出卡</p>
       </div>
     </div>
     <div class="fr-steps" id="frSteps">
@@ -1614,37 +1650,31 @@ footer a:hover{color:var(--accent)}
     </div>
 
     <div class="fr-page" id="frPage1">
-      <div class="fr-sec-h">🧑‍🚀 关于你</div>
-      <div class="grid">
-        <div class="field span2"><label for="frCall">我的呼号 <i class="fr-req">必填</i></label><input class="inp" id="frCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"><p class="field-hint">填你自己的呼号，之后记录会自动带上</p></div>
-        <div class="field"><label for="frOpName">OP 名字（中文）</label><input class="inp" id="frOpName" placeholder="如 王小明"></div>
-        <div class="field"><label for="frOpNameEn">OP 名字（英文）</label><input class="inp" id="frOpNameEn" placeholder="如 Xiao Ming"></div>
-        <div class="field"><label for="frQth">我方 QTH</label><input class="inp" id="frQth" placeholder="如 杭州"></div>
-        <div class="field span2"><label for="frGrid">我方 Grid 网格定位</label><input class="inp" id="frGrid" placeholder="如 PM01"><a class="grid-link" href="https://ham.c5r.app/maidenhead-grid" target="_blank" rel="noopener">查询我的 Grid 定位 ↗</a></div>
-        <div class="field span2"><label for="frQslAddr">收卡地址（可选）</label><textarea class="inp" id="frQslAddr" rows="2" placeholder="中文地址，一行一段"></textarea></div>
+      <div class="fr-hero">
+        <div class="fr-hero-title">30 秒记一条通联</div>
+        <p class="fr-hero-sub">输入呼号 → 点选信号 → 保存。电子 QSL 卡片一键生成，数据只留在你本机。</p>
+        <div class="fr-hero-pts">
+          <span>📋 快记日志</span><span>🃏 QSL 卡片</span><span>💾 本地存储</span>
+        </div>
       </div>
     </div>
 
     <div class="fr-page hidden" id="frPage2">
-      <div class="fr-sec-h">⚙️ 通联默认值</div>
+      <div class="fr-sec-h">🧑‍🚀 你的呼号</div>
       <div class="grid">
-        <div class="field"><label for="frMode">默认模式</label><input class="inp" id="frMode" placeholder="FM"></div>
-        <div class="field"><label for="frFreq">默认频率 MHz</label><input class="inp" id="frFreq" inputmode="decimal" placeholder="145.100"></div>
-        <div class="field"><label for="frRst">默认信号报告</label><input class="inp" id="frRst" placeholder="59"></div>
+        <div class="field span2"><label for="frCall">我的呼号 <i class="fr-req">推荐</i></label><input class="inp" id="frCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"><p class="field-hint">填了之后，记录和 QSL 卡片会自动带上它。OP、QTH、设备、收卡地址等，随时都能在「设置」里补全。</p></div>
       </div>
-      <p class="field-hint">这些只是默认值，记录时随时可改。</p>
     </div>
 
     <div class="fr-page hidden" id="frPage3">
-      <div class="fr-sec-h">⚡ 30 秒上手</div>
+      <div class="fr-sec-h">⚡ 快速上手</div>
       <div class="fr-tips">
         <div class="fr-tip"><span class="fr-tip-ic">⌨️</span><div><b>点选填写</b><p>呼号起头，逐项点选填写；老呼号自动带出上次信息，最后点「保存并继续」立刻开始下一条。</p></div></div>
         <div class="fr-tip"><span class="fr-tip-ic">✨</span><div><b>自动带出</b><p>老呼号自动补全上次信息；频率自动换算波段。</p></div></div>
         <div class="fr-tip"><span class="fr-tip-ic">🃏</span><div><b>QSL 卡片</b><p>记录右侧点 QSL 出电子卡片，可打印；卡片内容都能直接点改。</p></div></div>
-        <div class="fr-tip"><span class="fr-tip-ic">🔁</span><div><b>中继台</b><p>通联方式选「经中继」，填频率 + 差频自动算另一个，保存后下次直接选。</p></div></div>
         <div class="fr-tip"><span class="fr-tip-ic">💾</span><div><b>数据在本地</b><p>记录只存本机；定期导出 JSON 备份，换设备导入即合并。</p></div></div>
       </div>
-      <p class="field-hint">随时点右下角「?」可查看完整说明。</p>
+      <p class="field-hint">中继台、通联默认值等更多玩法，随时点右下角「?」查看。</p>
     </div>
 
     <div class="actions">
@@ -1723,6 +1753,18 @@ footer a:hover{color:var(--accent)}
       <button type="button" class="btn-ghost" id="btnRptManageSettings">管理已存中继台</button>
     </div>
 
+    <div class="set-section">
+      <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
+      <div class="set-about">
+        <span class="set-ver">版本 <b id="setVersion">v4.12</b></span>
+        <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
+      </div>
+      <div class="update-banner hidden" id="updateBanner">
+        <span class="ub-txt">✨ 发现新版本 <b id="updateVer"></b></span>
+        <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
+      </div>
+    </div>
+
     <div class="actions">
       <button class="btn-primary" id="btnSaveSettings">保存设置</button>
       <button type="button" class="btn-ghost" id="btnCloseSettings">取消</button>
@@ -1776,7 +1818,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.12</b>
+      <b>电子 QSL 卡片 · v4.13</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -4409,14 +4451,6 @@ const els = {
   rptOffsetVal: $('rptOffsetVal'),
   firstRunOverlay: $('firstRunOverlay'),
   frCall: $('frCall'),
-  frOpName: $('frOpName'),
-  frOpNameEn: $('frOpNameEn'),
-  frQth: $('frQth'),
-  frGrid: $('frGrid'),
-  frQslAddr: $('frQslAddr'),
-  frMode: $('frMode'),
-  frFreq: $('frFreq'),
-  frRst: $('frRst'),
   frSub: $('frSub'),
   frSteps: $('frSteps'),
   btnFrPrev: $('btnFrPrev'),
@@ -4445,7 +4479,12 @@ const els = {
   setQslPost: $('setQslPost'),
   setQslPromise: $('setQslPromise'),
   setWebsite: $('setWebsite'),
-  setQrz: $('setQrz')
+  setQrz: $('setQrz'),
+  setVersion: $('setVersion'),
+  btnCheckUpdate: $('btnCheckUpdate'),
+  btnDoUpdate: $('btnDoUpdate'),
+  updateBanner: $('updateBanner'),
+  updateVer: $('updateVer')
 };
 
 els.formCard = document.getElementById('formCard');
@@ -6382,6 +6421,47 @@ document.addEventListener('drop', e => {
   }
 });
 
+const APP_VERSION = '4.13';
+function cmpVer(a, b) {
+  const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
+  const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
+  const len = Math.max(pa.length, pb.length);
+  for (let i = 0; i < len; i++) {
+    const x = pa[i] || 0, y = pb[i] || 0;
+    if (x !== y) return x > y ? 1 : -1;
+  }
+  return 0;
+}
+async function checkUpdate(silent) {
+  if (!els.btnCheckUpdate || !els.updateBanner) return;
+  els.updateBanner.classList.add('hidden');
+  try {
+    const r = await fetch('index.html?v=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) throw new Error('http ' + r.status);
+    const t = await r.text();
+    const m = t.match(/电子 QSL 卡片 · v([\d.]+)/);
+    const remote = m ? m[1] : null;
+    if (remote && cmpVer(remote, APP_VERSION) > 0) {
+      if (els.updateVer) els.updateVer.textContent = 'v' + remote;
+      els.updateBanner.classList.remove('hidden');
+      toast('发现新版本 v' + remote + ' ✨');
+    } else if (!silent) {
+      toast('已是最新版本 v' + APP_VERSION);
+    }
+  } catch (e) {
+    if (!silent) toast('检查更新失败，请稍后再试');
+  }
+}
+async function doUpdate() {
+  try {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => caches.delete(k)));
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (reg && reg.update) await reg.update();
+  } catch (e) { /* 忽略缓存清理错误，直接刷新 */ }
+  location.reload();
+}
+
 function openSettings() {
   els.setMyCall.value = settings.myCall;
   els.setMode.value = settings.defaultMode;
@@ -6403,7 +6483,10 @@ function openSettings() {
   els.setQslPromise.value = settings.qslPromise || '';
   els.setWebsite.value = settings.website || '';
   els.setQrz.value = settings.qrz || '';
+  if (els.setVersion) els.setVersion.textContent = 'v' + APP_VERSION;
+  els.updateBanner.classList.add('hidden');
   els.settingsOverlay.classList.remove('hidden');
+  checkUpdate(true);
   softFocus(els.setMode);
 }
 
@@ -6413,6 +6496,8 @@ function closeSettings() {
 
 els.btnSettings.addEventListener('click', openSettings);
 els.btnCloseSettings.addEventListener('click', closeSettings);
+els.btnCheckUpdate.addEventListener('click', () => checkUpdate(false));
+els.btnDoUpdate.addEventListener('click', doUpdate);
 els.settingsOverlay.addEventListener('click', e => {
   if (e.target === els.settingsOverlay) closeSettings();
 });
@@ -6510,17 +6595,17 @@ function frShow(step) {
   const dots = els.frSteps.querySelectorAll('.fr-dot');
   dots.forEach((d, i) => d.classList.toggle('on', i < step));
   els.btnFrPrev.classList.toggle('hidden', step === 1);
-  els.btnFrNext.textContent = step === FR_TOTAL ? '开始使用 🎉' : '下一步';
+  els.btnFrNext.textContent = step === 1 ? '开始使用 →' : (step === FR_TOTAL ? '开始通联 🎉' : '下一步');
   els.frSub.textContent = step === 1
-    ? '先填基本信息，之后记录和 QSL 卡片都会自动带上'
-    : (step === 2 ? '这些只是默认值，记录时随时可改' : '30 秒熟悉核心操作');
+    ? '欢迎，先从记下第一条通联开始'
+    : (step === 2 ? '只需一个呼号，其余随时在设置里补全' : '30 秒熟悉核心操作');
+  if (step === 2) softFocus(els.frCall);
 }
 function maybeFirstRun() {
   if (localStorage.getItem(LS_WELCOME)) return;
   if (localStorage.getItem(LS_SET) && settings.myCall) return;
   frShow(1);
   els.firstRunOverlay.classList.remove('hidden');
-  softFocus(els.frCall);
 }
 function finishFirstRun() {
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
@@ -6534,20 +6619,10 @@ function finishFirstRun() {
 els.btnFrPrev.addEventListener('click', () => { if (frStep > 1) frShow(frStep - 1); });
 els.btnFrNext.addEventListener('click', () => {
   if (frStep === 1) {
-    const call = els.frCall.value.trim().toUpperCase();
-    if (!call) { toast('请先填写呼号'); els.frCall.focus(); return; }
-    settings.myCall = call;
-    if (els.frOpName.value.trim()) settings.opNameCn = els.frOpName.value.trim();
-    if (els.frOpNameEn.value.trim()) settings.opNameEn = els.frOpNameEn.value.trim();
-    if (els.frQth.value.trim()) settings.myQth = els.frQth.value.trim();
-    if (els.frGrid.value.trim()) settings.myGrid = els.frGrid.value.trim().toUpperCase();
-    if (els.frQslAddr.value.trim()) settings.qslAddrCn = els.frQslAddr.value.trim();
     frShow(2);
   } else if (frStep === 2) {
-    if (els.frMode.value.trim()) settings.defaultMode = els.frMode.value.trim().toUpperCase();
-    const f = normalizeFreq(els.frFreq.value);
-    if (f) settings.defaultFreq = f;
-    if (els.frRst.value.trim()) settings.defaultRst = els.frRst.value.trim();
+    const call = els.frCall.value.trim().toUpperCase();
+    if (call) settings.myCall = call;
     frShow(3);
   } else {
     finishFirstRun();
