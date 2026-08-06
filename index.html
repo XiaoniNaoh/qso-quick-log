@@ -536,6 +536,28 @@ footer{
   max-width:1240px;margin:0 auto;padding:0 16px 96px;
   font-size:11px;color:var(--ink-3);text-align:center;
 }
+.foot-ornament{
+  display:flex;align-items:center;justify-content:center;gap:14px;
+  max-width:440px;margin:0 auto 13px;
+}
+.foot-line{
+  height:1px;flex:1;min-width:24px;
+  background:linear-gradient(90deg,transparent,var(--line-2));
+}
+.foot-line:last-child{background:linear-gradient(90deg,var(--line-2),transparent)}
+.foot-diamond{
+  font-size:8px;color:var(--accent);opacity:.8;
+  letter-spacing:0;line-height:1;
+}
+.foot-brand{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:10.5px;font-weight:700;letter-spacing:.26em;
+  color:var(--ink-2);text-transform:uppercase;
+}
+.foot-data{margin:8px 0 0;font-size:11px;color:var(--ink-3);letter-spacing:.03em}
+.foot-legal{margin:9px 0 0;font-size:11px;color:var(--ink-3);letter-spacing:.05em}
+.foot-legal a{color:var(--ink-2);text-decoration:none;border-bottom:1px dotted var(--line-2);transition:color .2s ease}
+.foot-legal a:hover{color:var(--accent);border-bottom-color:var(--accent)}
 #toast{
   position:fixed;left:50%;bottom:calc(100px + env(safe-area-inset-bottom));
   transform:translateX(-50%) translateY(16px) scale(.94);
@@ -911,18 +933,6 @@ button{min-width:0}
   box-shadow:var(--shadow);
 }
 
-/* ── 品牌氛围：底部微光 + 许可链接 ── */
-body::before{
-  content:"";position:fixed;left:50%;bottom:-16vh;transform:translateX(-50%);
-  width:min(1200px,150vw);height:54vh;z-index:-1;pointer-events:none;
-  background:radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 20%, transparent) 0, transparent 62%);
-  filter:blur(26px);
-  animation:glowBreath 9s ease-in-out infinite;
-}
-@keyframes glowBreath{
-  0%,100%{opacity:.7}
-  50%{opacity:1}
-}
 .copyright a{color:var(--accent)}
 footer a{color:var(--ink-2)}
 footer a:hover{color:var(--accent)}
@@ -933,13 +943,13 @@ footer a:hover{color:var(--accent)}
 
 /* ── 信笺 · 鼠尾草主题：信纸 + 邮戳（浅色，背景更白显高级） ── */
 :root.theme-eqsl{
-  --bg:#FCFBF7;
-  --card:#FFFFFF;
+  --bg:#FFFFFF;
+  --card:#FAFAF6;
   --ink:#2E2C26;
   --ink-2:#6F6B5E;
   --ink-3:#A39E8E;
-  --line:#E3DECF;
-  --line-2:#CFC8B5;
+  --line:#E8E4D8;
+  --line-2:#D5CFBC;
   --accent:#5F7E6E;
   --accent-soft:rgba(95,126,110,.11);
   --mark:#3F5A4E;
@@ -953,8 +963,8 @@ footer a:hover{color:var(--accent)}
 }
 /* 信笺 · 鼠尾草 · 深色（背景更黑，冷调柔和） */
 :root.theme-eqsl.dark{
-  --bg:#0E0F0C;
-  --card:#161814;
+  --bg:#0A0A0A;
+  --card:#141412;
   --ink:#E5E7DE;
   --ink-2:#A2A79A;
   --ink-3:#6F7466;
@@ -972,8 +982,8 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light){
-    --bg:#0E0F0C;
-    --card:#161814;
+    --bg:#0A0A0A;
+    --card:#141412;
     --ink:#E5E7DE;
     --ink-2:#A2A79A;
     --ink-3:#6F7466;
@@ -1556,7 +1566,19 @@ footer a:hover{color:var(--accent)}
     <div class="copyright">© 2026 BI9DAS · HAM STATION — 本项目采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可，欢迎自由使用与分享。</div>
   </div>
 </div>
-<footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · <button type="button" class="dev-entry" id="btnDevEntry" aria-label="开发者入口" title="">©</button> 2026 BI9DAS · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> · 73 📡</footer>
+<footer>
+  <div class="foot-ornament" aria-hidden="true">
+    <span class="foot-line"></span><span class="foot-diamond">✦</span><span class="foot-line"></span>
+  </div>
+  <div class="foot-brand">QSO QUICK LOG · 通联速记</div>
+  <p class="foot-data">数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并</p>
+  <p class="foot-legal">
+    <button type="button" class="dev-entry" id="btnDevEntry" aria-label="开发者入口" title="">©</button>
+    2026 BI9DAS · HAM STATION ·
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    · 73 📡
+  </p>
+</footer>
 <div class="dock" id="dock">
   <span class="dock-hint"><kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 随时保存</span>
   <button type="button" class="dock-clear" id="btnClear" title="清空当前表单">清空表单</button>
@@ -1741,7 +1763,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.10</b>
+      <b>电子 QSL 卡片 · v4.11</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
