@@ -911,16 +911,112 @@ button{min-width:0}
   box-shadow:var(--shadow);
 }
 
-/* ── 品牌氛围：页面微光 + 许可链接 ── */
+/* ── 品牌氛围：页面微光（强化）+ 许可链接 ── */
 body::before{
   content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
   background:
-    radial-gradient(circle at 10% 12%, color-mix(in srgb, var(--accent) 7%, transparent) 0, transparent 30%),
-    radial-gradient(circle at 92% 86%, color-mix(in srgb, var(--accent) 6%, transparent) 0, transparent 34%);
+    radial-gradient(circle at 10% 12%, color-mix(in srgb, var(--accent) 17%, transparent) 0, transparent 34%),
+    radial-gradient(circle at 88% 86%, color-mix(in srgb, var(--accent) 14%, transparent) 0, transparent 38%),
+    radial-gradient(circle at 58% 42%, color-mix(in srgb, var(--accent) 8%, transparent) 0, transparent 42%);
+  animation:glowBreath 9s ease-in-out infinite;
+}
+@keyframes glowBreath{
+  0%,100%{opacity:.7}
+  50%{opacity:1}
 }
 .copyright a{color:var(--accent)}
 footer a{color:var(--ink-2)}
 footer a:hover{color:var(--accent)}
+.dev-entry{
+  border:none;background:none;padding:0;margin:0;
+  font:inherit;color:inherit;cursor:pointer;
+}
+.dev-entry:hover{color:var(--accent)}
+
+/* ── eQSL 卡片风主题：纸感 + 信号绿（浅色） ── */
+:root.theme-eqsl{
+  --bg:#F8F8F4;
+  --card:#FFFFFF;
+  --ink:#0A0A0A;
+  --ink-2:#5C5C54;
+  --ink-3:#A2A29A;
+  --line:#E3E3DC;
+  --line-2:#CFCFC6;
+  --accent:#778E00;
+  --accent-soft:rgba(200,246,49,.22);
+  --mark:#0C0C0B;
+  --mark-2:#33332E;
+  --mark-ink:#F8F8F4;
+  --mark-soft:rgba(10,10,10,.07);
+  --auto:#778E00;
+  --ok:#0F7B4D;
+  --danger:#B42318;
+  --radius:12px;
+}
+/* eQSL 主题 · 深色 */
+:root.theme-eqsl.dark{
+  --bg:#0C0C0B;
+  --card:#181817;
+  --ink:#F4F4EE;
+  --ink-2:#A7A79E;
+  --ink-3:#6C6C64;
+  --line:#292925;
+  --line-2:#3A3A34;
+  --accent:#C8F631;
+  --accent-soft:rgba(200,246,49,.16);
+  --mark:#C8F631;
+  --mark-2:#E0FB6F;
+  --mark-ink:#0C0C0B;
+  --mark-soft:rgba(200,246,49,.14);
+  --auto:#C8F631;
+  --ok:#4ADE80;
+  --danger:#F87171;
+}
+@media (prefers-color-scheme: dark){
+  :root.theme-eqsl:not(.light){
+    --bg:#0C0C0B;
+    --card:#181817;
+    --ink:#F4F4EE;
+    --ink-2:#A7A79E;
+    --ink-3:#6C6C64;
+    --line:#292925;
+    --line-2:#3A3A34;
+    --accent:#C8F631;
+    --accent-soft:rgba(200,246,49,.16);
+    --mark:#C8F631;
+    --mark-2:#E0FB6F;
+    --mark-ink:#0C0C0B;
+    --mark-soft:rgba(200,246,49,.14);
+    --auto:#C8F631;
+    --ok:#4ADE80;
+    --danger:#F87171;
+  }
+}
+/* eQSL 主题排版细节：蓝图方角 + 信号绿高亮 */
+:root.theme-eqsl .sec-no{
+  border-radius:6px;background:var(--mark);color:var(--mark-ink);box-shadow:none;
+}
+:root.theme-eqsl .rst-badge{background:var(--mark);color:var(--mark-ink)}
+:root.theme-eqsl .chip.active{
+  background:var(--mark);color:var(--mark-ink);border-color:transparent;
+  box-shadow:0 3px 10px var(--mark-soft);
+}
+:root.theme-eqsl .guide{
+  border-left-color:var(--mark);
+  background:linear-gradient(90deg,var(--accent-soft),transparent 72%);
+}
+:root.theme-eqsl .badge{background:var(--mark);color:var(--mark-ink)}
+:root.theme-eqsl .brand-mark{
+  background:var(--mark);color:var(--mark-ink);
+  box-shadow:0 4px 14px var(--mark-soft);
+}
+:root.theme-eqsl .jump-btn{background:var(--mark);color:var(--mark-ink);box-shadow:0 8px 22px var(--mark-soft)}
+:root.theme-eqsl .btn-primary{background:var(--mark);color:var(--mark-ink)}
+:root.theme-eqsl .dock-save{background:var(--mark);color:var(--mark-ink)}
+:root.theme-eqsl .rst-preview b{color:var(--auto)}
+:root.theme-eqsl .pill-stat{color:var(--auto);border-color:var(--line-2)}
+:root.theme-eqsl #toast::before{background:var(--auto)}
+:root.theme-eqsl .field.auto label{color:var(--auto)}
 
 /* ── 惊喜感小动画（优雅、克制） ── */
 @keyframes float{
@@ -1052,7 +1148,7 @@ footer a:hover{color:var(--accent)}
   to{opacity:0;transform:scale(.97) translateY(-4px)}
 }
 @media (prefers-reduced-motion: reduce){
-  .brand-mark,.brand-mark::after,.inp:focus,.empty .big,.empty .big::after,.bump,#toast.show::after,
+  body::before,.brand-mark,.brand-mark::after,.inp:focus,.empty .big,.empty .big::after,.bump,#toast.show::after,
   .guide::after,.dock-save::after,.btn-primary::after,.pill-stat.bump::after,
   .eq i,.row-del.confirming,.mini-btn.confirming,.danger-link.confirming{animation:none!important}
   .qso-row.removing,.rpt-item.removing{animation:none!important}
@@ -1374,7 +1470,7 @@ footer a:hover{color:var(--accent)}
     <div class="copyright">© 2026 BI9DAS · HAM STATION — 本项目采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可，欢迎自由使用与分享。</div>
   </div>
 </div>
-<footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · © 2026 BI9DAS · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> · 73 📡</footer>
+<footer>数据只存在本机 · 换设备：导出 JSON 传过去，再点「导入」合并 · <button type="button" class="dev-entry" id="btnDevEntry" aria-label="开发者入口" title="">©</button> 2026 BI9DAS · <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> · 73 📡</footer>
 <div class="dock" id="dock">
   <span class="dock-hint"><kbd>⌘/Ctrl</kbd>+<kbd>Enter</kbd> 随时保存</span>
   <button type="button" class="dock-clear" id="btnClear" title="清空当前表单">清空表单</button>
@@ -1491,6 +1587,12 @@ footer a:hover{color:var(--accent)}
             <option value="dark">始终深色</option>
           </select>
         </div>
+        <div class="field"><label for="setSkin">界面风格</label>
+          <select class="inp" id="setSkin">
+            <option value="classic">经典 · 工程纸风</option>
+            <option value="eqsl">eQSL 卡片风 · 信号绿</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -1584,6 +1686,17 @@ footer a:hover{color:var(--accent)}
       <button class="btn-primary" id="btnBackupMerge">合并</button>
       <button type="button" class="btn-primary" id="btnBackupReplace" style="background:var(--danger);color:#fff">替换</button>
       <button type="button" class="btn-ghost" id="btnBackupCancel">取消</button>
+    </div>
+  </div>
+</div>
+<div class="overlay hidden" id="devOverlay">
+  <div class="modal">
+    <h3>🔐 开发者入口</h3>
+    <p class="sub">输入开发者码，载入预设的个人信息</p>
+    <input class="inp" id="devCode" placeholder="开发者码" autocomplete="off" autocapitalize="characters" spellcheck="false">
+    <div class="actions">
+      <button class="btn-primary" id="btnDevConfirm">确认</button>
+      <button type="button" class="btn-ghost" id="btnDevCancel">取消</button>
     </div>
   </div>
 </div>
@@ -4133,6 +4246,12 @@ const els = {
   setFreq: $('setFreq'),
   setRst: $('setRst'),
   setTheme: $('setTheme'),
+  setSkin: $('setSkin'),
+  devOverlay: $('devOverlay'),
+  devCode: $('devCode'),
+  btnDevConfirm: $('btnDevConfirm'),
+  btnDevCancel: $('btnDevCancel'),
+  btnDevEntry: $('btnDevEntry'),
   setMyRig: $('setMyRig'),
   setMyAnt: $('setMyAnt'),
   setMyPwr: $('setMyPwr'),
@@ -4206,8 +4325,23 @@ els.formCard = document.getElementById('formCard');
 
 const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig', 'inAnt', 'inPwr', 'inRemark', 'time'];
 
-let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5', myQth: '浙江金华 · 永康', myGrid: 'PL08', cardCall: '', opNameCn: '倪徐磊', opNameEn: 'Xulei Ni', qslAddrCn: '浙江省金华市永康市花街镇\n双溪村南苑5号', qslAddrEn: 'No. 5, Nanyuan, Shuangxi Village,\nHuajie Town, Yongkang City,\nJinhua · Zhejiang · 321300 · China', qslPost: '321300 · 中国', qslPromise: 'QSL 100% CONFIRMED', website: 'https://bioez.xyz', qrz: 'https://qrz.com/db/BI9DAS' };
+let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
+
+// 开发者入口：默认不暴露个人信息；输入开发者码后自动载入预设档案
+const DEV_CODE = 'BI9DAS73'; // 换成你自己的开发者码
+const DEV_PROFILE = {
+  myCall: 'BI9DAS', cardCall: 'BI9DAS',
+  opNameCn: '倪徐磊', opNameEn: 'Xulei Ni',
+  qslAddrCn: '浙江省金华市永康市花街镇\n双溪村南苑5号',
+  qslAddrEn: 'No. 5, Nanyuan, Shuangxi Village,\nHuajie Town, Yongkang City,\nJinhua · Zhejiang · 321300 · China',
+  qslPost: '321300 · 中国',
+  qslPromise: 'QSL 100% CONFIRMED',
+  website: 'https://bioez.xyz',
+  qrz: 'https://qrz.com/db/BI9DAS',
+  myQth: '浙江金华 · 永康', myGrid: 'PL08',
+  myRig: '泉盛 UV-K6', myAnt: '771 天线', myPwr: '5'
+};
 
 let records = [];
 try { records = JSON.parse(localStorage.getItem(LS_LOG) || '[]'); } catch (e) {}
@@ -5868,6 +6002,7 @@ function applyTheme() {
   if (root && root.classList) {
     root.classList.toggle('dark', t === 'dark');
     root.classList.toggle('light', t === 'light');
+    root.classList.toggle('theme-eqsl', (settings.skin || 'classic') === 'eqsl');
   }
 }
 
@@ -6073,6 +6208,7 @@ function openSettings() {
   els.setFreq.value = settings.defaultFreq;
   els.setRst.value = settings.defaultRst;
   els.setTheme.value = settings.theme || 'auto';
+  els.setSkin.value = settings.skin || 'classic';
   els.setMyRig.value = settings.myRig || '泉盛 UV-K6';
   els.setMyAnt.value = settings.myAnt || '771 天线';
   els.setMyPwr.value = settings.myPwr || '5';
@@ -6106,6 +6242,7 @@ els.btnSaveSettings.addEventListener('click', () => {
   settings.defaultFreq = normalizeFreq(els.setFreq.value) || '145.100';
   settings.defaultRst = els.setRst.value.trim() || '59';
   settings.theme = els.setTheme.value || 'auto';
+  settings.skin = els.setSkin.value || 'classic';
   settings.myRig = els.setMyRig.value.trim() || '泉盛 UV-K6';
   settings.myAnt = els.setMyAnt.value.trim() || '771 天线';
   settings.myPwr = els.setMyPwr.value.trim() || '5';
@@ -6154,6 +6291,31 @@ els.btnWipe.addEventListener('click', () => {
     stats();
     toast('已恢复全部记录 ✓');
   }});
+});
+
+// ── 开发者入口：隐藏按钮 + 开发者码自动填充 ──
+els.btnDevEntry.addEventListener('click', () => {
+  els.devCode.value = '';
+  els.devOverlay.classList.remove('hidden');
+  softFocus(els.devCode);
+});
+els.btnDevCancel.addEventListener('click', () => els.devOverlay.classList.add('hidden'));
+els.devOverlay.addEventListener('click', e => { if (e.target === els.devOverlay) els.devOverlay.classList.add('hidden'); });
+els.devCode.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { e.preventDefault(); els.btnDevConfirm.click(); }
+});
+els.btnDevConfirm.addEventListener('click', () => {
+  const code = els.devCode.value.trim().toUpperCase();
+  if (code && code === DEV_CODE.toUpperCase()) {
+    Object.assign(settings, DEV_PROFILE);
+    try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
+    applyDefaults();
+    applyTheme();
+    els.devOverlay.classList.add('hidden');
+    toast('开发者信息已填入 ✓');
+  } else {
+    toast('代码不正确');
+  }
 });
 
 // ── 首次启动引导（三步向导）──
