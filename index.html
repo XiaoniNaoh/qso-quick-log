@@ -406,6 +406,8 @@ kbd{
   background:var(--card);
   transition:border-color .12s, box-shadow .12s, transform .12s;
   animation:rise .38s ease both;
+  content-visibility:auto;
+  contain-intrinsic-size:96px;
 }
 .qso-row:hover{border-color:var(--accent);box-shadow:var(--shadow)}
 .qso-grid{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;cursor:pointer}
@@ -450,6 +452,8 @@ kbd{
 .qso-date{
   display:flex;align-items:center;gap:8px;margin:14px 0 8px;
   font-size:10.5px;font-weight:800;letter-spacing:.12em;color:var(--ink-3);
+  content-visibility:auto;
+  contain-intrinsic-size:32px;
 }
 .qso-date:first-child{margin-top:0}
 .qso-date::after{content:"";flex:1;height:1px;background:var(--line)}
@@ -959,6 +963,12 @@ button{min-width:0}
   -webkit-backdrop-filter:blur(28px) saturate(1.7);
   backdrop-filter:blur(28px) saturate(1.7);
 }
+/* 滚动时悬浮栏暂离毛玻璃：视觉几乎不变，滚动帧率显著提升 */
+body.scrolling .dock{
+  background:color-mix(in srgb, var(--card) 94%, transparent);
+  -webkit-backdrop-filter:none;
+  backdrop-filter:none;
+}
 .qso-row:hover{transform:translateY(-1px)}
 .qso-date span{background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:999px;font-size:10px;letter-spacing:.04em}
 
@@ -1027,22 +1037,34 @@ button{min-width:0}
 }
 .fr-theme{
   position:relative;display:flex;flex-direction:column;gap:9px;
-  align-items:center;justify-content:center;
-  padding:16px 10px 13px;border:1.5px solid var(--line-2);border-radius:16px;background:var(--bg);
-  cursor:pointer;font:inherit;text-align:center;
-  transition:border-color .2s ease, box-shadow .2s ease, transform .18s cubic-bezier(.16,1,.3,1);
+  align-items:center;justify-content:flex-end;
+  height:92px;padding:0 0 11px;
+  border:1.5px solid transparent;border-radius:18px;
+  background:
+    radial-gradient(130% 100% at 18% 0%, rgba(255,255,255,.38), transparent 55%),
+    linear-gradient(150deg, color-mix(in srgb, var(--pa) 82%, #ffffff 18%) 0%, var(--pa) 55%, var(--pa2) 100%);
+  cursor:pointer;font:inherit;text-align:center;overflow:hidden;
+  transition:border-color .2s ease, box-shadow .25s cubic-bezier(.16,1,.3,1), transform .2s cubic-bezier(.16,1,.3,1);
 }
-.fr-theme:hover{transform:translateY(-2px);border-color:var(--accent)}
-.fr-theme.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-.fr-theme-swatch{
-  width:44px;height:44px;border-radius:50%;
-  background:var(--pa);
-  box-shadow:0 8px 20px color-mix(in srgb, var(--pa) 38%, transparent);
+.fr-theme:hover{transform:translateY(-2px)}
+.fr-theme.on{
+  border-color:var(--pa);
+  transform:translateY(-3px);
+  box-shadow:0 12px 30px color-mix(in srgb, var(--pa) 34%, transparent), 0 0 0 3px color-mix(in srgb, var(--pa) 20%, transparent);
 }
-.fr-theme-name{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:.02em}
+.fr-theme-name{
+  position:relative;z-index:1;
+  font-size:12px;font-weight:800;letter-spacing:.12em;color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,.25);
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.34);
+  border-radius:999px;padding:5px 15px;
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+}
 .fr-theme-check{
-  position:absolute;top:9px;right:9px;width:18px;height:18px;border-radius:50%;
-  background:var(--accent);color:var(--mark-ink);font-size:11px;font-weight:900;
+  position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;
+  background:#fff;color:var(--pa);font-size:12px;font-weight:900;
   display:grid;place-items:center;opacity:0;transform:scale(.55);
   transition:opacity .2s cubic-bezier(.16,1,.3,1), transform .25s cubic-bezier(.16,1,.3,1);
 }
@@ -1472,6 +1494,100 @@ footer a:hover{color:var(--accent)}
   box-shadow:0 6px 18px var(--edit-soft);
 }
 :root.theme-ocean .dock-clear.cancel-mode{
+  color:var(--edit-2);
+  border-color:color-mix(in srgb, var(--edit) 45%, transparent);
+  background:var(--edit-soft);
+}
+/* ── 素白 · 极简主题：中性石墨，克制留白（浅色） ── */
+:root.theme-minimal{
+  --bg:#FAFAFA;
+  --card:#FFFFFF;
+  --ink:#17181C;
+  --ink-2:#5C6066;
+  --ink-3:#A2A6AC;
+  --line:#E9EAEC;
+  --line-2:#D6D8DC;
+  --accent:#5A5F66;
+  --accent-soft:rgba(90,95,102,.09);
+  --mark:#17181C;
+  --mark-2:#2E3238;
+  --mark-ink:#FFFFFF;
+  --mark-soft:rgba(23,24,28,.08);
+  --auto:#5A5F66;
+  --ok:#0F7B4D;
+  --danger:#B42318;
+  --edit:#A8833C;
+  --edit-2:#8A6828;
+  --edit-ink:#FFFDF6;
+  --edit-soft:rgba(168,131,60,.14);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(23,24,28,.04), 0 10px 30px rgba(23,24,28,.06);
+}
+:root.theme-minimal.dark{
+  --bg:#111214;
+  --card:#181A1D;
+  --ink:#ECECEE;
+  --ink-2:#A6A9AE;
+  --ink-3:#6D7177;
+  --line:#27292D;
+  --line-2:#373A3F;
+  --accent:#C7CCD2;
+  --accent-soft:rgba(199,204,210,.12);
+  --mark:#ECECEE;
+  --mark-2:#C9CCD1;
+  --mark-ink:#111214;
+  --mark-soft:rgba(236,236,238,.08);
+  --auto:#C7CCD2;
+  --ok:#4ADE80;
+  --danger:#F87171;
+  --edit:#DBA75F;
+  --edit-2:#C08A4A;
+  --edit-ink:#1B1710;
+  --edit-soft:rgba(219,167,95,.16);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+}
+@media (prefers-color-scheme: dark){
+  :root.theme-minimal:not(.light){
+    --bg:#111214;
+    --card:#181A1D;
+    --ink:#ECECEE;
+    --ink-2:#A6A9AE;
+    --ink-3:#6D7177;
+    --line:#27292D;
+    --line-2:#373A3F;
+    --accent:#C7CCD2;
+    --accent-soft:rgba(199,204,210,.12);
+    --mark:#ECECEE;
+    --mark-2:#C9CCD1;
+    --mark-ink:#111214;
+    --mark-soft:rgba(236,236,238,.08);
+    --auto:#C7CCD2;
+    --ok:#4ADE80;
+    --danger:#F87171;
+    --edit:#DBA75F;
+    --edit-2:#C08A4A;
+    --edit-ink:#1B1710;
+    --edit-soft:rgba(219,167,95,.16);
+    --radius:16px;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
+  }
+}
+/* 修改记录态：暖赭，与素白新记录明确区分 */
+:root.theme-minimal #formCard.editing{
+  border-color:color-mix(in srgb, var(--edit) 55%, transparent);
+  box-shadow:0 0 0 1px color-mix(in srgb, var(--edit) 14%, transparent),var(--shadow);
+}
+:root.theme-minimal #formCard.editing .stamp-main h2{color:var(--edit-2)}
+:root.theme-minimal #formCard.editing .badge{
+  background:linear-gradient(135deg,var(--edit),var(--edit-2));color:var(--edit-ink);
+  box-shadow:0 2px 10px var(--edit-soft);
+}
+:root.theme-minimal .dock-save.edit-mode{
+  background:linear-gradient(135deg,var(--edit),var(--edit-2));color:var(--edit-ink);
+  box-shadow:0 6px 18px var(--edit-soft);
+}
+:root.theme-minimal .dock-clear.cancel-mode{
   color:var(--edit-2);
   border-color:color-mix(in srgb, var(--edit) 45%, transparent);
   background:var(--edit-soft);
@@ -2101,11 +2217,12 @@ footer a:hover{color:var(--accent)}
       <div class="fr-sec-h">🎨 个性化</div>
       <p class="fr-pick-hint">挑一套喜欢的界面风格，浅色 / 深色效果都能看到</p>
       <div class="fr-theme-grid" id="frThemeGrid">
-        <button type="button" class="fr-theme" data-skin="classic" style="--pa:#2f5fc7"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">靛蓝</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="eqsl" style="--pa:#3E8A68"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">苔青</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="sunset" style="--pa:#C47A33"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">琥珀</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="aurora" style="--pa:#6D5AE0"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">极光</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E8F8F"><span class="fr-theme-swatch" aria-hidden="true"></span><span class="fr-theme-name">深海</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="classic" style="--pa:#2f5fc7;--pa2:#1d3f8f"><span class="fr-theme-name">靛蓝</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="eqsl" style="--pa:#3E8A68;--pa2:#24503f"><span class="fr-theme-name">苔青</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="sunset" style="--pa:#C47A33;--pa2:#8a4f1d"><span class="fr-theme-name">琥珀</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="aurora" style="--pa:#6D5AE0;--pa2:#4134a3"><span class="fr-theme-name">极光</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E8F8F;--pa2:#075e5e"><span class="fr-theme-name">深海</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="minimal" style="--pa:#5A5F66;--pa2:#2E3238"><span class="fr-theme-name">素白</span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
@@ -2212,6 +2329,7 @@ footer a:hover{color:var(--accent)}
               <option value="sunset">琥珀</option>
               <option value="aurora">极光</option>
               <option value="ocean">深海</option>
+              <option value="minimal">素白</option>
             </select>
           </div>
         </div>
@@ -2289,7 +2407,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.0.1</b>
+      <b>电子 QSL 卡片 · v2.1.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6660,9 +6778,8 @@ els.btnJumpLog.addEventListener('click', () => {
 });
 
 // ── 悬浮保存栏跟随表单可见性 ──
-let dockRaf = null;
+let dockLastCheck = 0;
 function updateDockVisibility() {
-  dockRaf = null;
   const formEl = document.getElementById('formCard');
   if (!formEl) return;
   const rect = formEl.getBoundingClientRect();
@@ -6677,11 +6794,24 @@ function updateDockVisibility() {
   if (lbl) lbl.textContent = back ? '表单' : '记录';
   if (ic) ic.textContent = back ? '↑' : '📋';
 }
-window.addEventListener('scroll', () => {
-  if (!dockRaf) dockRaf = requestAnimationFrame(updateDockVisibility);
-}, { passive: true });
+function onPageScroll() {
+  // 滚动中降低悬浮栏毛玻璃开销，停稳后恢复玻璃质感
+  document.body.classList.add('scrolling');
+  clearTimeout(scrollGlassTimer);
+  scrollGlassTimer = setTimeout(() => document.body.classList.remove('scrolling'), 160);
+  // 可见性检查节流到 120ms，避免每帧 getBoundingClientRect 强制布局
+  const now = Date.now();
+  if (now - dockLastCheck >= 120) {
+    dockLastCheck = now;
+    updateDockVisibility();
+  }
+}
+let scrollGlassTimer = null;
+window.addEventListener('scroll', onPageScroll, { passive: true });
+let dockResizeTimer = null;
 window.addEventListener('resize', () => {
-  if (!dockRaf) dockRaf = requestAnimationFrame(updateDockVisibility);
+  clearTimeout(dockResizeTimer);
+  dockResizeTimer = setTimeout(updateDockVisibility, 120);
 });
 updateDockVisibility();
 
@@ -6805,7 +6935,7 @@ function applyTheme() {
   if (root && root.classList) {
     root.classList.toggle('dark', t === 'dark');
     root.classList.toggle('light', t === 'light');
-    root.classList.remove('theme-eqsl', 'theme-sunset', 'theme-aurora', 'theme-ocean');
+    root.classList.remove('theme-eqsl', 'theme-sunset', 'theme-aurora', 'theme-ocean', 'theme-minimal');
     if (skin !== 'classic') root.classList.add('theme-' + skin);
   }
 }
@@ -7006,7 +7136,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.0.1';
+const APP_VERSION = '2.1.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
