@@ -1741,7 +1741,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.9</b>
+      <b>电子 QSL 卡片 · v4.10</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -3839,7 +3839,7 @@ body.is-printing .footer{padding:10px 44px 14px}
             <div class="m-name"><span id="mNameCn">收卡人</span> <span class="hl">收</span></div>
             <div class="m-addr" id="mAddrCn">
               收卡地址待填写<br>
-              启用开发者码后自动填入
+              可在「设置」中补充
             </div>
             <span class="m-post" id="mPost">邮编 · 国家</span>
           </div>
@@ -3848,7 +3848,7 @@ body.is-printing .footer{padding:10px 44px 14px}
             <div class="m-name" id="mNameEn">NAME</div>
             <div class="m-addr en" id="mAddrEn">
               Mailing address to be filled<br>
-              Auto-filled after developer code
+              Update it in Settings
             </div>
           </div>
         </div>
@@ -3914,18 +3914,24 @@ meterInput.addEventListener('input', function(){
   renderMeter(parseFloat(this.value));
 });
 
-// ── S 表根据我方 RST 报告自动同步 ──
+// ── S 表根据我方 RST 报告自动同步（支持 59 / 599 / 59+20 等格式）──
 var rstSent = document.getElementById('rstSent');
 
+function meterFromRstValue(str){
+  var m = String(str || '').match(/^(\d)(\d)(\d)?(?:\+(\d+))?$/);
+  if(!m){ return null; }
+  var s = parseInt(m[2], 10);
+  var v = ((s - 1) / 8) * 66.7;
+  var db = m[4] ? parseInt(m[4], 10) : 0;
+  v += (db / 20) * 33.3;
+  return Math.min(100, Math.max(0, v));
+}
+
 function syncMeterFromRst(el){
-  var clean = String(el.textContent || '').replace(/[^0-9]/g, '');
-  if(clean.length >= 2){
-    var s = parseInt(clean.charAt(1), 10);
-    if(s >= 1 && s <= 9){
-      var v = ((s - 1) / 8) * 66.7;
-      meterInput.value = v.toFixed(1);
-      renderMeter(parseFloat(meterInput.value));
-    }
+  var v = meterFromRstValue(el.textContent);
+  if(v !== null){
+    meterInput.value = v.toFixed(1);
+    renderMeter(v);
   }
 }
 
@@ -4239,6 +4245,7 @@ if(window.matchMedia){
 if(orientQ.addEventListener){
   orientQ.addEventListener('change', scaleCardForPrint);
 }
+<\/script>
 </script>
 <script>
 (() => {
@@ -5905,8 +5912,13 @@ function fillQslFrame(r, my) {
       const setV = (id, html) => { const el = d.getElementById(id); if (el) el.innerHTML = html; };
       setV('specV1', ed + esc(rpt.name || 'RPT') + '</span>');
       setV('specV2', ed + esc(rpt.down || r.freq || '—') + '</span> <i>MHz</i>');
-      const off = (rpt.offset !== null && rpt.offset !== undefined && !isNaN(parseFloat(rpt.offset)))
-        ? ((parseFloat(rpt.offset) >= 0 ? '+' : '−') + Math.abs(parseFloat(rpt.offset)).toFixed(3))
+      let offNum = parseFloat(rpt.offset);
+      if ((offNum === null || offNum === undefined || isNaN(offNum)) && rpt.up && rpt.down) {
+        const dn = parseFloat(rpt.down), up = parseFloat(rpt.up);
+        if (!isNaN(dn) && !isNaN(up)) offNum = +(up - dn);
+      }
+      const off = (offNum !== null && offNum !== undefined && !isNaN(offNum))
+        ? ((offNum >= 0 ? '+' : '−') + Math.abs(offNum).toFixed(3))
         : '0';
       setV('specV3', ed + esc(off) + '</span> <i>MHz</i>');
       if (!rpt.ctcss || rpt.ctcss === 'NONE') setV('specV4', 'NONE');
