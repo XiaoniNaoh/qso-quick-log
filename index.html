@@ -931,10 +931,10 @@ footer a:hover{color:var(--accent)}
   font:inherit;color:inherit;cursor:default;
 }
 
-/* ── eQSL 明信片风主题：信纸 + 邮戳（浅色 · 鼠尾草绿） ── */
+/* ── 信笺 · 鼠尾草主题：信纸 + 邮戳（浅色，背景更白显高级） ── */
 :root.theme-eqsl{
-  --bg:#F4F1E9;
-  --card:#FCFAF3;
+  --bg:#FCFBF7;
+  --card:#FFFFFF;
   --ink:#2E2C26;
   --ink-2:#6F6B5E;
   --ink-3:#A39E8E;
@@ -951,10 +951,10 @@ footer a:hover{color:var(--accent)}
   --danger:#A96A55;
   --radius:10px;
 }
-/* eQSL 明信片风 · 深色（冷调柔和，去黄不刺眼） */
+/* 信笺 · 鼠尾草 · 深色（背景更黑，冷调柔和） */
 :root.theme-eqsl.dark{
-  --bg:#151713;
-  --card:#1D201A;
+  --bg:#0E0F0C;
+  --card:#161814;
   --ink:#E5E7DE;
   --ink-2:#A2A79A;
   --ink-3:#6F7466;
@@ -972,8 +972,8 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light){
-    --bg:#151713;
-    --card:#1D201A;
+    --bg:#0E0F0C;
+    --card:#161814;
     --ink:#E5E7DE;
     --ink-2:#A2A79A;
     --ink-3:#6F7466;
@@ -1084,6 +1084,25 @@ footer a:hover{color:var(--accent)}
 :root.theme-eqsl .empty .big{background:var(--accent-soft)}
 :root.theme-eqsl #search{border-color:var(--line-2)}
 :root.theme-eqsl .rpt-offset{border-color:color-mix(in srgb, var(--accent) 22%, transparent)}
+/* 修改记录态：重点色同步为鼠尾草 */
+:root.theme-eqsl #formCard.editing{
+  border-color:rgba(95,126,110,.55);
+  box-shadow:0 0 0 1px rgba(95,126,110,.16),var(--shadow);
+}
+:root.theme-eqsl #formCard.editing .stamp-main h2{color:var(--mark)}
+:root.theme-eqsl #formCard.editing .badge{
+  background:var(--mark);color:var(--mark-ink);
+  box-shadow:0 2px 10px var(--mark-soft);
+}
+:root.theme-eqsl .dock-save.edit-mode{
+  background:var(--mark);color:var(--mark-ink);
+  box-shadow:0 6px 18px var(--mark-soft);
+}
+:root.theme-eqsl .dock-clear.cancel-mode{
+  color:var(--accent);
+  border-color:color-mix(in srgb, var(--accent) 45%, transparent);
+  background:var(--accent-soft);
+}
 
 /* ── 惊喜感小动画（优雅、克制） ── */
 @keyframes float{
@@ -1656,8 +1675,8 @@ footer a:hover{color:var(--accent)}
         </div>
         <div class="field"><label for="setSkin">界面风格</label>
           <select class="inp" id="setSkin">
-            <option value="classic">经典 · 工程纸风</option>
-            <option value="eqsl">eQSL 明信片风 · 信纸</option>
+            <option value="classic">经典 · 靛蓝</option>
+            <option value="eqsl">信笺 · 鼠尾草</option>
           </select>
         </div>
       </div>
@@ -1777,7 +1796,7 @@ footer a:hover{color:var(--accent)}
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eQSL · BI9DAS — Radio Card System v4.8 · QSO CONTOUR</title>
+<title>eQSL · Radio Card System v4.8 · QSO CONTOUR</title>
 <style>
 /* ───────────────────────── 基础 ───────────────────────── */
 :root{
@@ -3539,7 +3558,7 @@ body.is-printing .footer{padding:10px 44px 14px}
   <div class="topbar">
     <div class="tb-left">
       <span class="logo-mark"><i></i><i></i><i></i><i></i></span>
-      <span class="tb-brand"><span id="cardCall">BI9DAS</span><span class="tb-sub">/ HAM STATION</span></span>
+      <span class="tb-brand"><span id="cardCall">MY CALL</span><span class="tb-sub">/ HAM STATION</span></span>
     </div>
     <div class="tb-mid">
       <span class="live"><span class="dot"></span>ON AIR</span>
@@ -3547,7 +3566,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     </div>
     <div class="tb-right">
       <span>CN · ZHEJIANG</span>
-      <a id="tbQrzLink" href="https://qrz.com/db/BI9DAS" target="_blank">QRZ.COM/DB/BI9DAS ↗</a>
+      <a id="tbQrzLink" href="#" target="_blank">QRZ ↗</a>
     </div>
   </div>
 
@@ -3559,7 +3578,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     <div class="hero-main">
       <div class="kicker">Confirming QSO with</div>
       <div class="callsign">
-        <span id="callP1">BI9</span><span class="hl" id="callP2">DAS</span>
+        <span id="callP1">QSO</span><span class="hl" id="callP2">LOG</span>
       </div>
       <div class="qso-map" id="qsoMap">
         <div class="qm-head">
@@ -3569,7 +3588,7 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="qm-body">
           <svg class="qm-terrain" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 150"><path d="M0.0,123.0 L8.0,123.7 L16.0,124.2 L24.0,124.6 L32.0,124.9 L40.0,125.0 L48.0,125.0 L56.0,124.8 L64.0,124.5 L72.0,124.1 L80.0,123.5 L88.0,122.8 L96.0,122.0 L104.0,121.2 L112.0,120.2 L120.0,119.3 L128.0,118.3 L136.0,117.3 L144.0,116.3 L152.0,115.3 L160.0,114.4 L168.0,113.6 L176.0,112.9 L184.0,112.2 L192.0,111.7 L200.0,111.3 L208.0,111.1 L216.0,111.0 L224.0,111.1 L232.0,111.2 L240.0,111.6 L248.0,112.0 L256.0,112.6 L264.0,113.3 L272.0,114.1 L280.0,115.0 L288.0,115.9 L296.0,116.9 L304.0,117.9 L312.0,118.9 L320.0,119.9 L328.0,120.9 L336.0,121.7 L344.0,122.6 L352.0,123.3 L360.0,123.9 L368.0,124.4 L376.0,124.7 L384.0,124.9 L392.0,125.0 L400.0,124.9 L408.0,124.7 L416.0,124.4 L424.0,123.9 L432.0,123.3 L440.0,122.5 L448.0,121.7 L456.0,120.8 L464.0,119.9 L472.0,118.9 L480.0,117.9 L488.0,116.9 L496.0,115.9 L504.0,115.0 L512.0,114.1 L520.0,113.3 L528.0,112.6 L536.0,112.0 L544.0,111.6 L552.0,111.2 L560.0,111.0" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,108.2 L8.0,107.7 L16.0,107.1 L24.0,106.3 L32.0,105.5 L40.0,104.6 L48.0,103.7 L56.0,102.7 L64.0,101.6 L72.0,100.6 L80.0,99.5 L88.0,98.4 L96.0,97.4 L104.0,96.3 L112.0,95.4 L120.0,94.5 L128.0,93.7 L136.0,93.0 L144.0,92.3 L152.0,91.8 L160.0,91.4 L168.0,91.2 L176.0,91.0 L184.0,91.0 L192.0,91.1 L200.0,91.4 L208.0,91.7 L216.0,92.2 L224.0,92.8 L232.0,93.5 L240.0,94.3 L248.0,95.2 L256.0,96.1 L264.0,97.1 L272.0,98.2 L280.0,99.3 L288.0,100.3 L296.0,101.4 L304.0,102.5 L312.0,103.5 L320.0,104.4 L328.0,105.4 L336.0,106.2 L344.0,106.9 L352.0,107.6 L360.0,108.1 L368.0,108.5 L376.0,108.8 L384.0,109.0 L392.0,109.0 L400.0,108.9 L408.0,108.7 L416.0,108.3 L424.0,107.9 L432.0,107.3 L440.0,106.6 L448.0,105.8 L456.0,105.0 L464.0,104.0 L472.0,103.0 L480.0,102.0 L488.0,100.9 L496.0,99.9 L504.0,98.8 L512.0,97.7 L520.0,96.7 L528.0,95.7 L536.0,94.8 L544.0,94.0 L552.0,93.2 L560.0,92.5" fill="none" stroke="#3E6B4F" stroke-width="0.55" opacity=".75"/><path d="M0.0,84.3 L8.0,83.2 L16.0,82.2 L24.0,81.1 L32.0,80.1 L40.0,79.2 L48.0,78.4 L56.0,77.7 L64.0,77.1 L72.0,76.6 L80.0,76.3 L88.0,76.1 L96.0,76.0 L104.0,76.1 L112.0,76.3 L120.0,76.7 L128.0,77.2 L136.0,77.9 L144.0,78.6 L152.0,79.5 L160.0,80.4 L168.0,81.4 L176.0,82.5 L184.0,83.6 L192.0,84.6 L200.0,85.7 L208.0,86.8 L216.0,87.8 L224.0,88.7 L232.0,89.5 L240.0,90.3 L248.0,90.9 L256.0,91.4 L264.0,91.7 L272.0,91.9 L280.0,92.0 L288.0,91.9 L296.0,91.7 L304.0,91.3 L312.0,90.8 L320.0,90.2 L328.0,89.4 L336.0,88.6 L344.0,87.7 L352.0,86.7 L360.0,85.6 L368.0,84.5 L376.0,83.5 L384.0,82.4 L392.0,81.3 L400.0,80.3 L408.0,79.4 L416.0,78.6 L424.0,77.8 L432.0,77.2 L440.0,76.7 L448.0,76.3 L456.0,76.1 L464.0,76.0 L472.0,76.1 L480.0,76.3 L488.0,76.6 L496.0,77.1 L504.0,77.7 L512.0,78.5 L520.0,79.3 L528.0,80.2 L536.0,81.2 L544.0,82.3 L552.0,83.3 L560.0,84.4" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,74.4 L8.0,74.7 L16.0,74.9 L24.0,75.0 L32.0,74.9 L40.0,74.7 L48.0,74.3 L56.0,73.8 L64.0,73.1 L72.0,72.4 L80.0,71.5 L88.0,70.6 L96.0,69.6 L104.0,68.5 L112.0,67.3 L120.0,66.2 L128.0,65.0 L136.0,63.9 L144.0,62.8 L152.0,61.8 L160.0,60.8 L168.0,59.9 L176.0,59.1 L184.0,58.4 L192.0,57.9 L200.0,57.4 L208.0,57.2 L216.0,57.0 L224.0,57.0 L232.0,57.2 L240.0,57.5 L248.0,57.9 L256.0,58.5 L264.0,59.2 L272.0,60.0 L280.0,60.9 L288.0,61.9 L296.0,62.9 L304.0,64.0 L312.0,65.2 L320.0,66.3 L328.0,67.5 L336.0,68.6 L344.0,69.7 L352.0,70.7 L360.0,71.6 L368.0,72.5 L376.0,73.2 L384.0,73.9 L392.0,74.4 L400.0,74.7 L408.0,74.9 L416.0,75.0 L424.0,74.9 L432.0,74.7 L440.0,74.3 L448.0,73.8 L456.0,73.2 L464.0,72.5 L472.0,71.6 L480.0,70.7 L488.0,69.6 L496.0,68.6 L504.0,67.4 L512.0,66.3 L520.0,65.1 L528.0,64.0 L536.0,62.9 L544.0,61.9 L552.0,60.9 L560.0,60.0" fill="none" stroke="#3E6B4F" stroke-width="0.55" opacity=".75"/><path d="M0.0,53.6 L8.0,52.7 L16.0,51.6 L24.0,50.6 L32.0,49.5 L40.0,48.5 L48.0,47.5 L56.0,46.5 L64.0,45.6 L72.0,44.9 L80.0,44.2 L88.0,43.7 L96.0,43.3 L104.0,43.1 L112.0,43.0 L120.0,43.1 L128.0,43.4 L136.0,43.8 L144.0,44.3 L152.0,45.0 L160.0,45.8 L168.0,46.7 L176.0,47.7 L184.0,48.7 L192.0,49.8 L200.0,50.8 L208.0,51.9 L216.0,52.9 L224.0,53.8 L232.0,54.6 L240.0,55.4 L248.0,56.0 L256.0,56.5 L264.0,56.8 L272.0,57.0 L280.0,57.0 L288.0,56.8 L296.0,56.5 L304.0,56.1 L312.0,55.5 L320.0,54.7 L328.0,53.9 L336.0,53.0 L344.0,52.0 L352.0,51.0 L360.0,49.9 L368.0,48.8 L376.0,47.8 L384.0,46.8 L392.0,45.9 L400.0,45.1 L408.0,44.4 L416.0,43.8 L424.0,43.4 L432.0,43.1 L440.0,43.0 L448.0,43.0 L456.0,43.3 L464.0,43.6 L472.0,44.1 L480.0,44.8 L488.0,45.5 L496.0,46.4 L504.0,47.3 L512.0,48.3 L520.0,49.4 L528.0,50.5 L536.0,51.5 L544.0,52.5 L552.0,53.5 L560.0,54.4" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,102.0 L8.0,101.9 L16.0,101.5 L24.0,101.1 L32.0,100.4 L40.0,99.6 L48.0,98.6 L56.0,97.6 L64.0,96.4 L72.0,95.1 L80.0,93.8 L88.0,92.5 L96.0,91.1 L104.0,89.8 L112.0,88.5 L120.0,87.2 L128.0,86.1 L136.0,85.0 L144.0,84.1 L152.0,83.4 L160.0,82.8 L168.0,82.3 L176.0,82.1 L184.0,82.0 L192.0,82.1 L200.0,82.4 L208.0,82.9 L216.0,83.5 L224.0,84.3 L232.0,85.3 L240.0,86.3 L248.0,87.5 L256.0,88.7 L264.0,90.1 L272.0,91.4 L280.0,92.8 L288.0,94.1 L296.0,95.4 L304.0,96.7 L312.0,97.8 L320.0,98.9 L328.0,99.8 L336.0,100.6 L344.0,101.2 L352.0,101.6 L360.0,101.9 L368.0,102.0 L376.0,101.9 L384.0,101.6 L392.0,101.2 L400.0,100.5 L408.0,99.8 L416.0,98.8 L424.0,97.8 L432.0,96.6 L440.0,95.4 L448.0,94.1 L456.0,92.7 L464.0,91.4 L472.0,90.0 L480.0,88.7 L488.0,87.5 L496.0,86.3 L504.0,85.2 L512.0,84.3 L520.0,83.5 L528.0,82.9 L536.0,82.4 L544.0,82.1 L552.0,82.0 L560.0,82.1" fill="none" stroke="#C8F631" stroke-width="1.1" opacity=".9"/><path d="M0.0,78.7 L8.0,79.3 L16.0,79.9 L24.0,80.4 L32.0,80.9 L40.0,81.4 L48.0,81.8 L56.0,82.1 L64.0,82.4 L72.0,82.7 L80.0,82.8 L88.0,83.0 L96.0,83.0 L104.0,83.0 L112.0,82.9 L120.0,82.7 L128.0,82.5 L136.0,82.3 L144.0,81.9 L152.0,81.6 L160.0,81.1 L168.0,80.6 L176.0,80.1 L184.0,79.6 L192.0,79.0 L200.0,78.3 L208.0,77.7 L216.0,77.0 L224.0,76.4 L232.0,75.7 L240.0,75.0 L248.0,74.4 L256.0,73.7 L264.0,73.1 L272.0,72.5 L280.0,71.9 L288.0,71.4 L296.0,70.9 L304.0,70.5 L312.0,70.1 L320.0,69.8 L328.0,69.5 L336.0,69.3 L344.0,69.1 L352.0,69.0 L360.0,69.0 L368.0,69.0 L376.0,69.1 L384.0,69.3 L392.0,69.5 L400.0,69.8 L408.0,70.2 L416.0,70.6 L424.0,71.0 L432.0,71.5 L440.0,72.0 L448.0,72.6 L456.0,73.2 L464.0,73.8 L472.0,74.5 L480.0,75.1 L488.0,75.8 L496.0,76.5 L504.0,77.1 L512.0,77.8 L520.0,78.4 L528.0,79.1 L536.0,79.7 L544.0,80.2 L552.0,80.7 L560.0,81.2" fill="none" stroke="#14301D" stroke-width="1.2" stroke-dasharray="7 5" opacity=".85"/></svg>
           <span class="qm-label">QSO PATH ┅</span>
-          <span class="qm-mark qm-a"><span class="star">★</span><span id="qmMyCall">BI9DAS</span></span>
+          <span class="qm-mark qm-a"><span class="star">★</span><span id="qmMyCall">MY CALL</span></span>
           <span class="qm-rpt" id="qmRpt" title="经中继 RPT">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14301D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 21V4"/>
@@ -3591,9 +3610,9 @@ body.is-printing .footer{padding:10px 44px 14px}
         </div>
       </div>
       <div class="meta-line">
-        <span class="kv"><i>OP</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoOp">倪徐磊 · XULEI NI</b></span>
+        <span class="kv"><i>OP</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoOp">OP NAME</b></span>
         <span class="kv"><i>QTH</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoQthEn">YONGKANG · JINHUA</b></span>
-        <span class="kv"><i>GRID</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoGridEn">PL08</b></span>
+        <span class="kv"><i>GRID</i><b class="editable" contenteditable="true" spellcheck="false" id="qsoGridEn">GRID</b></span>
         <span class="kv"><i>CQ / ITU</i><b class="editable" contenteditable="true" spellcheck="false">24 / 44</b></span>
         <span class="kv"><i>LIC</i><b class="editable" contenteditable="true" spellcheck="false">CRAC</b></span>
       </div>
@@ -3719,17 +3738,17 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="data-row">
           <span class="idx">07</span>
           <span class="dl">Operator</span>
-          <span class="dv editable" contenteditable="true" spellcheck="false" id="qsoOpCn">倪徐磊 · Xulei Ni</span>
+          <span class="dv editable" contenteditable="true" spellcheck="false" id="qsoOpCn">OP</span>
         </div>
         <div class="data-row">
           <span class="idx">08</span>
           <span class="dl">QTH</span>
-          <span class="dv editable" contenteditable="true" spellcheck="false" id="qsoQthCn">浙江金华 · 永康</span>
+          <span class="dv editable" contenteditable="true" spellcheck="false" id="qsoQthCn">QTH</span>
         </div>
         <div class="data-row">
           <span class="idx">09</span>
           <span class="dl">Grid</span>
-          <span class="dv"><span class="editable mono" contenteditable="true" spellcheck="false" id="qsoGridCn">PL08</span></span>
+          <span class="dv"><span class="editable mono" contenteditable="true" spellcheck="false" id="qsoGridCn">GRID</span></span>
         </div>
         <div class="data-row">
           <span class="idx">10</span>
@@ -3753,7 +3772,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     <!-- 备注 + QSL 选项 -->
     <div class="remarks">
       <span class="dl">RMKS</span>
-      <span class="editable" contenteditable="true" spellcheck="false" id="qsoRemark">TNX FER QSO! PSE QSL VIA LoTW / QRZ / DIRECT. VY 73 DE BI9DAS.</span>
+      <span class="editable" contenteditable="true" spellcheck="false" id="qsoRemark">TNX FER QSO! PSE QSL VIA LoTW / QRZ / DIRECT. VY 73 DE OM.</span>
       <span class="qsl-options">
         <span class="qsl-opt on"><span class="box"></span>PSE QSL</span>
         <span class="qsl-opt"><span class="box"></span>TNX QSL</span>
@@ -3810,27 +3829,26 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="mail-head">
           <span class="mail-title">SHIP-TO · 收卡地址</span>
           <span class="mail-meta">
-            <span class="chip">FROM · <span id="mailFrom">BI9DAS</span></span>
+            <span class="chip">FROM · <span id="mailFrom">MY CALL</span></span>
             <span class="chip green">100% 回卡</span>
           </span>
         </div>
         <div class="mail-grid">
           <div class="mail-col">
             <span class="m-tag">中文地址 · CN</span>
-            <div class="m-name"><span id="mNameCn">倪徐磊</span> <span class="hl">收</span></div>
+            <div class="m-name"><span id="mNameCn">收卡人</span> <span class="hl">收</span></div>
             <div class="m-addr" id="mAddrCn">
-              浙江省金华市永康市花街镇<br>
-              双溪村南苑5号
+              收卡地址待填写<br>
+              启用开发者码后自动填入
             </div>
-            <span class="m-post" id="mPost">邮编 321300 · 中国</span>
+            <span class="m-post" id="mPost">邮编 · 国家</span>
           </div>
           <div class="mail-col">
             <span class="m-tag">English · EN</span>
-            <div class="m-name" id="mNameEn">Xulei Ni</div>
+            <div class="m-name" id="mNameEn">NAME</div>
             <div class="m-addr en" id="mAddrEn">
-              No. 5, Nanyuan, Shuangxi Village,<br>
-              Huajie Town, Yongkang City,<br>
-              Jinhua · Zhejiang · 321300 · China
+              Mailing address to be filled<br>
+              Auto-filled after developer code
             </div>
           </div>
         </div>
@@ -3843,7 +3861,7 @@ body.is-printing .footer{padding:10px 44px 14px}
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 296 296" width="296" height="296" shape-rendering="crispEdges"><rect width="296" height="296" fill="#ffffff"/><g fill="#0a0a0a"><rect x="32" y="32" width="8" height="8"/><rect x="40" y="32" width="8" height="8"/><rect x="48" y="32" width="8" height="8"/><rect x="56" y="32" width="8" height="8"/><rect x="64" y="32" width="8" height="8"/><rect x="72" y="32" width="8" height="8"/><rect x="80" y="32" width="8" height="8"/><rect x="96" y="32" width="8" height="8"/><rect x="136" y="32" width="8" height="8"/><rect x="144" y="32" width="8" height="8"/><rect x="152" y="32" width="8" height="8"/><rect x="176" y="32" width="8" height="8"/><rect x="208" y="32" width="8" height="8"/><rect x="216" y="32" width="8" height="8"/><rect x="224" y="32" width="8" height="8"/><rect x="232" y="32" width="8" height="8"/><rect x="240" y="32" width="8" height="8"/><rect x="248" y="32" width="8" height="8"/><rect x="256" y="32" width="8" height="8"/><rect x="32" y="40" width="8" height="8"/><rect x="80" y="40" width="8" height="8"/><rect x="96" y="40" width="8" height="8"/><rect x="104" y="40" width="8" height="8"/><rect x="120" y="40" width="8" height="8"/><rect x="136" y="40" width="8" height="8"/><rect x="144" y="40" width="8" height="8"/><rect x="152" y="40" width="8" height="8"/><rect x="176" y="40" width="8" height="8"/><rect x="184" y="40" width="8" height="8"/><rect x="192" y="40" width="8" height="8"/><rect x="208" y="40" width="8" height="8"/><rect x="256" y="40" width="8" height="8"/><rect x="32" y="48" width="8" height="8"/><rect x="48" y="48" width="8" height="8"/><rect x="56" y="48" width="8" height="8"/><rect x="64" y="48" width="8" height="8"/><rect x="80" y="48" width="8" height="8"/><rect x="96" y="48" width="8" height="8"/><rect x="104" y="48" width="8" height="8"/><rect x="128" y="48" width="8" height="8"/><rect x="136" y="48" width="8" height="8"/><rect x="144" y="48" width="8" height="8"/><rect x="184" y="48" width="8" height="8"/><rect x="208" y="48" width="8" height="8"/><rect x="224" y="48" width="8" height="8"/><rect x="232" y="48" width="8" height="8"/><rect x="240" y="48" width="8" height="8"/><rect x="256" y="48" width="8" height="8"/><rect x="32" y="56" width="8" height="8"/><rect x="48" y="56" width="8" height="8"/><rect x="56" y="56" width="8" height="8"/><rect x="64" y="56" width="8" height="8"/><rect x="80" y="56" width="8" height="8"/><rect x="128" y="56" width="8" height="8"/><rect x="144" y="56" width="8" height="8"/><rect x="152" y="56" width="8" height="8"/><rect x="168" y="56" width="8" height="8"/><rect x="184" y="56" width="8" height="8"/><rect x="192" y="56" width="8" height="8"/><rect x="208" y="56" width="8" height="8"/><rect x="224" y="56" width="8" height="8"/><rect x="232" y="56" width="8" height="8"/><rect x="240" y="56" width="8" height="8"/><rect x="256" y="56" width="8" height="8"/><rect x="32" y="64" width="8" height="8"/><rect x="48" y="64" width="8" height="8"/><rect x="56" y="64" width="8" height="8"/><rect x="64" y="64" width="8" height="8"/><rect x="80" y="64" width="8" height="8"/><rect x="96" y="64" width="8" height="8"/><rect x="104" y="64" width="8" height="8"/><rect x="112" y="64" width="8" height="8"/><rect x="120" y="64" width="8" height="8"/><rect x="136" y="64" width="8" height="8"/><rect x="152" y="64" width="8" height="8"/><rect x="168" y="64" width="8" height="8"/><rect x="184" y="64" width="8" height="8"/><rect x="208" y="64" width="8" height="8"/><rect x="224" y="64" width="8" height="8"/><rect x="232" y="64" width="8" height="8"/><rect x="240" y="64" width="8" height="8"/><rect x="256" y="64" width="8" height="8"/><rect x="32" y="72" width="8" height="8"/><rect x="80" y="72" width="8" height="8"/><rect x="112" y="72" width="8" height="8"/><rect x="120" y="72" width="8" height="8"/><rect x="128" y="72" width="8" height="8"/><rect x="136" y="72" width="8" height="8"/><rect x="144" y="72" width="8" height="8"/><rect x="192" y="72" width="8" height="8"/><rect x="208" y="72" width="8" height="8"/><rect x="256" y="72" width="8" height="8"/><rect x="32" y="80" width="8" height="8"/><rect x="40" y="80" width="8" height="8"/><rect x="48" y="80" width="8" height="8"/><rect x="56" y="80" width="8" height="8"/><rect x="64" y="80" width="8" height="8"/><rect x="72" y="80" width="8" height="8"/><rect x="80" y="80" width="8" height="8"/><rect x="96" y="80" width="8" height="8"/><rect x="112" y="80" width="8" height="8"/><rect x="128" y="80" width="8" height="8"/><rect x="144" y="80" width="8" height="8"/><rect x="160" y="80" width="8" height="8"/><rect x="176" y="80" width="8" height="8"/><rect x="192" y="80" width="8" height="8"/><rect x="208" y="80" width="8" height="8"/><rect x="216" y="80" width="8" height="8"/><rect x="224" y="80" width="8" height="8"/><rect x="232" y="80" width="8" height="8"/><rect x="240" y="80" width="8" height="8"/><rect x="248" y="80" width="8" height="8"/><rect x="256" y="80" width="8" height="8"/><rect x="104" y="88" width="8" height="8"/><rect x="112" y="88" width="8" height="8"/><rect x="144" y="88" width="8" height="8"/><rect x="176" y="88" width="8" height="8"/><rect x="192" y="88" width="8" height="8"/><rect x="32" y="96" width="8" height="8"/><rect x="56" y="96" width="8" height="8"/><rect x="64" y="96" width="8" height="8"/><rect x="72" y="96" width="8" height="8"/><rect x="80" y="96" width="8" height="8"/><rect x="88" y="96" width="8" height="8"/><rect x="96" y="96" width="8" height="8"/><rect x="104" y="96" width="8" height="8"/><rect x="112" y="96" width="8" height="8"/><rect x="120" y="96" width="8" height="8"/><rect x="136" y="96" width="8" height="8"/><rect x="144" y="96" width="8" height="8"/><rect x="152" y="96" width="8" height="8"/><rect x="160" y="96" width="8" height="8"/><rect x="168" y="96" width="8" height="8"/><rect x="184" y="96" width="8" height="8"/><rect x="200" y="96" width="8" height="8"/><rect x="224" y="96" width="8" height="8"/><rect x="240" y="96" width="8" height="8"/><rect x="248" y="96" width="8" height="8"/><rect x="256" y="96" width="8" height="8"/><rect x="32" y="104" width="8" height="8"/><rect x="40" y="104" width="8" height="8"/><rect x="48" y="104" width="8" height="8"/><rect x="56" y="104" width="8" height="8"/><rect x="72" y="104" width="8" height="8"/><rect x="96" y="104" width="8" height="8"/><rect x="112" y="104" width="8" height="8"/><rect x="120" y="104" width="8" height="8"/><rect x="128" y="104" width="8" height="8"/><rect x="144" y="104" width="8" height="8"/><rect x="176" y="104" width="8" height="8"/><rect x="184" y="104" width="8" height="8"/><rect x="200" y="104" width="8" height="8"/><rect x="216" y="104" width="8" height="8"/><rect x="224" y="104" width="8" height="8"/><rect x="240" y="104" width="8" height="8"/><rect x="248" y="104" width="8" height="8"/><rect x="32" y="112" width="8" height="8"/><rect x="56" y="112" width="8" height="8"/><rect x="64" y="112" width="8" height="8"/><rect x="80" y="112" width="8" height="8"/><rect x="88" y="112" width="8" height="8"/><rect x="96" y="112" width="8" height="8"/><rect x="128" y="112" width="8" height="8"/><rect x="144" y="112" width="8" height="8"/><rect x="168" y="112" width="8" height="8"/><rect x="192" y="112" width="8" height="8"/><rect x="200" y="112" width="8" height="8"/><rect x="208" y="112" width="8" height="8"/><rect x="224" y="112" width="8" height="8"/><rect x="240" y="112" width="8" height="8"/><rect x="40" y="120" width="8" height="8"/><rect x="48" y="120" width="8" height="8"/><rect x="56" y="120" width="8" height="8"/><rect x="64" y="120" width="8" height="8"/><rect x="72" y="120" width="8" height="8"/><rect x="120" y="120" width="8" height="8"/><rect x="144" y="120" width="8" height="8"/><rect x="152" y="120" width="8" height="8"/><rect x="168" y="120" width="8" height="8"/><rect x="184" y="120" width="8" height="8"/><rect x="224" y="120" width="8" height="8"/><rect x="232" y="120" width="8" height="8"/><rect x="256" y="120" width="8" height="8"/><rect x="32" y="128" width="8" height="8"/><rect x="40" y="128" width="8" height="8"/><rect x="80" y="128" width="8" height="8"/><rect x="88" y="128" width="8" height="8"/><rect x="112" y="128" width="8" height="8"/><rect x="120" y="128" width="8" height="8"/><rect x="136" y="128" width="8" height="8"/><rect x="144" y="128" width="8" height="8"/><rect x="160" y="128" width="8" height="8"/><rect x="184" y="128" width="8" height="8"/><rect x="200" y="128" width="8" height="8"/><rect x="208" y="128" width="8" height="8"/><rect x="216" y="128" width="8" height="8"/><rect x="256" y="128" width="8" height="8"/><rect x="32" y="136" width="8" height="8"/><rect x="72" y="136" width="8" height="8"/><rect x="88" y="136" width="8" height="8"/><rect x="120" y="136" width="8" height="8"/><rect x="208" y="136" width="8" height="8"/><rect x="216" y="136" width="8" height="8"/><rect x="224" y="136" width="8" height="8"/><rect x="232" y="136" width="8" height="8"/><rect x="240" y="136" width="8" height="8"/><rect x="248" y="136" width="8" height="8"/><rect x="256" y="136" width="8" height="8"/><rect x="40" y="144" width="8" height="8"/><rect x="56" y="144" width="8" height="8"/><rect x="80" y="144" width="8" height="8"/><rect x="96" y="144" width="8" height="8"/><rect x="104" y="144" width="8" height="8"/><rect x="120" y="144" width="8" height="8"/><rect x="128" y="144" width="8" height="8"/><rect x="144" y="144" width="8" height="8"/><rect x="152" y="144" width="8" height="8"/><rect x="168" y="144" width="8" height="8"/><rect x="176" y="144" width="8" height="8"/><rect x="184" y="144" width="8" height="8"/><rect x="192" y="144" width="8" height="8"/><rect x="216" y="144" width="8" height="8"/><rect x="240" y="144" width="8" height="8"/><rect x="256" y="144" width="8" height="8"/><rect x="40" y="152" width="8" height="8"/><rect x="48" y="152" width="8" height="8"/><rect x="56" y="152" width="8" height="8"/><rect x="88" y="152" width="8" height="8"/><rect x="96" y="152" width="8" height="8"/><rect x="104" y="152" width="8" height="8"/><rect x="120" y="152" width="8" height="8"/><rect x="128" y="152" width="8" height="8"/><rect x="136" y="152" width="8" height="8"/><rect x="144" y="152" width="8" height="8"/><rect x="152" y="152" width="8" height="8"/><rect x="160" y="152" width="8" height="8"/><rect x="192" y="152" width="8" height="8"/><rect x="216" y="152" width="8" height="8"/><rect x="240" y="152" width="8" height="8"/><rect x="256" y="152" width="8" height="8"/><rect x="32" y="160" width="8" height="8"/><rect x="40" y="160" width="8" height="8"/><rect x="64" y="160" width="8" height="8"/><rect x="72" y="160" width="8" height="8"/><rect x="80" y="160" width="8" height="8"/><rect x="88" y="160" width="8" height="8"/><rect x="104" y="160" width="8" height="8"/><rect x="120" y="160" width="8" height="8"/><rect x="128" y="160" width="8" height="8"/><rect x="152" y="160" width="8" height="8"/><rect x="160" y="160" width="8" height="8"/><rect x="176" y="160" width="8" height="8"/><rect x="192" y="160" width="8" height="8"/><rect x="216" y="160" width="8" height="8"/><rect x="232" y="160" width="8" height="8"/><rect x="32" y="168" width="8" height="8"/><rect x="88" y="168" width="8" height="8"/><rect x="96" y="168" width="8" height="8"/><rect x="104" y="168" width="8" height="8"/><rect x="120" y="168" width="8" height="8"/><rect x="176" y="168" width="8" height="8"/><rect x="184" y="168" width="8" height="8"/><rect x="192" y="168" width="8" height="8"/><rect x="200" y="168" width="8" height="8"/><rect x="224" y="168" width="8" height="8"/><rect x="240" y="168" width="8" height="8"/><rect x="248" y="168" width="8" height="8"/><rect x="32" y="176" width="8" height="8"/><rect x="40" y="176" width="8" height="8"/><rect x="56" y="176" width="8" height="8"/><rect x="64" y="176" width="8" height="8"/><rect x="72" y="176" width="8" height="8"/><rect x="80" y="176" width="8" height="8"/><rect x="96" y="176" width="8" height="8"/><rect x="112" y="176" width="8" height="8"/><rect x="120" y="176" width="8" height="8"/><rect x="136" y="176" width="8" height="8"/><rect x="144" y="176" width="8" height="8"/><rect x="152" y="176" width="8" height="8"/><rect x="184" y="176" width="8" height="8"/><rect x="200" y="176" width="8" height="8"/><rect x="224" y="176" width="8" height="8"/><rect x="232" y="176" width="8" height="8"/><rect x="256" y="176" width="8" height="8"/><rect x="32" y="184" width="8" height="8"/><rect x="40" y="184" width="8" height="8"/><rect x="72" y="184" width="8" height="8"/><rect x="88" y="184" width="8" height="8"/><rect x="104" y="184" width="8" height="8"/><rect x="112" y="184" width="8" height="8"/><rect x="128" y="184" width="8" height="8"/><rect x="136" y="184" width="8" height="8"/><rect x="232" y="184" width="8" height="8"/><rect x="240" y="184" width="8" height="8"/><rect x="32" y="192" width="8" height="8"/><rect x="40" y="192" width="8" height="8"/><rect x="56" y="192" width="8" height="8"/><rect x="64" y="192" width="8" height="8"/><rect x="72" y="192" width="8" height="8"/><rect x="80" y="192" width="8" height="8"/><rect x="104" y="192" width="8" height="8"/><rect x="120" y="192" width="8" height="8"/><rect x="128" y="192" width="8" height="8"/><rect x="136" y="192" width="8" height="8"/><rect x="152" y="192" width="8" height="8"/><rect x="160" y="192" width="8" height="8"/><rect x="192" y="192" width="8" height="8"/><rect x="200" y="192" width="8" height="8"/><rect x="208" y="192" width="8" height="8"/><rect x="216" y="192" width="8" height="8"/><rect x="224" y="192" width="8" height="8"/><rect x="232" y="192" width="8" height="8"/><rect x="240" y="192" width="8" height="8"/><rect x="248" y="192" width="8" height="8"/><rect x="96" y="200" width="8" height="8"/><rect x="104" y="200" width="8" height="8"/><rect x="112" y="200" width="8" height="8"/><rect x="136" y="200" width="8" height="8"/><rect x="176" y="200" width="8" height="8"/><rect x="192" y="200" width="8" height="8"/><rect x="224" y="200" width="8" height="8"/><rect x="232" y="200" width="8" height="8"/><rect x="32" y="208" width="8" height="8"/><rect x="40" y="208" width="8" height="8"/><rect x="48" y="208" width="8" height="8"/><rect x="56" y="208" width="8" height="8"/><rect x="64" y="208" width="8" height="8"/><rect x="72" y="208" width="8" height="8"/><rect x="80" y="208" width="8" height="8"/><rect x="96" y="208" width="8" height="8"/><rect x="104" y="208" width="8" height="8"/><rect x="128" y="208" width="8" height="8"/><rect x="136" y="208" width="8" height="8"/><rect x="152" y="208" width="8" height="8"/><rect x="176" y="208" width="8" height="8"/><rect x="184" y="208" width="8" height="8"/><rect x="192" y="208" width="8" height="8"/><rect x="208" y="208" width="8" height="8"/><rect x="224" y="208" width="8" height="8"/><rect x="232" y="208" width="8" height="8"/><rect x="32" y="216" width="8" height="8"/><rect x="80" y="216" width="8" height="8"/><rect x="96" y="216" width="8" height="8"/><rect x="112" y="216" width="8" height="8"/><rect x="120" y="216" width="8" height="8"/><rect x="136" y="216" width="8" height="8"/><rect x="168" y="216" width="8" height="8"/><rect x="176" y="216" width="8" height="8"/><rect x="192" y="216" width="8" height="8"/><rect x="224" y="216" width="8" height="8"/><rect x="248" y="216" width="8" height="8"/><rect x="256" y="216" width="8" height="8"/><rect x="32" y="224" width="8" height="8"/><rect x="48" y="224" width="8" height="8"/><rect x="56" y="224" width="8" height="8"/><rect x="64" y="224" width="8" height="8"/><rect x="80" y="224" width="8" height="8"/><rect x="96" y="224" width="8" height="8"/><rect x="112" y="224" width="8" height="8"/><rect x="120" y="224" width="8" height="8"/><rect x="136" y="224" width="8" height="8"/><rect x="152" y="224" width="8" height="8"/><rect x="160" y="224" width="8" height="8"/><rect x="168" y="224" width="8" height="8"/><rect x="184" y="224" width="8" height="8"/><rect x="192" y="224" width="8" height="8"/><rect x="200" y="224" width="8" height="8"/><rect x="208" y="224" width="8" height="8"/><rect x="216" y="224" width="8" height="8"/><rect x="224" y="224" width="8" height="8"/><rect x="232" y="224" width="8" height="8"/><rect x="248" y="224" width="8" height="8"/><rect x="256" y="224" width="8" height="8"/><rect x="32" y="232" width="8" height="8"/><rect x="48" y="232" width="8" height="8"/><rect x="56" y="232" width="8" height="8"/><rect x="64" y="232" width="8" height="8"/><rect x="80" y="232" width="8" height="8"/><rect x="96" y="232" width="8" height="8"/><rect x="128" y="232" width="8" height="8"/><rect x="136" y="232" width="8" height="8"/><rect x="144" y="232" width="8" height="8"/><rect x="160" y="232" width="8" height="8"/><rect x="168" y="232" width="8" height="8"/><rect x="176" y="232" width="8" height="8"/><rect x="184" y="232" width="8" height="8"/><rect x="200" y="232" width="8" height="8"/><rect x="256" y="232" width="8" height="8"/><rect x="32" y="240" width="8" height="8"/><rect x="48" y="240" width="8" height="8"/><rect x="56" y="240" width="8" height="8"/><rect x="64" y="240" width="8" height="8"/><rect x="80" y="240" width="8" height="8"/><rect x="112" y="240" width="8" height="8"/><rect x="136" y="240" width="8" height="8"/><rect x="152" y="240" width="8" height="8"/><rect x="176" y="240" width="8" height="8"/><rect x="184" y="240" width="8" height="8"/><rect x="192" y="240" width="8" height="8"/><rect x="216" y="240" width="8" height="8"/><rect x="224" y="240" width="8" height="8"/><rect x="240" y="240" width="8" height="8"/><rect x="248" y="240" width="8" height="8"/><rect x="256" y="240" width="8" height="8"/><rect x="32" y="248" width="8" height="8"/><rect x="80" y="248" width="8" height="8"/><rect x="104" y="248" width="8" height="8"/><rect x="112" y="248" width="8" height="8"/><rect x="120" y="248" width="8" height="8"/><rect x="128" y="248" width="8" height="8"/><rect x="136" y="248" width="8" height="8"/><rect x="160" y="248" width="8" height="8"/><rect x="184" y="248" width="8" height="8"/><rect x="232" y="248" width="8" height="8"/><rect x="240" y="248" width="8" height="8"/><rect x="256" y="248" width="8" height="8"/><rect x="32" y="256" width="8" height="8"/><rect x="40" y="256" width="8" height="8"/><rect x="48" y="256" width="8" height="8"/><rect x="56" y="256" width="8" height="8"/><rect x="64" y="256" width="8" height="8"/><rect x="72" y="256" width="8" height="8"/><rect x="80" y="256" width="8" height="8"/><rect x="96" y="256" width="8" height="8"/><rect x="104" y="256" width="8" height="8"/><rect x="144" y="256" width="8" height="8"/><rect x="160" y="256" width="8" height="8"/><rect x="176" y="256" width="8" height="8"/><rect x="184" y="256" width="8" height="8"/><rect x="192" y="256" width="8" height="8"/><rect x="216" y="256" width="8" height="8"/><rect x="224" y="256" width="8" height="8"/></g></svg>
           </div>
         </div>
-        <div class="stamp-cap">SCAN · VERIFY<br><b id="stampCapText">BIOEZ.XYZ/ARCHIVES/BI9DAS</b></div>
+        <div class="stamp-cap">SCAN · VERIFY<br><b id="stampCapText">ARCHIVES / MY CALL</b></div>
         <div class="holo" id="holoBar" aria-hidden="true"></div>
       </div>
 
@@ -3853,11 +3871,11 @@ body.is-printing .footer{padding:10px 44px 14px}
   <!-- 页脚 -->
   <div class="footer">
     <div class="ticker">
-      <span class="inner">TNX FER QSO &nbsp;<b>◆</b>&nbsp; PSE QSL VIA LoTW / QRZ / DIRECT &nbsp;<b>◆</b>&nbsp; VY 73 DE BI9DAS &nbsp;<b>◆</b>&nbsp; BEST 73! &nbsp;<b>◆</b>&nbsp;</span>
+      <span class="inner">TNX FER QSO &nbsp;<b>◆</b>&nbsp; PSE QSL VIA LoTW / QRZ / DIRECT &nbsp;<b>◆</b>&nbsp; VY 73 DE OM &nbsp;<b>◆</b>&nbsp; BEST 73! &nbsp;<b>◆</b>&nbsp;</span>
     </div>
     <div class="links">
-      <a id="linkSite" href="https://bioez.xyz" target="_blank">BIOEZ.XYZ</a>
-      <a id="linkQrz" href="https://qrz.com/db/BI9DAS" target="_blank">QRZ</a>
+      <a id="linkSite" href="#" target="_blank">WEBSITE</a>
+      <a id="linkQrz" href="#" target="_blank">QRZ</a>
       <span class="license">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="12" r="3.2"/><circle cx="15" cy="12" r="3.2"/></svg>
         CC BY-NC-SA 4.0
@@ -4525,6 +4543,8 @@ function markAuto(id, on) {
 
 function clearAutoMarks() {
   FIELDS.forEach(id => markAuto(id, false));
+  autoFillFields.clear();
+  prefillCall = '';
 }
 
 function tickClock() {
@@ -4852,16 +4872,38 @@ els.form.addEventListener('submit', e => { e.preventDefault(); save(); });
 els.inFreq.addEventListener('input', updateBand);
 els.inFreq.addEventListener('blur', () => { els.inFreq.value = normalizeFreq(els.inFreq.value); updateBand(); });
 
+let prefillCall = '';
+const autoFillFields = new Set();
+
 function applyCallPrefill() {
   const v = els.inCall.value.toUpperCase();
   if (els.inCall.value !== v) els.inCall.value = v;
+  // 呼号被改掉：清空之前由自动填充带入的信息，避免张冠李戴
+  if (prefillCall && v !== prefillCall) {
+    autoFillFields.forEach(id => {
+      const el = els[id];
+      if (el) el.value = '';
+      markAuto(id, false);
+    });
+    autoFillFields.clear();
+    prefillCall = '';
+  }
   const last = findLast(v);
   if (last && editingId == null && v.length >= 3) {
-    if (!els.inName.value) { els.inName.value = last.name || ''; markAuto('inName', !!last.name); }
-    if (!els.inQth.value) { els.inQth.value = last.qth || ''; markAuto('inQth', !!last.qth); }
-    if (!els.inRig.value) { els.inRig.value = last.rig || ''; markAuto('inRig', !!last.rig); }
-    if (!els.inAnt.value) { els.inAnt.value = last.ant || ''; markAuto('inAnt', !!last.ant); }
-    if (!els.inPwr.value) { els.inPwr.value = last.pwr || ''; markAuto('inPwr', !!last.pwr); }
+    const tryFill = (id, val) => {
+      const el = els[id];
+      if (el && !el.value && val) {
+        el.value = val;
+        markAuto(id, true);
+        autoFillFields.add(id);
+      }
+    };
+    tryFill('inName', last.name || '');
+    tryFill('inQth', last.qth || '');
+    tryFill('inRig', last.rig || '');
+    tryFill('inAnt', last.ant || '');
+    tryFill('inPwr', last.pwr || '');
+    if (autoFillFields.size > 0) prefillCall = v;
     els.matchHint.classList.remove('hidden');
   } else {
     els.matchHint.classList.add('hidden');
@@ -5357,12 +5399,12 @@ function updateRptOffset(src) {
     const upOk = upS !== '' && !isNaN(up) && up > 0;
     const hasOff = offS !== '' && !isNaN(off);
     if (src === 'inRptOffset') {
-      // 用户正在改偏差：双频齐则重算偏差，否则用偏差补算缺失的频率
-      if (downOk && upOk) {
-        els.inRptOffset.value = fmtOffset(up - down);
-      } else if (hasOff) {
+      // 用户正在改偏差：以「偏差 + 已有频率」为准重算另一频率，不再覆盖用户输入
+      if (hasOff) {
         if (downOk) els.inRptUp.value = (down + off).toFixed(3);
         else if (upOk) els.inRptDown.value = (up - off).toFixed(3);
+      } else if (downOk && upOk) {
+        els.inRptOffset.value = fmtOffset(up - down);
       }
     } else if (downOk && upOk) {
       // 下行/上行都填了：偏差始终重算，避免改频率后偏差陈旧
@@ -5624,11 +5666,11 @@ function updateRmOffset(src) {
     const upOk = upS !== '' && !isNaN(up) && up > 0;
     const hasOff = offS !== '' && !isNaN(off);
     if (src === 'rmOffset') {
-      if (downOk && upOk) {
-        els.rmOffset.value = fmtOffset(up - down);
-      } else if (hasOff) {
+      if (hasOff) {
         if (downOk) els.rmUp.value = (down + off).toFixed(3);
         else if (upOk) els.rmDown.value = (up - off).toFixed(3);
+      } else if (downOk && upOk) {
+        els.rmOffset.value = fmtOffset(up - down);
       }
     } else if (downOk && upOk) {
       els.rmOffset.value = fmtOffset(up - down);
@@ -5794,16 +5836,15 @@ function fillQslFrame(r, my) {
     }
     const sentRst = r.rstSent || r.rst || '';
     const recvRst = r.rstRecv || r.rst || '';
-    if (sentRst || recvRst) {
-      set('rstSent', sentRst);
-      set('rstRecv', recvRst);
-      if (w.syncMeterFromRst && sentRst) w.syncMeterFromRst(d.getElementById('rstSent'));
-      const mIn = d.getElementById('meterInput');
-      if (mIn && w.renderMeter) {
-        const mv = meterFromRst(sentRst);
-        mIn.value = String(mv);
-        w.renderMeter(mv);
-      }
+    if (sentRst) set('rstSent', sentRst);
+    if (recvRst) set('rstRecv', recvRst);
+    // 信号条始终与记录中的 RST 同步（无 RST 时回落到默认刻度）
+    if (w.syncMeterFromRst) w.syncMeterFromRst(d.getElementById('rstSent'));
+    const mIn = d.getElementById('meterInput');
+    if (mIn && w.renderMeter) {
+      const mv = meterFromRst(sentRst);
+      mIn.value = String(mv);
+      w.renderMeter(mv);
     }
     set('qsoPower', my ? my.pwr : '');
     set('qsoRig', my ? my.rig : '');
@@ -5814,7 +5855,7 @@ function fillQslFrame(r, my) {
     set('qsoGridEn', my ? my.grid : '');
     set('qsoRemark', r.remark);
     // ── 我方信息与卡片常量（来自设置）──
-    const cc = settings.cardCall || settings.myCall || 'BI9DAS';
+    const cc = settings.cardCall || settings.myCall || '';
     set('cardCall', cc);
     set('qmMyCall', cc);
     set('mailFrom', cc);
@@ -5849,8 +5890,8 @@ function fillQslFrame(r, my) {
       if (tbQrz) tbQrz.style.display = 'none';
     }
     const cp1 = d.getElementById('callP1'), cp2 = d.getElementById('callP2');
-    if (cp1) cp1.textContent = cc.slice(0, Math.max(0, cc.length - 3));
-    if (cp2) cp2.textContent = cc.slice(-3);
+    if (cc && cp1) cp1.textContent = cc.slice(0, Math.max(0, cc.length - 3));
+    if (cc && cp2) cp2.textContent = cc.slice(-3);
     // ── 二维码模块：仅 OP 呼号为 BI9DAS 时显示 ──
     const stampCard = d.querySelector('.stamp-card');
     if (stampCard) stampCard.style.display = (String(cc).toUpperCase() === 'BI9DAS') ? '' : 'none';
