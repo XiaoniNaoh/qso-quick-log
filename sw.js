@@ -1,5 +1,5 @@
 /* 通联速记 · 离线缓存（版本更新时把 v 号 +1） */
-const CACHE = 'qso-quick-log-v14';
+const CACHE = 'qso-quick-log-v15';
 const ASSETS = [
   './',
   './index.html',
