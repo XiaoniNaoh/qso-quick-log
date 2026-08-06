@@ -977,75 +977,80 @@ footer a:hover{color:var(--accent)}
   font:inherit;color:inherit;cursor:default;
 }
 
-/* ── 信笺 · 鼠尾草主题：信纸 + 邮戳（浅色，背景更白显高级） ── */
+/* ── 信笺 · 鼠尾草主题：年轻现代，配色逻辑对齐经典靛蓝（浅色） ── */
 :root.theme-eqsl{
-  --bg:#FFFFFF;
-  --card:#FAFAF6;
-  --ink:#2E2C26;
-  --ink-2:#6F6B5E;
-  --ink-3:#A39E8E;
-  --line:#E8E4D8;
-  --line-2:#D5CFBC;
-  --accent:#5F7E6E;
-  --accent-soft:rgba(95,126,110,.11);
-  --mark:#3F5A4E;
-  --mark-2:#345043;
-  --mark-ink:#F9F7EF;
-  --mark-soft:rgba(63,90,78,.15);
-  --auto:#5F7E6E;
-  --ok:#64805B;
-  --danger:#A96A55;
-  --edit:#A9772F;
-  --edit-2:#8A6227;
-  --edit-ink:#FFFDF8;
-  --edit-soft:rgba(169,119,47,.14);
-  --radius:10px;
+  --bg:#F7F8F6;
+  --card:#FFFFFF;
+  --ink:#1B201C;
+  --ink-2:#5C645E;
+  --ink-3:#A0A8A2;
+  --line:#E7EAE6;
+  --line-2:#D4DAD5;
+  --accent:#3E8A68;
+  --accent-soft:rgba(62,138,104,.10);
+  --mark:#1B201C;
+  --mark-2:#303730;
+  --mark-ink:#FFFFFF;
+  --mark-soft:rgba(27,32,28,.08);
+  --auto:#3E8A68;
+  --ok:#18875A;
+  --danger:#C0392B;
+  --edit:#C08A3E;
+  --edit-2:#9A6B27;
+  --edit-ink:#FFFDF6;
+  --edit-soft:rgba(192,138,62,.14);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(27,32,28,.04), 0 10px 30px rgba(27,32,28,.06);
 }
-/* 信笺 · 鼠尾草 · 深色（背景更黑，冷调柔和） */
+/* 信笺 · 鼠尾草 · 深色（冷调黑，重点色明亮清新） */
 :root.theme-eqsl.dark{
-  --bg:#0A0A0A;
-  --card:#141412;
-  --ink:#E5E7DE;
-  --ink-2:#A2A79A;
-  --ink-3:#6F7466;
-  --line:#292D25;
-  --line-2:#383D31;
-  --accent:#9DB8A6;
-  --accent-soft:rgba(157,184,166,.13);
-  --mark:#9DB8A6;
-  --mark-2:#B1C9B9;
-  --mark-ink:#151713;
-  --mark-soft:rgba(157,184,166,.15);
-  --auto:#9DB8A6;
-  --ok:#8FAA82;
-  --danger:#C08670;
-  --edit:#D4A15C;
-  --edit-2:#B9834A;
-  --edit-ink:#1D1710;
-  --edit-soft:rgba(212,161,92,.16);
+  --bg:#121412;
+  --card:#1A1D1A;
+  --ink:#E9EBE7;
+  --ink-2:#A1A8A2;
+  --ink-3:#6C736D;
+  --line:#2A2E2A;
+  --line-2:#3A403A;
+  --accent:#7FC7A3;
+  --accent-soft:rgba(127,199,163,.12);
+  --mark:#E9EBE7;
+  --mark-2:#C6CCC7;
+  --mark-ink:#121412;
+  --mark-soft:rgba(233,235,231,.08);
+  --auto:#7FC7A3;
+  --ok:#4ADE80;
+  --danger:#F87171;
+  --edit:#DBA75F;
+  --edit-2:#C08A4A;
+  --edit-ink:#1B1710;
+  --edit-soft:rgba(219,167,95,.16);
+  --radius:16px;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
 }
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light){
-    --bg:#0A0A0A;
-    --card:#141412;
-    --ink:#E5E7DE;
-    --ink-2:#A2A79A;
-    --ink-3:#6F7466;
-    --line:#292D25;
-    --line-2:#383D31;
-    --accent:#9DB8A6;
-    --accent-soft:rgba(157,184,166,.13);
-    --mark:#9DB8A6;
-    --mark-2:#B1C9B9;
-    --mark-ink:#151713;
-    --mark-soft:rgba(157,184,166,.15);
-    --auto:#9DB8A6;
-    --ok:#8FAA82;
-    --danger:#C08670;
-    --edit:#D4A15C;
-    --edit-2:#B9834A;
-    --edit-ink:#1D1710;
-    --edit-soft:rgba(212,161,92,.16);
+    --bg:#121412;
+    --card:#1A1D1A;
+    --ink:#E9EBE7;
+    --ink-2:#A1A8A2;
+    --ink-3:#6C736D;
+    --line:#2A2E2A;
+    --line-2:#3A403A;
+    --accent:#7FC7A3;
+    --accent-soft:rgba(127,199,163,.12);
+    --mark:#E9EBE7;
+    --mark-2:#C6CCC7;
+    --mark-ink:#121412;
+    --mark-soft:rgba(233,235,231,.08);
+    --auto:#7FC7A3;
+    --ok:#4ADE80;
+    --danger:#F87171;
+    --edit:#DBA75F;
+    --edit-2:#C08A4A;
+    --edit-ink:#1B1710;
+    --edit-soft:rgba(219,167,95,.16);
+    --radius:16px;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 12px 32px rgba(0,0,0,.35);
   }
 }
 /* 明信片排版：衬线题头 · 手写备注 · 邮戳角 · 内衬细框 · 印章化控件 */
@@ -1818,7 +1823,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.13</b>
+      <b>电子 QSL 卡片 · v4.14</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -4890,8 +4895,8 @@ function syncPwrChips() {
 }
 els.inPwr.addEventListener('input', syncPwrChips);
 
-const RIG_PRESETS = ['宝锋 UV-5R', '建伍 TH-78', '八重洲 FT-60R', 'ICOM IC-705'];
-const ANT_PRESETS = ['原装天线', 'SMA 手持天线', '八木天线', '玻璃钢 GP'];
+const RIG_PRESETS = ['泉盛 UV-K6', '宝锋 UV-5R', '八重洲 FT-60R', 'ICOM IC-705'];
+const ANT_PRESETS = ['原装天线', '771 天线', '八木天线', '拇指天线'];
 
 function renderRigChips() {
   const wrap = $('rigChips');
@@ -6421,7 +6426,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.13';
+const APP_VERSION = '4.14';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -6614,7 +6619,7 @@ function finishFirstRun() {
   applyDefaults();
   renderModeChips();
   updateBand();
-  toast('欢迎使用通联速记，73！');
+  toast('欢迎使用通联速记，73！去「设置」补全个人信息，电子 QSL 会自动带上', { label: '去设置', onClick: openSettings });
 }
 els.btnFrPrev.addEventListener('click', () => { if (frStep > 1) frShow(frStep - 1); });
 els.btnFrNext.addEventListener('click', () => {
