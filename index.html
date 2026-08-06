@@ -744,6 +744,12 @@ footer{
   display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
   padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--bg);
 }
+.set-about-row{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-top:10px;padding:12px 14px;border:1px solid var(--line);border-radius:13px;background:var(--bg);
+}
+.set-about-txt b{display:block;font-size:13px;color:var(--ink)}
+.set-about-txt small{font-size:11px;color:var(--ink-2);line-height:1.5}
 .set-ver{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .set-ver b{color:var(--ink);font-weight:800}
 .update-banner{
@@ -1016,6 +1022,56 @@ button{min-width:0}
   border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
   border-radius:999px;padding:7px 14px;
 }
+.fr-pick-hint{margin:0 0 12px;font-size:12px;color:var(--ink-2)}
+.fr-theme-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;
+}
+.fr-theme{
+  position:relative;display:flex;flex-direction:column;gap:9px;
+  padding:11px 11px 11px;border:1.5px solid var(--line-2);border-radius:14px;background:var(--bg);
+  cursor:pointer;font:inherit;text-align:left;
+  transition:border-color .2s ease, box-shadow .2s ease, transform .18s cubic-bezier(.16,1,.3,1);
+}
+.fr-theme:hover{transform:translateY(-2px);border-color:var(--accent)}
+.fr-theme.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.fr-theme-name{font-size:12.5px;font-weight:800;color:var(--ink);letter-spacing:.02em;padding-right:20px}
+.fr-theme-shots{display:flex;gap:6px}
+.fr-shot{
+  flex:1;height:52px;border-radius:8px;background:var(--pb);
+  border:1px solid rgba(0,0,0,.07);position:relative;overflow:hidden;
+}
+.fr-shot::before{
+  content:"";position:absolute;top:7px;right:7px;width:9px;height:9px;border-radius:50%;background:var(--pa);
+}
+.fr-shot::after{
+  content:"";position:absolute;left:7px;bottom:7px;width:58%;height:7px;border-radius:4px;background:var(--pm);
+}
+.fr-theme-check{
+  position:absolute;top:9px;right:9px;width:18px;height:18px;border-radius:50%;
+  background:var(--accent);color:var(--mark-ink);font-size:11px;font-weight:900;
+  display:grid;place-items:center;opacity:0;transform:scale(.55);
+  transition:opacity .2s cubic-bezier(.16,1,.3,1), transform .25s cubic-bezier(.16,1,.3,1);
+}
+.fr-theme.on .fr-theme-check{opacity:1;transform:scale(1)}
+.fr-opt{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-top:16px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--bg);
+}
+.fr-opt-txt b{display:block;font-size:13px;color:var(--ink)}
+.fr-opt-txt small{font-size:11px;color:var(--ink-2);line-height:1.5}
+.switch{
+  width:46px;height:26px;border-radius:999px;border:1px solid var(--line-2);
+  background:color-mix(in srgb, var(--line) 70%, transparent);
+  position:relative;cursor:pointer;flex:none;padding:0;
+  transition:background .22s cubic-bezier(.16,1,.3,1), border-color .22s cubic-bezier(.16,1,.3,1);
+}
+.switch .knob{
+  position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;
+  background:#fff;box-shadow:0 2px 6px rgba(23,24,28,.25);
+  transition:transform .22s cubic-bezier(.16,1,.3,1);
+}
+.switch.on{background:var(--accent);border-color:transparent}
+.switch.on .knob{transform:translateX(20px)}
 
 /* ── 更多毛玻璃材质 ── */
 .field-hint{
@@ -2043,7 +2099,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </div>
     <div class="fr-steps" id="frSteps">
-      <span class="fr-dot on"></span><span class="fr-dot"></span><span class="fr-dot"></span>
+      <span class="fr-dot on"></span><span class="fr-dot"></span><span class="fr-dot"></span><span class="fr-dot"></span>
     </div>
 
     <div class="fr-page" id="frPage1">
@@ -2064,6 +2120,22 @@ footer a:hover{color:var(--accent)}
     </div>
 
     <div class="fr-page hidden" id="frPage3">
+      <div class="fr-sec-h">🎨 个性化</div>
+      <p class="fr-pick-hint">挑一套喜欢的界面风格，浅色 / 深色效果都能看到</p>
+      <div class="fr-theme-grid" id="frThemeGrid">
+        <button type="button" class="fr-theme" data-skin="classic"><span class="fr-theme-name">经典 · 靛蓝</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#f7f7f4;--pa:#2f5fc7;--pm:#17181c"></span><span class="fr-shot" style="--pb:#141519;--pa:#8ea8ff;--pm:#eaeaea"></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="eqsl"><span class="fr-theme-name">信笺 · 鼠尾草</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F7F8F6;--pa:#3E8A68;--pm:#1B201C"></span><span class="fr-shot" style="--pb:#121412;--pa:#7FC7A3;--pm:#E9EBE7"></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="sunset"><span class="fr-theme-name">日暮 · 琥珀</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F6F2;--pa:#C47A33;--pm:#221D16"></span><span class="fr-shot" style="--pb:#171310;--pa:#E8A862;--pm:#F0EAE1"></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="aurora"><span class="fr-theme-name">极光 · 紫</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F8F7FA;--pa:#6D5AE0;--pm:#1F1B29"></span><span class="fr-shot" style="--pb:#141220;--pa:#A99BFF;--pm:#ECEAF7"></span></span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean"><span class="fr-theme-name">深海 · 青</span><span class="fr-theme-shots"><span class="fr-shot" style="--pb:#F4F8F8;--pa:#0E8F8F;--pm:#16211F"></span><span class="fr-shot" style="--pb:#0F1716;--pa:#5FD6D0;--pm:#E4F0ED"></span></span><span class="fr-theme-check">✓</span></button>
+      </div>
+      <div class="fr-opt">
+        <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
+        <button type="button" class="switch on" id="frAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
+      </div>
+    </div>
+
+    <div class="fr-page hidden" id="frPage4">
       <div class="fr-sec-h">⚡ 快速上手</div>
       <div class="fr-tips">
         <div class="fr-tip"><span class="fr-tip-ic">⌨️</span><div><b>点选填写</b><p>呼号起头，逐项点选填写；老呼号自动带出上次信息，最后点「保存并继续」立刻开始下一条。</p></div></div>
@@ -2175,6 +2247,10 @@ footer a:hover{color:var(--accent)}
           <span class="set-ver">版本 <b id="setVersion">v4.12</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
+        <div class="set-about-row">
+          <span class="set-about-txt"><b>自动检查更新</b><small>每 30 天自动检测一次新版本</small></span>
+          <button type="button" class="switch on" id="setAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
+        </div>
         <div class="update-banner hidden" id="updateBanner">
           <span class="ub-txt">✨ 发现新版本 <b id="updateVer"></b></span>
           <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
@@ -2235,7 +2311,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v4.18</b>
+      <b>电子 QSL 卡片 · v4.19</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -4870,6 +4946,7 @@ const els = {
   firstRunOverlay: $('firstRunOverlay'),
   frCall: $('frCall'),
   frSub: $('frSub'),
+  frAutoUpdate: $('frAutoUpdate'),
   frSteps: $('frSteps'),
   btnFrPrev: $('btnFrPrev'),
   btnFrNext: $('btnFrNext'),
@@ -4899,6 +4976,7 @@ const els = {
   setWebsite: $('setWebsite'),
   setQrz: $('setQrz'),
   setVersion: $('setVersion'),
+  setAutoUpdate: $('setAutoUpdate'),
   btnCheckUpdate: $('btnCheckUpdate'),
   btnDoUpdate: $('btnDoUpdate'),
   updateBanner: $('updateBanner'),
@@ -4909,7 +4987,7 @@ els.formCard = document.getElementById('formCard');
 
 const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig', 'inAnt', 'inPwr', 'inRemark', 'time'];
 
-let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
+let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', autoUpdate: true, myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
 
 // 开发者档案：AES-GCM 加密存储，密钥由开发者码经 PBKDF2 派生；源码不含任何明文个人信息
@@ -6909,7 +6987,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '4.18';
+const APP_VERSION = '4.19';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -6944,6 +7022,7 @@ async function checkUpdate(silent) {
 const LS_UPD = 'hamqso.updateCheck.v1';
 const UPDATE_INTERVAL = 30 * 24 * 60 * 60 * 1000;
 function maybeAutoCheckUpdate() {
+  if (settings.autoUpdate === false) return;
   let last = 0;
   try { last = parseInt(localStorage.getItem(LS_UPD) || '0', 10) || 0; } catch (e) {}
   if (Date.now() - last >= UPDATE_INTERVAL) checkUpdate(true);
@@ -6980,6 +7059,11 @@ function openSettings() {
   els.setWebsite.value = settings.website || '';
   els.setQrz.value = settings.qrz || '';
   if (els.setVersion) els.setVersion.textContent = 'v' + APP_VERSION;
+  if (els.setAutoUpdate) {
+    const on = settings.autoUpdate !== false;
+    els.setAutoUpdate.classList.toggle('on', on);
+    els.setAutoUpdate.setAttribute('aria-checked', String(on));
+  }
   els.updateBanner.classList.add('hidden');
   document.querySelectorAll('.set-tab').forEach(b => b.classList.toggle('on', b.dataset.stab === 'log'));
   document.querySelectorAll('.set-panel').forEach(p => p.classList.toggle('on', p.id === 'setPanel-log'));
@@ -7102,6 +7186,7 @@ els.btnSaveSettings.addEventListener('click', () => {
   settings.qslPromise = els.setQslPromise.value.trim() || 'QSL 100% CONFIRMED';
   settings.website = els.setWebsite.value.trim();
   settings.qrz = els.setQrz.value.trim();
+  settings.autoUpdate = !els.setAutoUpdate || els.setAutoUpdate.classList.contains('on');
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
   applyTheme();
   closeSettings();
@@ -7169,9 +7254,10 @@ els.btnDevConfirm.addEventListener('click', async () => {
   }
 });
 
-// ── 首次启动引导（三步向导）──
+// ── 首次启动引导（四步向导）──
 let frStep = 1;
-const FR_TOTAL = 3;
+let frSkin = '';
+const FR_TOTAL = 4;
 function frShow(step) {
   frStep = step;
   for (let i = 1; i <= FR_TOTAL; i++) {
@@ -7184,8 +7270,18 @@ function frShow(step) {
   els.btnFrNext.textContent = step === 1 ? '开始使用 →' : (step === FR_TOTAL ? '开始通联 🎉' : '下一步');
   els.frSub.textContent = step === 1
     ? '欢迎，先从记下第一条通联开始'
-    : (step === 2 ? '只需一个呼号，其余随时在设置里补全' : '30 秒熟悉核心操作');
+    : (step === 2 ? '只需一个呼号，其余随时在设置里补全'
+      : (step === 3 ? '挑一套喜欢的风格，深浅色随时可切换' : '30 秒熟悉核心操作'));
   if (step === 2) softFocus(els.frCall);
+  if (step === 3) {
+    if (!frSkin) frSkin = settings.skin || 'classic';
+    document.querySelectorAll('.fr-theme').forEach(c => c.classList.toggle('on', c.dataset.skin === frSkin));
+    if (els.frAutoUpdate) {
+      const on = settings.autoUpdate !== false;
+      els.frAutoUpdate.classList.toggle('on', on);
+      els.frAutoUpdate.setAttribute('aria-checked', String(on));
+    }
+  }
 }
 function maybeFirstRun() {
   if (localStorage.getItem(LS_WELCOME)) return;
@@ -7194,12 +7290,15 @@ function maybeFirstRun() {
   els.firstRunOverlay.classList.remove('hidden');
 }
 function finishFirstRun() {
+  if (frSkin) settings.skin = frSkin;
+  if (els.frAutoUpdate) settings.autoUpdate = els.frAutoUpdate.classList.contains('on');
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
   localStorage.setItem(LS_WELCOME, '1');
   els.firstRunOverlay.classList.add('hidden');
   applyDefaults();
   renderModeChips();
   updateBand();
+  applyTheme();
   toast('欢迎使用通联速记，73！去「设置」补全个人信息，电子 QSL 会自动带上', { label: '去设置', onClick: openSettings });
 }
 els.btnFrPrev.addEventListener('click', () => { if (frStep > 1) frShow(frStep - 1); });
@@ -7210,6 +7309,10 @@ els.btnFrNext.addEventListener('click', () => {
     const call = els.frCall.value.trim().toUpperCase();
     if (call) settings.myCall = call;
     frShow(3);
+  } else if (frStep === 3) {
+    const on = document.querySelector('.fr-theme.on');
+    if (on) frSkin = on.dataset.skin;
+    frShow(4);
   } else {
     finishFirstRun();
   }
@@ -7221,6 +7324,22 @@ els.btnFrLater.addEventListener('click', () => {
 els.firstRunOverlay.addEventListener('click', e => {
   if (e.target === els.firstRunOverlay) els.firstRunOverlay.classList.add('hidden');
 });
+// 个性化：主题卡片点选 + 自动更新开关
+document.querySelectorAll('.fr-theme').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('.fr-theme').forEach(c => c.classList.toggle('on', c === card));
+    frSkin = card.dataset.skin;
+  });
+});
+function bindSwitch(btn) {
+  if (!btn) return;
+  btn.addEventListener('click', () => {
+    const on = btn.classList.toggle('on');
+    btn.setAttribute('aria-checked', String(on));
+  });
+}
+bindSwitch(els.frAutoUpdate);
+bindSwitch(els.setAutoUpdate);
 maybeFirstRun();
 
 let toastTimer;
