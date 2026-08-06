@@ -409,7 +409,9 @@ kbd{
   content-visibility:auto;
   contain-intrinsic-size:96px;
 }
-.qso-row:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+@media (hover:hover){
+  .qso-row:hover{border-color:var(--accent);box-shadow:var(--shadow)}
+}
 .qso-grid{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;cursor:pointer}
 .g-call{
   font-size:17px;font-weight:800;color:var(--accent);
@@ -962,12 +964,7 @@ button{min-width:0}
   background:color-mix(in srgb, var(--card) 46%, transparent);
   -webkit-backdrop-filter:blur(28px) saturate(1.7);
   backdrop-filter:blur(28px) saturate(1.7);
-}
-/* 滚动时悬浮栏暂离毛玻璃：视觉几乎不变，滚动帧率显著提升 */
-body.scrolling .dock{
-  background:color-mix(in srgb, var(--card) 94%, transparent);
-  -webkit-backdrop-filter:none;
-  backdrop-filter:none;
+  will-change:transform;
 }
 .qso-row:hover{transform:translateY(-1px)}
 .qso-date span{background:var(--accent-soft);color:var(--accent);padding:3px 9px;border-radius:999px;font-size:10px;letter-spacing:.04em}
@@ -1032,40 +1029,34 @@ body.scrolling .dock{
   border-radius:999px;padding:7px 14px;
 }
 .fr-pick-hint{margin:0 0 12px;font-size:12px;color:var(--ink-2)}
-.fr-theme-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px;
+.fr-theme-list{
+  display:flex;flex-direction:column;
+  border:1px solid var(--line);border-radius:16px;overflow:hidden;
+  background:var(--bg);
 }
 .fr-theme{
-  position:relative;display:flex;flex-direction:column;gap:9px;
-  align-items:center;justify-content:flex-end;
-  height:92px;padding:0 0 11px;
-  border:1.5px solid transparent;border-radius:18px;
-  background:
-    radial-gradient(130% 100% at 18% 0%, rgba(255,255,255,.38), transparent 55%),
-    linear-gradient(150deg, color-mix(in srgb, var(--pa) 82%, #ffffff 18%) 0%, var(--pa) 55%, var(--pa2) 100%);
-  cursor:pointer;font:inherit;text-align:center;overflow:hidden;
-  transition:border-color .2s ease, box-shadow .25s cubic-bezier(.16,1,.3,1), transform .2s cubic-bezier(.16,1,.3,1);
+  display:flex;align-items:center;gap:12px;width:100%;
+  padding:13px 14px;border:none;border-bottom:1px solid var(--line);
+  background:transparent;font:inherit;text-align:left;cursor:pointer;
+  transition:background .16s ease;
 }
-.fr-theme:hover{transform:translateY(-2px)}
-.fr-theme.on{
-  border-color:var(--pa);
-  transform:translateY(-3px);
-  box-shadow:0 12px 30px color-mix(in srgb, var(--pa) 34%, transparent), 0 0 0 3px color-mix(in srgb, var(--pa) 20%, transparent);
+.fr-theme:last-child{border-bottom:none}
+@media (hover:hover){ .fr-theme:hover{background:var(--accent-soft)} }
+.fr-theme.on{background:var(--accent-soft)}
+.fr-theme-chip{
+  width:26px;height:26px;border-radius:8px;background:var(--pa);flex:none;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08), 0 3px 8px color-mix(in srgb, var(--pa) 30%, transparent);
 }
-.fr-theme-name{
-  position:relative;z-index:1;
-  font-size:12px;font-weight:800;letter-spacing:.12em;color:#fff;
-  text-shadow:0 1px 4px rgba(0,0,0,.25);
-  background:rgba(255,255,255,.18);
-  border:1px solid rgba(255,255,255,.34);
-  border-radius:999px;padding:5px 15px;
-  -webkit-backdrop-filter:blur(6px);
-  backdrop-filter:blur(6px);
+.fr-theme-name{font-size:14px;font-weight:700;color:var(--ink);letter-spacing:.01em}
+.fr-theme-desc{
+  margin-left:auto;font-size:11.5px;color:var(--ink-3);
+  letter-spacing:.06em;
 }
 .fr-theme-check{
-  position:absolute;top:8px;right:8px;width:20px;height:20px;border-radius:50%;
-  background:#fff;color:var(--pa);font-size:12px;font-weight:900;
-  display:grid;place-items:center;opacity:0;transform:scale(.55);
+  width:20px;height:20px;border-radius:50%;flex:none;
+  display:grid;place-items:center;font-size:12px;font-weight:900;color:#fff;background:var(--pa);
+  box-shadow:0 3px 8px color-mix(in srgb, var(--pa) 35%, transparent);
+  opacity:0;transform:scale(.55);
   transition:opacity .2s cubic-bezier(.16,1,.3,1), transform .25s cubic-bezier(.16,1,.3,1);
 }
 .fr-theme.on .fr-theme-check{opacity:1;transform:scale(1)}
@@ -1712,6 +1703,7 @@ footer a:hover{color:var(--accent)}
   50%{transform:translateY(-3px)}
 }
 .brand-mark{animation:float 6s ease-in-out infinite}
+body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{animation-play-state:paused}
 .inp:focus{animation:focusPulse 1.1s cubic-bezier(.16,1,.3,1) 1}
 @keyframes focusPulse{
   0%,100%{box-shadow:0 0 0 3px var(--accent-soft)}
@@ -2215,14 +2207,14 @@ footer a:hover{color:var(--accent)}
 
     <div class="fr-page hidden" id="frPage3">
       <div class="fr-sec-h">🎨 个性化</div>
-      <p class="fr-pick-hint">挑一套喜欢的界面风格，浅色 / 深色效果都能看到</p>
-      <div class="fr-theme-grid" id="frThemeGrid">
-        <button type="button" class="fr-theme" data-skin="classic" style="--pa:#2f5fc7;--pa2:#1d3f8f"><span class="fr-theme-name">靛蓝</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="eqsl" style="--pa:#3E8A68;--pa2:#24503f"><span class="fr-theme-name">苔青</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="sunset" style="--pa:#C47A33;--pa2:#8a4f1d"><span class="fr-theme-name">琥珀</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="aurora" style="--pa:#6D5AE0;--pa2:#4134a3"><span class="fr-theme-name">极光</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E8F8F;--pa2:#075e5e"><span class="fr-theme-name">深海</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="minimal" style="--pa:#5A5F66;--pa2:#2E3238"><span class="fr-theme-name">素白</span><span class="fr-theme-check">✓</span></button>
+      <p class="fr-pick-hint">选一套界面风格，之后随时可在设置里切换</p>
+      <div class="fr-theme-list" id="frThemeGrid">
+        <button type="button" class="fr-theme" data-skin="classic" style="--pa:#2f5fc7"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">靛蓝</span><span class="fr-theme-desc">经典默认</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="eqsl" style="--pa:#3E8A68"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">苔青</span><span class="fr-theme-desc">信笺邮戳</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="sunset" style="--pa:#C47A33"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">琥珀</span><span class="fr-theme-desc">落日暖调</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="aurora" style="--pa:#6D5AE0"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">极光</span><span class="fr-theme-desc">明快冷调</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E8F8F"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">深海</span><span class="fr-theme-desc">清透海盐</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="minimal" style="--pa:#5A5F66"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">素白</span><span class="fr-theme-desc">极简留白</span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
@@ -2407,7 +2399,7 @@ footer a:hover{color:var(--accent)}
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.1.0</b>
+      <b>电子 QSL 卡片 · v2.1.1</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6795,18 +6787,13 @@ function updateDockVisibility() {
   if (ic) ic.textContent = back ? '↑' : '📋';
 }
 function onPageScroll() {
-  // 滚动中降低悬浮栏毛玻璃开销，停稳后恢复玻璃质感
-  document.body.classList.add('scrolling');
-  clearTimeout(scrollGlassTimer);
-  scrollGlassTimer = setTimeout(() => document.body.classList.remove('scrolling'), 160);
-  // 可见性检查节流到 120ms，避免每帧 getBoundingClientRect 强制布局
+  // 悬浮栏可见性检查节流到 120ms，避免每帧 getBoundingClientRect 强制布局
   const now = Date.now();
   if (now - dockLastCheck >= 120) {
     dockLastCheck = now;
     updateDockVisibility();
   }
 }
-let scrollGlassTimer = null;
 window.addEventListener('scroll', onPageScroll, { passive: true });
 let dockResizeTimer = null;
 window.addEventListener('resize', () => {
@@ -7136,7 +7123,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.1.0';
+const APP_VERSION = '2.1.1';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7565,6 +7552,9 @@ if ('IntersectionObserver' in window) {
 }
 
 // 启动问候：时段问候 + 呼号/OP + 温暖的随机祝福
+document.addEventListener('visibilitychange', () => {
+  document.body.classList.toggle('tab-hidden', document.hidden);
+});
 function startupGreet() {
   const h = new Date().getHours();
   const who = settings.opNameCn || settings.opNameEn || settings.myCall || '';
