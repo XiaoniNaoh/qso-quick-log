@@ -754,6 +754,10 @@ footer{
 }
 .set-about-txt b{display:block;font-size:13px;color:var(--ink)}
 .set-about-txt small{font-size:11px;color:var(--ink-2);line-height:1.5}
+.set-about-note{
+  margin:14px 0 0;font-size:11px;color:var(--ink-3);
+  letter-spacing:.12em;text-align:center;
+}
 .set-ver{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .set-ver b{color:var(--ink);font-weight:800}
 .update-banner{
@@ -2332,7 +2336,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v4.12</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.1.2</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2343,6 +2347,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
           <span class="ub-txt">✨ 发现新版本 <b id="updateVer"></b></span>
           <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
         </div>
+        <p class="set-about-note">通联速记 · QSO QUICK LOG · 73，频率上见 📡</p>
       </div>
     </div>
 
@@ -2399,7 +2404,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.1.1</b>
+      <b>电子 QSL 卡片 · v2.1.2</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -2454,7 +2459,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>eQSL · Radio Card System v4.8 · QSO CONTOUR</title>
+<title>eQSL · QSO CONTOUR · QSO QUICK LOG</title>
 <style>
 /* ───────────────────────── 基础 ───────────────────────── */
 :root{
@@ -4220,7 +4225,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     </div>
     <div class="tb-mid">
       <span class="live"><span class="dot"></span>ON AIR</span>
-      <span class="build-chip"><span class="ok">✓</span>BUILD PASS · v4.8</span>
+      <span class="build-chip"><span class="ok">✓</span>CONFIRMED · eQSL</span>
     </div>
     <div class="tb-right">
       <span>CN · ZHEJIANG</span>
@@ -7123,7 +7128,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.1.1';
+const APP_VERSION = '2.1.2';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
