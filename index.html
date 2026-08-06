@@ -79,6 +79,10 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0;overflow-x:hidden}
+html{-webkit-text-size-adjust:100%}
+*{-webkit-tap-highlight-color:transparent}
+button,.chip,.inp,a,[role=button]{touch-action:manipulation}
+.overlay,.modal,.help-panel{overscroll-behavior:contain}
 body{
   background:var(--bg);
   color:var(--ink);
@@ -539,7 +543,7 @@ kbd{
   border-radius:16px;background:var(--accent-soft);
 }
 footer{
-  max-width:1240px;margin:0 auto;padding:0 16px 96px;
+  max-width:1240px;margin:0 auto;padding:0 16px calc(96px + env(safe-area-inset-bottom));
   font-size:11px;color:var(--ink-3);text-align:center;
 }
 .foot-ornament{
@@ -597,6 +601,7 @@ footer{
 }
 .qsl-overlay{position:fixed;inset:0;z-index:70;background:rgba(23,24,28,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:grid;place-items:center;padding:18px}
 .qsl-frame{width:min(1240px,calc(100% - 24px));height:min(92vh,960px);background:#fff;border:1px solid var(--line-2);border-radius:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.qsl-frame{height:min(92dvh,960px)}
 .qsl-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
 .qsl-bar b{font-size:13px;letter-spacing:.03em}
 .qsl-note{font-size:11.5px;color:var(--ink-3);font-variant-numeric:tabular-nums}
@@ -618,6 +623,7 @@ footer{
   padding:22px;width:min(420px,100%);margin:0 auto;box-shadow:var(--shadow);
   animation:rise .35s ease both;
   max-height:calc(100vh - 48px);overflow-y:auto;
+  max-height:calc(100dvh - 48px);
 }
 .modal h3{margin:0 0 4px;font-size:17px;font-weight:800}
 .modal p.sub{color:var(--ink-2);font-size:12.5px;margin:0 0 16px}
@@ -2336,7 +2342,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.1.2</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.1.3</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2404,7 +2410,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.1.2</b>
+      <b>电子 QSL 卡片 · v2.1.3</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -7128,7 +7134,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.1.2';
+const APP_VERSION = '2.1.3';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7556,30 +7562,26 @@ if ('IntersectionObserver' in window) {
   secEls.forEach(s => s.classList.add('revealed'));
 }
 
-// 启动问候：时段问候 + 呼号/OP + 温暖的随机祝福
+// 启动问候：时间问候 + 呼号/OP + 小祝福（精简，一行放得下）
 document.addEventListener('visibilitychange', () => {
   document.body.classList.toggle('tab-hidden', document.hidden);
 });
 function startupGreet() {
   const h = new Date().getHours();
-  const who = settings.opNameCn || settings.opNameEn || settings.myCall || '';
-  const name = who ? `${who}，` : '';
-  let greet;
+  const who = settings.opNameCn || settings.opNameEn || settings.myCall || '朋友';
+  let picks;
   if (h < 5) {
-    greet = ['夜深了，守听也是电台人的浪漫', '凌晨的电波格外安静，适合守听'];
+    picks = ['夜深了，' + who + '，想通联谁', '夜深了，' + who + '，守听愉快'];
   } else if (h < 11) {
-    greet = ['早上好，把清晨的第一声 CQ 送给你', '早安，愿你的频率一整天都热闹'];
+    picks = ['早安，' + who + '！今天要通联谁', '早上好，' + who + '，CQ 愉快'];
   } else if (h < 13) {
-    greet = ['中午好，午后的信号正清晰', '午安，喝口水，继续享受通联'];
+    picks = ['中午好，' + who + '，通联顺利~', '午安，' + who + '，信号正好'];
   } else if (h < 18) {
-    greet = ['下午好，愿每次呼叫都有回应', '下午好，继续收集你的频率故事'];
+    picks = ['下午好，' + who + '，73！', '下午好，' + who + '，通联愉快'];
   } else {
-    greet = ['晚上好，夜色里的电波最温柔', '晚安前，再来一条 QSO 吧'];
+    picks = ['晚上好，' + who + '，频率上见', '晚上好，' + who + '，再来一条 QSO'];
   }
-  const warm = ['通联愉快', '愿电波常伴', '73，常通联', '愿信号满格'];
-  const g = greet[Math.floor(Math.random() * greet.length)];
-  const w = warm[Math.floor(Math.random() * warm.length)];
-  toast(`${name}${g} · ${w}`);
+  toast(picks[Math.floor(Math.random() * picks.length)]);
 }
 setTimeout(startupGreet, 700);
 restoreFromHash();
