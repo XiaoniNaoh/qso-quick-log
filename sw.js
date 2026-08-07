@@ -1,5 +1,5 @@
 /* 通联速记 · 离线缓存（版本更新时把 v 号 +1） */
-const CACHE = 'qso-quick-log-v2.1.4';
+const CACHE = 'qso-quick-log-v2.1.5';
 const ASSETS = [
   './',
   './index.html',
@@ -28,11 +28,26 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
+  const url = new URL(e.request.url);
+  // 页面/导航：网络优先，离线时回退缓存——刷新即可拿到新版本
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(res => {
+        if (!url.search) {
+          const copy = res.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copy));
+        }
+        return res;
+      }).catch(() => caches.match(e.request).then(hit => hit || caches.match('./index.html')))
+    );
+    return;
+  }
+  // 其余资源：缓存优先
   e.respondWith(
     caches.match(e.request).then(hit => {
       if (hit) return hit;
       return fetch(e.request).then(res => {
-        if (!e.request.url.includes('?')) {
+        if (!url.search) {
           const copy = res.clone();
           caches.open(CACHE).then(c => c.put(e.request, copy));
         }
