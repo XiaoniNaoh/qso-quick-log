@@ -1960,6 +1960,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.4.1","date":"2026-08-07","items":["修复呼号自动填充：现在会一并恢复上次通联的频率与中继，切换呼号时清理旧中继数据"]},
   {"v":"2.4.0","date":"2026-08-07","items":["中继台区块移至频率之前","使用中继时主频率自动读取中继下行频率"]},
   {"v":"2.3.0","date":"2026-08-07","items":["设置界面全面换用 SVG 图标","发现新版本时展示新版本更新内容"]},
   {"v":"2.2.0","date":"2026-08-07","items":["引入内联 SVG 图标库，设置与表单界面全面换用图标","重设计「图号 / 日期 / 条数 / 比例」信息区"]},
@@ -2474,7 +2475,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.4.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.4.1</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2545,7 +2546,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.4.0</b>
+      <b>电子 QSL 卡片 · v2.4.1</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5697,10 +5698,11 @@ els.form.addEventListener('submit', e => { e.preventDefault(); save(); });
 ['inFreq', 'inPwr'].forEach(id => {
   $(id).addEventListener('focus', e => e.target.select());
 });
-els.inFreq.addEventListener('input', () => { rptFreqSynced = null; updateBand(); });
+els.inFreq.addEventListener('input', () => { autoFreq = null; updateBand(); });
 els.inFreq.addEventListener('blur', () => { els.inFreq.value = normalizeFreq(els.inFreq.value); updateBand(); });
 
 let prefillCall = '';
+let prefillRpt = '';
 const autoFillFields = new Set();
 
 function applyCallPrefill() {
@@ -5714,6 +5716,10 @@ function applyCallPrefill() {
       markAuto(id, false);
     });
     autoFillFields.clear();
+    if (prefillRpt) {
+      prefillRpt = '';
+      resetRepeaterForm();
+    }
     prefillCall = '';
   }
   const last = findLast(v);
@@ -5731,7 +5737,30 @@ function applyCallPrefill() {
     tryFill('inRig', last.rig || '');
     tryFill('inAnt', last.ant || '');
     tryFill('inPwr', last.pwr || '');
-    if (autoFillFields.size > 0) prefillCall = v;
+    // 频率与中继语境一并恢复，让「与上次通联匹配」名副其实
+    if (last.repeater) {
+      setLinkMode('rpt');
+      els.inRptName.value = last.repeater.name || '';
+      els.inRptDown.value = last.repeater.down || '';
+      els.inRptUp.value = last.repeater.up || '';
+      els.inRptOffset.value = (last.repeater.offset !== null && last.repeater.offset !== undefined) ? fmtOffset(parseFloat(last.repeater.offset)) : '';
+      els.inRptCtcss.value = (last.repeater.ctcss && last.repeater.ctcss !== 'NONE') ? last.repeater.ctcss : '';
+      rptAnchor = '';
+      updateRptOffset();
+      syncFreqFromRepeater(true);
+      prefillRpt = last.repeater.name || '';
+    } else {
+      setLinkMode('simp');
+      const curFreq = els.inFreq.value.trim();
+      const underAuto = curFreq === '' || (autoFreq !== null && curFreq === autoFreq);
+      if (last.freq && underAuto) {
+        els.inFreq.value = String(last.freq);
+        updateBand();
+        markAuto('inFreq', false);
+        autoFreq = String(last.freq);
+      }
+    }
+    if (autoFillFields.size > 0 || prefillRpt) prefillCall = v;
     els.matchHint.classList.remove('hidden');
   } else {
     els.matchHint.classList.add('hidden');
@@ -5963,6 +5992,7 @@ function applyDefaults() {
   els.inMode.value = (last && last.mode) || settings.defaultMode || 'FM';
   setRstValue(settings.defaultRst || '59');
   els.inFreq.value = (last && last.freq) ? last.freq : (settings.defaultFreq || '145.100');
+  autoFreq = normalizeFreq(els.inFreq.value);
   markAuto('time', true);
   markAuto('inMode', true);
   markAuto('inRst', true);
@@ -6299,7 +6329,6 @@ function setLinkMode(mode) {
   els.linkSimpBtn.classList.toggle('active', mode === 'simp');
   els.linkRptBtn.classList.toggle('active', mode === 'rpt');
   els.rptBox.classList.toggle('show', mode === 'rpt');
-  if (mode === 'simp') rptFreqSynced = null;
 }
 let rptAutoFill = false;
 let rptAnchor = '';
@@ -6368,18 +6397,18 @@ function updateRptOffset(src) {
     rptAutoFill = false;
   }
 }
-let rptFreqSynced = null;
+let autoFreq = null;
 function syncFreqFromRepeater(force) {
   const down = els.inRptDown.value.trim();
   if (!down) return;
   const f = normalizeFreq(down);
   if (!f) return;
   const cur = els.inFreq.value.trim();
-  if (force || cur === '' || (rptFreqSynced !== null && cur === rptFreqSynced)) {
+  if (force || cur === '' || (autoFreq !== null && cur === autoFreq)) {
     els.inFreq.value = f;
     updateBand();
     markAuto('inFreq', false);
-    rptFreqSynced = f;
+    autoFreq = f;
   }
 }
 function collectRepeater() {
@@ -6415,7 +6444,6 @@ function collectRepeater() {
 }
 function resetRepeaterForm() {
   rptAnchor = '';
-  rptFreqSynced = null;
   if (els.rptPickLabel) els.rptPickLabel.textContent = '选择已存中继台…';
   closeRptPick();
   els.inRptName.value = '';
@@ -7284,7 +7312,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.4.0';
+const APP_VERSION = '2.4.1';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
