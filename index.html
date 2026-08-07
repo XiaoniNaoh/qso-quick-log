@@ -756,8 +756,9 @@ footer{
 .set-section{margin-top:20px;padding-top:16px;border-top:1px dashed var(--line-2)}
 .set-section:first-of-type{margin-top:0;padding-top:0;border-top:none}
 .set-sec-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--ink-2);margin-bottom:13px}
-.set-sec-h::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--accent);flex:none}
+.set-sec-h .set-ic{width:15px;height:15px;color:var(--accent);flex:none}
 .set-sec-h small{font-weight:500;color:var(--ink-3);letter-spacing:.02em;margin-left:2px}
+.title-ic{width:17px;height:17px;color:var(--accent);vertical-align:-2px;margin-right:7px}
 .set-tabs{
   display:flex;gap:8px;flex-wrap:wrap;
   margin:2px 0 16px;
@@ -766,8 +767,10 @@ footer{
   border:1px solid var(--line-2);background:var(--card);color:var(--ink-2);
   border-radius:999px;padding:8px 16px;font:inherit;font-size:12.5px;font-weight:700;
   letter-spacing:.02em;cursor:pointer;white-space:nowrap;
+  display:inline-flex;align-items:center;gap:6px;
   transition:color .18s cubic-bezier(.16,1,.3,1), background .18s cubic-bezier(.16,1,.3,1), border-color .18s cubic-bezier(.16,1,.3,1);
 }
+.set-tab svg{width:14px;height:14px;flex:none}
 .set-tab:hover{border-color:var(--accent);color:var(--accent)}
 .set-tab.on{
   background:var(--accent);border-color:transparent;color:var(--mark-ink);
@@ -836,14 +839,23 @@ footer{
 .set-ver{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
 .set-ver b{color:var(--ink);font-weight:800}
 .update-banner{
-  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+  display:flex;flex-direction:column;gap:10px;
   margin-top:10px;padding:12px 14px;border-radius:13px;
   background:linear-gradient(135deg,var(--accent-soft),transparent 70%);
   border:1px solid color-mix(in srgb, var(--accent) 32%, transparent);
 }
 .update-banner.hidden{display:none}
-.ub-txt{font-size:12.5px;font-weight:700;color:var(--ink)}
+.ub-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ub-txt{display:inline-flex;align-items:center;font-size:12.5px;font-weight:700;color:var(--ink)}
+.ub-ic{width:14px;height:14px;color:var(--accent);flex:none;margin-right:5px}
 .ub-txt b{color:var(--accent)}
+.ub-notes{
+  display:grid;gap:7px;margin:0;padding:10px 0 0;
+  border-top:1px dashed color-mix(in srgb, var(--accent) 25%, transparent);
+}
+.ub-notes li{list-style:none;display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.55}
+.ub-notes li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);flex:none;margin-top:5px}
+.ub-notes .ub-ver{font-weight:800;color:var(--ink);font-family:ui-monospace,Menlo,monospace;flex:none}
 textarea.inp{min-height:74px;resize:vertical;line-height:1.55}
 .field-hint{
   margin-top:6px;font-size:11.5px;color:var(--ink-2);line-height:1.55;
@@ -1938,8 +1950,27 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
     <symbol id="ic-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
     <symbol id="ic-gear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3h.1a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9v.1a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
     <symbol id="ic-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 11-13h-7l1-7z"/></symbol>
+    <symbol id="ic-sliders" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+    <symbol id="ic-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 14h6"/></symbol>
+    <symbol id="ic-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><circle cx="15" cy="15" r="6"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="ic-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
   </defs>
 </svg>
+<!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
+<script type="application/json" id="changelogData">
+[
+  {"v":"2.3.0","date":"2026-08-07","items":["设置界面全面换用 SVG 图标","发现新版本时展示新版本更新内容"]},
+  {"v":"2.2.0","date":"2026-08-07","items":["引入内联 SVG 图标库，设置与表单界面全面换用图标","重设计「图号 / 日期 / 条数 / 比例」信息区"]},
+  {"v":"2.1.5","date":"2026-08-06","items":["刷新即取最新版本，不再被旧缓存卡住","设置弹窗淡入淡出动画","通联记录表头重新设计"]},
+  {"v":"2.1.4","date":"2026-08-06","items":["修复跳转按钮图标不居中","设置弹窗关闭淡出动画"]},
+  {"v":"2.1.3","date":"2026-08-06","items":["启动祝福语精简","手机端体验优化（点按、弹层、小屏适配）"]},
+  {"v":"2.1.2","date":"2026-08-06","items":["公开文案清理，卡片去除内部标识"]},
+  {"v":"2.1.1","date":"2026-08-06","items":["个性化选择列表化排版","滚动性能优化"]},
+  {"v":"2.1.0","date":"2026-08-06","items":["新增「素白」极简主题","引导页个性化重做"]},
+  {"v":"2.0.1","date":"2026-08-06","items":["FM 模式默认排第一","修复 PSK 模式卡片读取"]},
+  {"v":"2.0.0","date":"2026-08-06","items":["正式 2.0 基线：快记、中继台、电子 QSL、六套主题、隐私加密"]}
+]
+</script>
 <header>
   <div class="brand">
     <div class="brand-mark"><svg aria-hidden="true"><use href="#ic-radio"/></svg></div>
@@ -2351,20 +2382,20 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 </div>
 <div class="overlay hidden" id="settingsOverlay">
   <div class="modal modal-wide">
-    <h3>⚙️ 设置</h3>
+    <h3><svg class="title-ic" aria-hidden="true"><use href="#ic-gear"/></svg>设置</h3>
     <p class="sub">设置一次，日志和 QSL 卡片都会自动带上</p>
 
     <div class="set-tabs" role="tablist">
-      <button type="button" class="set-tab on" data-stab="log">📋 通联</button>
-      <button type="button" class="set-tab" data-stab="station">📡 电台</button>
-      <button type="button" class="set-tab" data-stab="qsl">🃏 QSL 卡片</button>
-      <button type="button" class="set-tab" data-stab="appearance">🎨 外观</button>
-      <button type="button" class="set-tab" data-stab="about">ℹ️ 关于</button>
+      <button type="button" class="set-tab on" data-stab="log"><svg aria-hidden="true"><use href="#ic-sliders"/></svg>通联</button>
+      <button type="button" class="set-tab" data-stab="station"><svg aria-hidden="true"><use href="#ic-radio"/></svg>电台</button>
+      <button type="button" class="set-tab" data-stab="qsl"><svg aria-hidden="true"><use href="#ic-card"/></svg>QSL 卡片</button>
+      <button type="button" class="set-tab" data-stab="appearance"><svg aria-hidden="true"><use href="#ic-palette"/></svg>外观</button>
+      <button type="button" class="set-tab" data-stab="about"><svg aria-hidden="true"><use href="#ic-info"/></svg>关于</button>
     </div>
 
     <div class="set-panel on" id="setPanel-log">
       <div class="set-section">
-        <div class="set-sec-h">📋 通联默认值<small>DEFAULT QSO</small></div>
+        <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-sliders"/></svg>通联默认值<small>DEFAULT QSO</small></div>
         <div class="grid">
           <div class="field"><label for="setMode">默认模式</label><input class="inp" id="setMode" placeholder="FM"></div>
           <div class="field"><label for="setFreq">默认频率 MHz</label><input class="inp" id="setFreq" inputmode="decimal" placeholder="145.100"></div>
@@ -2376,7 +2407,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 
     <div class="set-panel" id="setPanel-station">
       <div class="set-section">
-        <div class="set-sec-h">📡 我的电台<small>MY STATION</small></div>
+        <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-radio"/></svg>我的电台<small>MY STATION</small></div>
         <div class="grid">
           <div class="field"><label for="setMyCall">我的呼号</label><input class="inp" id="setMyCall" placeholder="例：BA5AB" spellcheck="false" autocapitalize="characters"></div>
           <div class="field"><label for="setMyRig">我方设备</label><input class="inp" id="setMyRig" placeholder="如 FT-991A"></div>
@@ -2388,7 +2419,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
         <p class="field-hint">会用在电子 QSL 卡片和导出信息里</p>
       </div>
       <div class="set-section">
-        <div class="set-sec-h">🔁 中继台库<small>REPEATERS</small></div>
+        <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-repeater"/></svg>中继台库<small>REPEATERS</small></div>
         <p class="field-hint">记录表单里也能直接管理已保存的中继台</p>
         <button type="button" class="btn-ghost" id="btnRptManageSettings">管理已存中继台</button>
       </div>
@@ -2396,7 +2427,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 
     <div class="set-panel" id="setPanel-qsl">
       <div class="set-section">
-        <div class="set-sec-h">🃏 QSL 卡片信息<small>PRINTED ON CARDS</small></div>
+        <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-card"/></svg>QSL 卡片信息<small>PRINTED ON CARDS</small></div>
         <div class="grid">
           <div class="field"><label for="setCardCall">卡片呼号</label><input class="inp" id="setCardCall" placeholder="默认同我的呼号" spellcheck="false" autocapitalize="characters"></div>
           <div class="field"><label for="setOpNameCn">OP 名字（中文）</label><input class="inp" id="setOpNameCn" placeholder="如 王小明"></div>
@@ -2414,7 +2445,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 
     <div class="set-panel" id="setPanel-appearance">
       <div class="set-section">
-        <div class="set-sec-h">🎨 外观<small>APPEARANCE</small></div>
+        <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-palette"/></svg>外观<small>APPEARANCE</small></div>
         <div class="grid">
           <div class="field"><label for="setTheme">深色模式</label>
             <select class="inp" id="setTheme">
@@ -2439,9 +2470,9 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 
     <div class="set-panel" id="setPanel-about">
       <div class="set-section">
-        <div class="set-sec-h">ℹ️ 关于<small>ABOUT</small></div>
+        <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.2.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.3.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2449,8 +2480,11 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
           <button type="button" class="switch on" id="setAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
         </div>
         <div class="update-banner hidden" id="updateBanner">
-          <span class="ub-txt">✨ 发现新版本 <b id="updateVer"></b></span>
-          <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
+          <div class="ub-head">
+            <span class="ub-txt"><svg class="ub-ic" aria-hidden="true"><use href="#ic-zap"/></svg>发现新版本 <b id="updateVer"></b></span>
+            <button type="button" class="btn-primary" id="btnDoUpdate">立即更新</button>
+          </div>
+          <ul class="ub-notes" id="updateNotes"></ul>
         </div>
         <p class="set-about-note">通联速记 · QSO QUICK LOG · 73，频率上见 📡</p>
       </div>
@@ -2509,7 +2543,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.2.0</b>
+      <b>电子 QSL 卡片 · v2.3.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5181,7 +5215,8 @@ const els = {
   btnCheckUpdate: $('btnCheckUpdate'),
   btnDoUpdate: $('btnDoUpdate'),
   updateBanner: $('updateBanner'),
-  updateVer: $('updateVer')
+  updateVer: $('updateVer'),
+  updateNotes: $('updateNotes')
 };
 
 els.formCard = document.getElementById('formCard');
@@ -7238,7 +7273,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.2.0';
+const APP_VERSION = '2.3.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7261,6 +7296,17 @@ async function checkUpdate(silent) {
     const remote = m ? m[1] : null;
     if (remote && cmpVer(remote, APP_VERSION) > 0) {
       if (els.updateVer) els.updateVer.textContent = 'v' + remote;
+      // 展示新版本更新内容（从线上页面内嵌的发布说明提取）
+      const notes = extractNewNotes(t, APP_VERSION);
+      if (els.updateNotes) {
+        els.updateNotes.innerHTML = notes && notes.length
+          ? notes.map(n =>
+              '<li><span class="ub-ver">v' + n.v + '</span><span>' +
+              (Array.isArray(n.items) ? n.items.join(' · ') : '') +
+              '</span></li>'
+            ).join('')
+          : '';
+      }
       els.updateBanner.classList.remove('hidden');
       toast('发现新版本 v' + remote + ' ✨');
     } else if (!silent) {
@@ -7268,6 +7314,19 @@ async function checkUpdate(silent) {
     }
   } catch (e) {
     if (!silent) toast('检查更新失败，请稍后再试');
+  }
+}
+function extractNewNotes(html, current) {
+  const cm = String(html || '').match(/<script type="application\/json" id="changelogData">([\s\S]*?)<\/script>/);
+  if (!cm) return null;
+  try {
+    const list = JSON.parse(cm[1]);
+    if (!Array.isArray(list)) return null;
+    return list
+      .filter(e => e && e.v && cmpVer(e.v, current) > 0)
+      .sort((a, b) => cmpVer(b.v, a.v));
+  } catch (e) {
+    return null;
   }
 }
 const LS_UPD = 'hamqso.updateCheck.v1';
