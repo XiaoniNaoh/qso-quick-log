@@ -1728,6 +1728,148 @@ footer a:hover{color:var(--accent)}
   background:transparent;color:var(--ink-2);
   border:1px solid var(--line-2);border-radius:10px;
 }
+/* ═══ 六套主题 · 各自的特色与亮点 ═══ */
+
+/* 靛蓝 · 经典：冷静的水晶蓝，渐变只用在关键控件上，克制而有质感 */
+:root.theme-classic .sheet{
+  background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 4.5%, transparent) 0%, transparent 46%), var(--card);
+}
+:root.theme-classic .stamp{
+  border-color:color-mix(in srgb, var(--accent) 16%, transparent);
+}
+:root.theme-classic .stamp-cell .sc-ic,
+:root.theme-classic .sec-no,
+:root.theme-classic .brand-mark{
+  background:linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 62%, var(--mark)));
+}
+:root.theme-classic .dock-save:not(.edit-mode),
+:root.theme-classic .btn-primary{
+  background:linear-gradient(135deg, var(--mark), var(--mark-2));
+  box-shadow:0 6px 18px color-mix(in srgb, var(--mark) 18%, transparent);
+}
+
+/* 苔青 · 信笺：鼠尾草色块 + 极淡格纹，像一张干净的便签纸 */
+:root.theme-eqsl .sheet{
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--accent) 5.5%, transparent) 0%, transparent 45%),
+    repeating-linear-gradient(0deg, transparent 0 27px, color-mix(in srgb, var(--accent) 5%, transparent) 27px 28px),
+    var(--card);
+}
+:root.theme-eqsl .stamp{
+  border-radius:16px;
+  background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 9%, transparent), color-mix(in srgb, var(--accent-soft) 45%, transparent));
+}
+:root.theme-eqsl .dock-save:not(.edit-mode){
+  background:var(--mark);color:var(--mark-ink);
+  border-radius:14px;
+  box-shadow:0 8px 22px color-mix(in srgb, var(--mark) 16%, transparent);
+}
+/* 苔青 · 深色：保存按钮改鼠尾草绿渐变，不再刺眼的大白块 */
+:root.theme-eqsl.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #6FBC92, #4E9E76);
+  color:#0E1712;
+  box-shadow:0 8px 24px rgba(127,199,163,.22);
+}
+@media (prefers-color-scheme: dark){
+  :root.theme-eqsl:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #6FBC92, #4E9E76);
+    color:#0E1712;
+    box-shadow:0 8px 24px rgba(127,199,163,.22);
+  }
+}
+:root.theme-eqsl.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #6FBC92, #4E9E76);
+  color:#0E1712;
+  box-shadow:0 8px 24px rgba(127,199,163,.22);
+}
+:root.theme-eqsl.dark .btn-primary{
+  background:linear-gradient(135deg, #6FBC92, #4E9E76);
+  color:#0E1712;
+}
+
+/* 琥珀 · 日暮：暖光从左下升起，主按钮带落日渐变 */
+:root.theme-sunset .sheet{
+  background:
+    radial-gradient(140% 90% at 12% 0%, color-mix(in srgb, var(--accent) 7%, transparent) 0%, transparent 55%),
+    var(--card);
+}
+:root.theme-sunset .stamp{
+  background:linear-gradient(120deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--accent-soft) 46%, transparent));
+}
+:root.theme-sunset .dock-save:not(.edit-mode),
+:root.theme-sunset .btn-primary{
+  background:linear-gradient(135deg, #D98B3C, #B96A2E);
+  color:#FFFDF8;
+  box-shadow:0 8px 22px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+:root.theme-sunset .stamp-cell .sc-ic,
+:root.theme-sunset .sec-no{
+  background:linear-gradient(135deg, #D98B3C, #B96A2E);
+  color:#FFFDF8;
+}
+
+/* 极光 · 霓虹紫：斜向渐变光带 + 发光细节，动感但不吵 */
+:root.theme-aurora .sheet{
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 40%),
+    linear-gradient(300deg, color-mix(in srgb, #B79CFF 5%, transparent) 0%, transparent 38%),
+    var(--card);
+}
+:root.theme-aurora .stamp{
+  background:linear-gradient(120deg, color-mix(in srgb, var(--accent) 9%, transparent), color-mix(in srgb, #B79CFF 8%, transparent));
+}
+:root.theme-aurora .dock-save:not(.edit-mode),
+:root.theme-aurora .btn-primary{
+  background:linear-gradient(135deg, #7B63E8, #5B4BD4);
+  color:#FFFFFF;
+  box-shadow:0 8px 24px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+:root.theme-aurora .stamp-cell .sc-ic,
+:root.theme-aurora .sec-no,
+:root.theme-aurora .brand-mark{
+  background:linear-gradient(135deg, #7B63E8, #5B4BD4);
+  color:#FFFFFF;
+}
+
+/* 深海 · 海洋蓝：清爽的蓝绿渐变 + 一点「水汽」高光 */
+:root.theme-ocean .sheet{
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 42%),
+    radial-gradient(90% 70% at 90% 110%, color-mix(in srgb, #17C3B2 5%, transparent) 0%, transparent 60%),
+    var(--card);
+}
+:root.theme-ocean .stamp{
+  background:linear-gradient(120deg, color-mix(in srgb, var(--accent) 9%, transparent), color-mix(in srgb, #17C3B2 7%, transparent));
+}
+:root.theme-ocean .dock-save:not(.edit-mode),
+:root.theme-ocean .btn-primary{
+  background:linear-gradient(135deg, #0E87B8, #0C6E9C);
+  color:#FFFFFF;
+  box-shadow:0 8px 22px color-mix(in srgb, var(--accent) 26%, transparent);
+}
+:root.theme-ocean .stamp-cell .sc-ic,
+:root.theme-ocean .sec-no,
+:root.theme-ocean .brand-mark{
+  background:linear-gradient(135deg, #12A0CF, #0C6E9C);
+  color:#FFFFFF;
+}
+
+/* 素白 · 极简：几乎零装饰，靠排版与留白撑起高级感 */
+:root.theme-minimal .sheet{
+  background:var(--card);
+}
+:root.theme-minimal .stamp{
+  background:var(--bg);
+  border-radius:12px;
+}
+:root.theme-minimal .sec{
+  border-top-style:solid;
+}
+:root.theme-minimal .sec-no{
+  background:transparent;color:var(--ink-3);
+  box-shadow:none;border:1px solid var(--line-2);
+  border-radius:6px;font-size:9.5px;
+}
 :root.theme-minimal .dock-clear:hover,
 :root.theme-minimal .btn-ghost:hover{color:var(--ink);border-color:var(--ink-2)}
 :root.theme-minimal .badge{border-radius:4px;background:var(--ink);color:var(--card)}
@@ -2004,6 +2146,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.8.0","date":"2026-08-08","items":["六套主题各具特色：靛蓝水晶渐变 · 苔青信笺格纹 · 琥珀落日暖光 · 极光斜向光带 · 深海蓝绿水汽 · 素白克制极简","苔青深色模式保存按钮改为鼠尾草绿渐变，去掉刺眼的大白块","主按钮、区块号、图标位随主题换用专属渐变，切换主题焕然一新"]},
   {"v":"2.7.1","date":"2026-08-08","items":["苔青主题重设计：收敛装饰线条，改用柔和色块建立层次，控件圆角统一"]},
   {"v":"2.7.0","date":"2026-08-08","items":["备份中心新增「通过链接导入」：粘贴备份链接即可恢复","新增自动备份：设置与首次引导可选每天 / 每周 / 每月在本机留存完整快照","自动备份间隔独立持久化，应用更新不会重置用户选择"]},
   {"v":"2.6.0","date":"2026-08-08","items":["备份中心：完整备份（记录＋中继台＋设置）一键导出","备份按钮与导入按钮加文字标签，入口更清晰","文件导入与备份链接统一走「合并 / 替换」确认流程","导入支持合并设置与中继台库，跨设备恢复更完整"]},
@@ -2535,7 +2678,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.7.1</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.8.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2615,7 +2758,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.7.1</b>
+      <b>电子 QSL 卡片 · v2.8.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -7638,7 +7781,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.7.1';
+const APP_VERSION = '2.8.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
