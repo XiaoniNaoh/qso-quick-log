@@ -1191,6 +1191,25 @@ button{min-width:0}
 }
 .switch.on{background:var(--accent);border-color:transparent}
 .switch.on .knob{transform:translateX(20px)}
+.ib-grid{
+  display:flex;gap:3px;flex:none;
+  background:var(--bg);border:1px solid var(--line);
+  border-radius:11px;padding:3px;
+}
+.ib-grid button{
+  border:none;background:transparent;color:var(--ink-2);
+  font:inherit;font-size:11px;font-weight:700;cursor:pointer;
+  padding:6px 10px;border-radius:8px;white-space:nowrap;
+  transition:background .18s cubic-bezier(.16,1,.3,1), color .18s cubic-bezier(.16,1,.3,1);
+}
+.ib-grid button.on{background:var(--accent);color:var(--mark-ink)}
+.bk-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.bk-subnote{font-size:11px;color:var(--ink-3);margin:0;line-height:1.55}
+.bk-linkin{display:flex;gap:8px;flex-wrap:wrap}
+.bk-linkin .inp{flex:1;min-width:190px}
+.bk-linkin button{flex:none}
+.bk-act{display:flex;gap:8px;flex-wrap:wrap}
+.bk-act button{flex:1;min-width:110px}
 
 /* ── 更多毛玻璃材质 ── */
 .field-hint{
@@ -2000,6 +2019,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.7.0","date":"2026-08-08","items":["备份中心新增「通过链接导入」：粘贴备份链接即可恢复","新增自动备份：设置与首次引导可选每天 / 每周 / 每月在本机留存完整快照","自动备份间隔独立持久化，应用更新不会重置用户选择"]},
   {"v":"2.6.0","date":"2026-08-08","items":["备份中心：完整备份（记录＋中继台＋设置）一键导出","备份按钮与导入按钮加文字标签，入口更清晰","文件导入与备份链接统一走「合并 / 替换」确认流程","导入支持合并设置与中继台库，跨设备恢复更完整"]},
   {"v":"2.5.0","date":"2026-08-08","items":["深海配色改为海洋蓝，与苔青明确区分","素白主题配色与按钮控件极简风","手机端所有弹层渐入渐出","自动更新偏好独立持久化，版本更新不再重置"]},
   {"v":"2.4.1","date":"2026-08-07","items":["修复呼号自动填充：现在会一并恢复上次通联的频率与中继，切换呼号时清理旧中继数据"]},
@@ -2256,7 +2276,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
           <button type="button" class="lh-btn" data-export="json" title="导出 JSON（完整备份）" aria-label="导出 JSON"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-download"/></svg></span><span>JSON</span></button>
           <span class="lh-sep" aria-hidden="true"></span>
           <button type="button" class="lh-btn" id="btnBackupOpen" title="备份与恢复：导出完整备份、生成备份链接或导入" aria-label="打开备份与恢复"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-safe"/></svg></span><span>备份</span></button>
-          <button type="button" class="lh-btn" id="btnImport" title="导入 JSON 备份 / 备份链接（跨设备恢复）" aria-label="导入备份"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-upload"/></svg></span><span>导入</span></button>
+          <button type="button" class="lh-btn" id="btnImport" title="导入 JSON 备份文件" aria-label="导入备份文件"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-upload"/></svg></span><span>导入</span></button>
           <input type="file" id="importFile" accept=".json,application/json" hidden>
         </div>
       </div>
@@ -2332,6 +2352,8 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
           <ul>
             <li>数据仅保存在本机浏览器；清理浏览器数据会清空，请定期导出备份。</li>
             <li>「备份」会导出完整备份（记录 + 中继台 + 设置），也可生成备份链接发到任意设备；「导入」可合并或替换。</li>
+            <li>备份中心里可以「通过链接导入」——粘贴另一台设备发来的备份链接即可恢复。</li>
+            <li>「设置 → 关于」或首次引导可开启自动备份（每天 / 每周 / 每月），在本机自动留存完整快照，误删也能找回；更新应用不会重置你的选择。</li>
             <li>另外支持导出 ADIF / CSV 给常规电台日志软件，可拖入 .json 文件快速导入。</li>
           </ul>
         </div>
@@ -2405,6 +2427,15 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
         <button type="button" class="switch on" id="frAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
+      </div>
+      <div class="fr-opt">
+        <span class="fr-opt-txt"><b>自动备份</b><small>在本机自动留存完整快照，误删也能找回；随时可在「设置」里调整</small></span>
+        <div class="ib-grid" id="frAutoBackup" role="group" aria-label="自动备份间隔">
+          <button type="button" data-ib="off">关闭</button>
+          <button type="button" data-ib="1d">每天</button>
+          <button type="button" data-ib="7d">每周</button>
+          <button type="button" data-ib="30d">每月</button>
+        </div>
       </div>
     </div>
 
@@ -2518,12 +2549,21 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.6.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.7.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
           <span class="set-about-txt"><b>自动检查更新</b><small>每 30 天自动检测一次新版本</small></span>
           <button type="button" class="switch on" id="setAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
+        </div>
+        <div class="set-about-row">
+          <span class="set-about-txt"><b>自动备份</b><small>按间隔在本机自动留存完整快照；更新应用不会改变你的选择</small></span>
+          <div class="ib-grid" id="setAutoBackup" role="group" aria-label="自动备份间隔">
+            <button type="button" data-ib="off">关闭</button>
+            <button type="button" data-ib="1d">每天</button>
+            <button type="button" data-ib="7d">每周</button>
+            <button type="button" data-ib="30d">每月</button>
+          </div>
         </div>
         <div class="update-banner hidden" id="updateBanner">
           <div class="ub-head">
@@ -2589,7 +2629,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.6.0</b>
+      <b>电子 QSL 卡片 · v2.7.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -2630,6 +2670,29 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
         </div>
         <button type="button" class="btn-ghost" id="btnBackupImport"><svg class="btn-ic" aria-hidden="true"><use href="#ic-upload"/></svg>选择备份文件导入</button>
         <p class="bk-note">也可以直接把 .json 文件拖进页面任意位置</p>
+      </section>
+      <section class="bk-card bk-span">
+        <div class="bk-head">
+          <span class="bk-ic" aria-hidden="true"><svg><use href="#ic-link"/></svg></span>
+          <div><b>通过链接导入</b><small>粘贴另一台设备生成的备份链接，立即恢复</small></div>
+        </div>
+        <div class="bk-linkin">
+          <input class="inp" id="backupLinkInput" placeholder="粘贴备份链接（含 #backup= 的网址或片段）" spellcheck="false" autocomplete="off">
+          <button type="button" class="btn-primary" id="btnBackupLinkImport"><svg class="btn-ic" aria-hidden="true"><use href="#ic-upload"/></svg>导入</button>
+        </div>
+        <p class="bk-note">只支持本应用生成的备份链接；导入前请确认来源可信。</p>
+      </section>
+      <section class="bk-card bk-span">
+        <div class="bk-head">
+          <span class="bk-ic" aria-hidden="true"><svg><use href="#ic-safe"/></svg></span>
+          <div><b>自动备份</b><small>按设定间隔在本机留存一份完整快照，误删 / 误清也能找回</small></div>
+        </div>
+        <p class="bk-subnote" id="autoBackupStatus"></p>
+        <div class="bk-act">
+          <button type="button" class="btn-ghost" id="btnAutoBackupNow"><svg class="btn-ic" aria-hidden="true"><use href="#ic-safe"/></svg>立即备份</button>
+          <button type="button" class="btn-ghost" id="btnAutoBackupRestore"><svg class="btn-ic" aria-hidden="true"><use href="#ic-upload"/></svg>从自动备份恢复</button>
+        </div>
+        <p class="bk-note">自动备份存在本机浏览器；换设备请用「备份到文件」或「备份链接」。</p>
       </section>
     </div>
     <div class="actions">
@@ -5202,6 +5265,11 @@ const els = {
   btnBackupImport: $('btnBackupImport'),
   backupStatus: $('backupStatus'),
   btnBackupLink: $('btnBackupLink'),
+  backupLinkInput: $('backupLinkInput'),
+  btnBackupLinkImport: $('btnBackupLinkImport'),
+  autoBackupStatus: $('autoBackupStatus'),
+  btnAutoBackupNow: $('btnAutoBackupNow'),
+  btnAutoBackupRestore: $('btnAutoBackupRestore'),
   shareOverlay: $('shareOverlay'),
   backupLink: $('backupLink'),
   btnCopyLink: $('btnCopyLink'),
@@ -5258,6 +5326,7 @@ const els = {
   frCall: $('frCall'),
   frSub: $('frSub'),
   frAutoUpdate: $('frAutoUpdate'),
+  frAutoBackup: $('frAutoBackup'),
   frSteps: $('frSteps'),
   btnFrPrev: $('btnFrPrev'),
   btnFrNext: $('btnFrNext'),
@@ -5288,6 +5357,7 @@ const els = {
   setQrz: $('setQrz'),
   setVersion: $('setVersion'),
   setAutoUpdate: $('setAutoUpdate'),
+  setAutoBackup: $('setAutoBackup'),
   btnCheckUpdate: $('btnCheckUpdate'),
   btnDoUpdate: $('btnDoUpdate'),
   updateBanner: $('updateBanner'),
@@ -7224,8 +7294,91 @@ function updateBackupStatus() {
   }
 }
 
+// ── 自动备份：间隔偏好独立持久化，版本更新不会重置用户选择 ──
+const LS_AB_INT = 'hamqso.autoBackup.v1';
+const LS_AB_LAST = 'hamqso.autoBackupLast.v1';
+const LS_AB_SNAP = 'hamqso.autoBackupSnap.v1';
+const AB_MS = { '1d': 86400000, '7d': 604800000, '30d': 2592000000 };
+const AB_LABEL = { '1d': '每天', '7d': '每周', '30d': '每月', off: '关闭' };
+function getAutoBackupInterval() {
+  try { return localStorage.getItem(LS_AB_INT) || '7d'; } catch (e) { return '7d'; }
+}
+function setAutoBackupInterval(v) {
+  const val = AB_MS[v] ? v : 'off';
+  try { localStorage.setItem(LS_AB_INT, val); } catch (e) {}
+  return val;
+}
+function syncAutoBackupBtns(root) {
+  if (!root) return;
+  const cur = getAutoBackupInterval();
+  Array.prototype.forEach.call(root.querySelectorAll('button[data-ib]'), b => {
+    b.classList.toggle('on', b.dataset.ib === cur);
+  });
+}
+function bindAutoBackupBtns(root, onPick) {
+  if (!root) return;
+  syncAutoBackupBtns(root);
+  root.addEventListener('click', e => {
+    const b = e.target.closest && e.target.closest('button[data-ib]');
+    if (!b) return;
+    const v = setAutoBackupInterval(b.dataset.ib);
+    syncAutoBackupBtns(root);
+    if (onPick) onPick(v);
+  });
+}
+function getAutoBackupSnapshot() {
+  try { return JSON.parse(localStorage.getItem(LS_AB_SNAP) || 'null'); }
+  catch (e) { return null; }
+}
+function updateAutoBackupStatus() {
+  if (!els.autoBackupStatus) return;
+  const iv = getAutoBackupInterval();
+  const snap = getAutoBackupSnapshot();
+  const last = snap && snap.at ? new Date(snap.at).toLocaleString() : '';
+  els.autoBackupStatus.textContent = (iv === 'off'
+    ? '自动备份已关闭'
+    : '间隔：' + AB_LABEL[iv] + (last ? ' · 最近快照：' + last : ' · 尚未生成快照'))
+    + (snap ? ' · 记录 ' + snap.records.length + ' 条' : '');
+}
+function saveAutoBackupSnapshot(manual) {
+  if (!records.length && !repeaters.length) { if (manual) toast('还没有可备份的数据'); return false; }
+  const snap = { app: '通联速记', version: 2, at: Date.now(), records, repeaters, settings };
+  try {
+    localStorage.setItem(LS_AB_SNAP, JSON.stringify(snap));
+    localStorage.setItem(LS_AB_LAST, String(snap.at));
+    updateAutoBackupStatus();
+    if (manual) toast('已在本机留存快照 ✓');
+    return true;
+  } catch (e) {
+    if (manual) toast('自动备份空间不足，请改用文件备份');
+    return false;
+  }
+}
+function maybeAutoBackup() {
+  const iv = getAutoBackupInterval();
+  if (!AB_MS[iv]) return;
+  if (!records.length && !repeaters.length) return;
+  let last = 0;
+  try { last = parseInt(localStorage.getItem(LS_AB_LAST) || '0', 10) || 0; } catch (e) {}
+  if (last && Date.now() - last < AB_MS[iv]) return;
+  saveAutoBackupSnapshot(false);
+}
+
+els.btnAutoBackupNow.addEventListener('click', () => saveAutoBackupSnapshot(true));
+els.btnAutoBackupRestore.addEventListener('click', () => {
+  const snap = getAutoBackupSnapshot();
+  if (!snap || !Array.isArray(snap.records)) { toast('还没有自动备份快照'); return; }
+  prepareImportData(snap);
+  hideOverlay(els.shareOverlay);
+});
+bindAutoBackupBtns(els.setAutoBackup, v => {
+  toast('自动备份：' + AB_LABEL[v] + (v === 'off' ? '' : ' · 之后会按此间隔自动留存快照'));
+});
+bindAutoBackupBtns(els.frAutoBackup);
+
 els.btnBackupOpen.addEventListener('click', () => {
   updateBackupStatus();
+  updateAutoBackupStatus();
   showOverlay(els.shareOverlay);
 });
 els.btnBackupDownload.addEventListener('click', () => {
@@ -7364,6 +7517,39 @@ els.btnShareLink.addEventListener('click', () => {
 els.btnCloseShare.addEventListener('click', () => hideOverlay(els.shareOverlay));
 els.shareOverlay.addEventListener('click', e => { if (e.target === els.shareOverlay) hideOverlay(els.shareOverlay); });
 
+// ── 通过链接导入：粘贴完整网址 / #backup= 片段 / 纯压缩码均可 ──
+async function importBackupFromLink(raw) {
+  const t = String(raw || '').trim();
+  if (!t) { toast('请先粘贴备份链接'); return; }
+  let code = t;
+  const hIdx = t.indexOf('#backup=');
+  if (hIdx >= 0) code = t.slice(hIdx + 8);
+  else if (/^[A-Za-z0-9\-_=]+$/.test(t) && t.length > 12) { /* 纯压缩码 */ }
+  else if (t.startsWith('#')) { code = t.slice(1); }
+  if (!code) { toast('链接里没有备份数据'); return; }
+  try {
+    let json = null;
+    if (typeof DecompressionStream !== 'undefined') {
+      try { json = await decompressText(code); } catch (e) { json = null; }
+    }
+    if (json === null) json = decodeURIComponent(code);
+    const data = JSON.parse(json);
+    if (!data || !Array.isArray(data.records)) throw new Error('bad backup');
+    prepareImportData(data);
+    hideOverlay(els.shareOverlay);
+    els.backupLinkInput.value = '';
+  } catch (e) {
+    toast('导入失败：链接无效或已损坏');
+  }
+}
+els.btnBackupLinkImport.addEventListener('click', () => importBackupFromLink(els.backupLinkInput.value));
+els.backupLinkInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    importBackupFromLink(els.backupLinkInput.value);
+  }
+});
+
 function applyBackup(mode) {
   if (!pendingBackup) return;
   if (mode === 'replace') {
@@ -7466,7 +7652,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.6.0';
+const APP_VERSION = '2.7.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7570,6 +7756,7 @@ function openSettings() {
     els.setAutoUpdate.setAttribute('aria-checked', String(on));
   }
   els.updateBanner.classList.add('hidden');
+  syncAutoBackupBtns(els.setAutoBackup);
   document.querySelectorAll('.set-tab').forEach(b => b.classList.toggle('on', b.dataset.stab === 'log'));
   document.querySelectorAll('.set-panel').forEach(p => p.classList.toggle('on', p.id === 'setPanel-log'));
   customSelects.forEach(cs => cs.updateLabel());
@@ -7821,6 +8008,7 @@ function maybeFirstRun() {
 function finishFirstRun() {
   if (frSkin) settings.skin = frSkin;
   if (els.frAutoUpdate) settings.autoUpdate = els.frAutoUpdate.classList.contains('on');
+  syncAutoBackupBtns(els.frAutoBackup);
   persistAutoUpdate();
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
   localStorage.setItem(LS_WELCOME, '1');
@@ -7829,6 +8017,8 @@ function finishFirstRun() {
   renderModeChips();
   updateBand();
   applyTheme();
+  updateAutoBackupStatus();
+  maybeAutoBackup();
   toast('欢迎使用通联速记，73！去「设置」补全个人信息，电子 QSL 会自动带上', { label: '去设置', onClick: openSettings });
 }
 els.btnFrPrev.addEventListener('click', () => { if (frStep > 1) frShow(frStep - 1); });
@@ -7905,6 +8095,8 @@ renderList();
 stats();
 applyTheme();
 updateBackupStatus();
+updateAutoBackupStatus();
+maybeAutoBackup();
 softFocus(els.inCall);
 
 // 区块滚动浮现：进入视口时优雅淡入（仅静态表单区块）
