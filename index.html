@@ -39,13 +39,13 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not(.light){
-    --bg:#0F1420;
-    --card:#1A2130;
-    --ink:#E9EEF7;
-    --ink-2:#9FA9BC;
-    --ink-3:#67738A;
-    --line:#263044;
-    --line-2:#36415A;
+    --bg:#0C0D10;
+    --card:#14161B;
+    --ink:#E8EAF0;
+    --ink-2:#9CA1AD;
+    --ink-3:#626872;
+    --line:#232630;
+    --line-2:#30343E;
     --accent:#8EA8FF;
     --accent-soft:rgba(142,168,255,.13);
     --mark:#7E97F0;
@@ -59,13 +59,13 @@
   }
 }
 :root.dark{
-  --bg:#0F1420;
-  --card:#1A2130;
-  --ink:#E9EEF7;
-  --ink-2:#9FA9BC;
-  --ink-3:#67738A;
-  --line:#263044;
-  --line-2:#36415A;
+  --bg:#0C0D10;
+  --card:#14161B;
+  --ink:#E8EAF0;
+  --ink-2:#9CA1AD;
+  --ink-3:#626872;
+  --line:#232630;
+  --line-2:#30343E;
   --accent:#8EA8FF;
   --accent-soft:rgba(142,168,255,.13);
   --mark:#7E97F0;
@@ -1147,57 +1147,65 @@ button{min-width:0}
 /* 深色下各主题主按钮再润色：专属渐变落点 */
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #6FBC92, #4E9E76);
-    color:#0C1510;
-    box-shadow:0 8px 24px rgba(127,199,163,.24);
+    background:linear-gradient(135deg, #5FAF86, #3E8A68);
+    color:#EDF7F1;
+    box-shadow:0 8px 22px rgba(95,175,134,.18);
   }
   :root.theme-sunset:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #E0964A, #C07630);
-    color:#211206;
+    background:linear-gradient(135deg, #E59A4C, #C07A30);
+    color:#1D1308;
+    box-shadow:0 8px 22px rgba(229,154,76,.16);
   }
   :root.theme-aurora:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #8B74F0, #6751D8);
-    color:#100B1F;
+    background:linear-gradient(135deg, #8B7BF0, #6E5BD8);
+    color:#F1EEFF;
+    box-shadow:0 8px 22px rgba(139,123,240,.18);
   }
   :root.theme-ocean:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #1FA8DB, #0E87B8);
-    color:#06222E;
+    background:linear-gradient(135deg, #2FA8DE, #1C8FC2);
+    color:#EAF6FC;
+    box-shadow:0 8px 22px rgba(47,168,222,.16);
   }
   :root.theme-minimal:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #E2E4E7, #B9BEC4);
-    color:#0C0D0E;
-    box-shadow:0 6px 18px rgba(0,0,0,.28);
+    background:linear-gradient(135deg, #EDEDEC, #C9CCD0);
+    color:#111213;
+    box-shadow:0 6px 16px rgba(0,0,0,.35);
   }
   :root.theme-classic:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #8EA8FF, #6C85DD);
-    color:#0D1220;
+    background:linear-gradient(135deg, #6E8BFF, #5A6FE0);
+    color:#EEF2FF;
+    box-shadow:0 8px 22px rgba(110,139,255,.18);
   }
 }
 :root.theme-eqsl.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #6FBC92, #4E9E76);
-  color:#0C1510;
-  box-shadow:0 8px 24px rgba(127,199,163,.24);
+  background:linear-gradient(135deg, #5FAF86, #3E8A68);
+  color:#EDF7F1;
+  box-shadow:0 8px 22px rgba(95,175,134,.18);
 }
 :root.theme-sunset.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #E0964A, #C07630);
-  color:#211206;
+  background:linear-gradient(135deg, #E59A4C, #C07A30);
+  color:#1D1308;
+  box-shadow:0 8px 22px rgba(229,154,76,.16);
 }
 :root.theme-aurora.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #8B74F0, #6751D8);
-  color:#100B1F;
+  background:linear-gradient(135deg, #8B7BF0, #6E5BD8);
+  color:#F1EEFF;
+  box-shadow:0 8px 22px rgba(139,123,240,.18);
 }
 :root.theme-ocean.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #1FA8DB, #0E87B8);
-  color:#06222E;
+  background:linear-gradient(135deg, #2FA8DE, #1C8FC2);
+  color:#EAF6FC;
+  box-shadow:0 8px 22px rgba(47,168,222,.16);
 }
 :root.theme-minimal.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #E2E4E7, #B9BEC4);
-  color:#0C0D0E;
-  box-shadow:0 6px 18px rgba(0,0,0,.28);
+  background:linear-gradient(135deg, #EDEDEC, #C9CCD0);
+  color:#111213;
+  box-shadow:0 6px 16px rgba(0,0,0,.35);
 }
 :root.theme-classic.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #8EA8FF, #6C85DD);
-  color:#0D1220;
+  background:linear-gradient(135deg, #6E8BFF, #5A6FE0);
+  color:#EEF2FF;
+  box-shadow:0 8px 22px rgba(110,139,255,.18);
 }
 /* 深色下主题装饰减淡：只留一点氛围，不抢视线 */
 @media (prefers-color-scheme: dark){
@@ -1500,13 +1508,13 @@ footer a:hover{color:var(--accent)}
 }
 /* 信笺 · 鼠尾草 · 深色（冷调黑，重点色明亮清新） */
 :root.theme-eqsl.dark{
-  --bg:#0F1512;
-  --card:#17201B;
-  --ink:#E7EFEA;
-  --ink-2:#9DB0A4;
-  --ink-3:#66796D;
-  --line:#263229;
-  --line-2:#35463B;
+  --bg:#0B0E0C;
+  --card:#131816;
+  --ink:#E7EDE9;
+  --ink-2:#9AA9A0;
+  --ink-3:#616D66;
+  --line:#222824;
+  --line-2:#2E3731;
   --accent:#7FC7A3;
   --accent-soft:rgba(127,199,163,.14);
   --mark:#5FAF86;
@@ -1525,13 +1533,13 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light){
-    --bg:#0F1512;
-    --card:#17201B;
-    --ink:#E7EFEA;
-    --ink-2:#9DB0A4;
-    --ink-3:#66796D;
-    --line:#263229;
-    --line-2:#35463B;
+    --bg:#0B0E0C;
+    --card:#131816;
+    --ink:#E7EDE9;
+    --ink-2:#9AA9A0;
+    --ink-3:#616D66;
+    --line:#222824;
+    --line-2:#2E3731;
     --accent:#7FC7A3;
     --accent-soft:rgba(127,199,163,.14);
     --mark:#5FAF86;
@@ -1575,13 +1583,13 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 2px rgba(34,29,22,.04), 0 10px 30px rgba(34,29,22,.06);
 }
 :root.theme-sunset.dark{
-  --bg:#17120D;
-  --card:#221A12;
-  --ink:#F4EDE3;
-  --ink-2:#B9AC9B;
-  --ink-3:#7E7161;
-  --line:#382C20;
-  --line-2:#4C3D2D;
+  --bg:#100D09;
+  --card:#181310;
+  --ink:#F2EAE0;
+  --ink-2:#B3A797;
+  --ink-3:#776B5C;
+  --line:#2D261E;
+  --line-2:#3C3328;
   --accent:#E8A862;
   --accent-soft:rgba(232,168,98,.14);
   --mark:#D98B3C;
@@ -1600,13 +1608,13 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-sunset:not(.light){
-    --bg:#17120D;
-    --card:#221A12;
-    --ink:#F4EDE3;
-    --ink-2:#B9AC9B;
-    --ink-3:#7E7161;
-    --line:#382C20;
-    --line-2:#4C3D2D;
+    --bg:#100D09;
+    --card:#181310;
+    --ink:#F2EAE0;
+    --ink-2:#B3A797;
+    --ink-3:#776B5C;
+    --line:#2D261E;
+    --line-2:#3C3328;
     --accent:#E8A862;
     --accent-soft:rgba(232,168,98,.14);
     --mark:#D98B3C;
@@ -1669,13 +1677,13 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 2px rgba(31,27,41,.04), 0 10px 30px rgba(31,27,41,.06);
 }
 :root.theme-aurora.dark{
-  --bg:#110F1C;
-  --card:#1B1830;
-  --ink:#EEEBF9;
-  --ink-2:#ADA6C6;
-  --ink-3:#75708F;
-  --line:#2D2945;
-  --line-2:#403A5F;
+  --bg:#0D0C12;
+  --card:#16141F;
+  --ink:#ECEAF6;
+  --ink-2:#A7A1BF;
+  --ink-3:#6F6A87;
+  --line:#272436;
+  --line-2:#35314A;
   --accent:#A99BFF;
   --accent-soft:rgba(169,155,255,.16);
   --mark:#7B63E8;
@@ -1694,13 +1702,13 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-aurora:not(.light){
-    --bg:#110F1C;
-    --card:#1B1830;
-    --ink:#EEEBF9;
-    --ink-2:#ADA6C6;
-    --ink-3:#75708F;
-    --line:#2D2945;
-    --line-2:#403A5F;
+    --bg:#0D0C12;
+    --card:#16141F;
+    --ink:#ECEAF6;
+    --ink-2:#A7A1BF;
+    --ink-3:#6F6A87;
+    --line:#272436;
+    --line-2:#35314A;
     --accent:#A99BFF;
     --accent-soft:rgba(169,155,255,.16);
     --mark:#7B63E8;
@@ -1763,13 +1771,13 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 2px rgba(20,32,43,.04), 0 10px 30px rgba(20,32,43,.06);
 }
 :root.theme-ocean.dark{
-  --bg:#0A1319;
-  --card:#12202A;
-  --ink:#E6F0F7;
-  --ink-2:#A0B5C4;
-  --ink-3:#6A8192;
-  --line:#1F3140;
-  --line-2:#304657;
+  --bg:#0A0C0F;
+  --card:#11161C;
+  --ink:#E5EDF3;
+  --ink-2:#9CAEBB;
+  --ink-3:#647584;
+  --line:#1E2831;
+  --line-2:#2C3A46;
   --accent:#52B7E8;
   --accent-soft:rgba(82,183,232,.15);
   --mark:#18A0D3;
@@ -1788,13 +1796,13 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-ocean:not(.light){
-    --bg:#0A1319;
-    --card:#12202A;
-    --ink:#E6F0F7;
-    --ink-2:#A0B5C4;
-    --ink-3:#6A8192;
-    --line:#1F3140;
-    --line-2:#304657;
+    --bg:#0A0C0F;
+    --card:#11161C;
+    --ink:#E5EDF3;
+    --ink-2:#9CAEBB;
+    --ink-3:#647584;
+    --line:#1E2831;
+    --line-2:#2C3A46;
     --accent:#52B7E8;
     --accent-soft:rgba(82,183,232,.15);
     --mark:#18A0D3;
@@ -1857,13 +1865,13 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 1px rgba(21,21,21,.03), 0 8px 24px rgba(21,21,21,.05);
 }
 :root.theme-minimal.dark{
-  --bg:#0C0D0E;
-  --card:#17191B;
-  --ink:#EFEFEE;
-  --ink-2:#A9ABAE;
-  --ink-3:#6F7276;
-  --line:#26282B;
-  --line-2:#34373B;
+  --bg:#0B0C0D;
+  --card:#141516;
+  --ink:#EDEDEC;
+  --ink-2:#A5A7AA;
+  --ink-3:#6B6E72;
+  --line:#232527;
+  --line-2:#2F3235;
   --accent:#C6CBD1;
   --accent-soft:rgba(198,203,209,.12);
   --mark:#D8DBDF;
@@ -1882,13 +1890,13 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-minimal:not(.light){
-    --bg:#0C0D0E;
-    --card:#17191B;
-    --ink:#EFEFEE;
-    --ink-2:#A9ABAE;
-    --ink-3:#6F7276;
-    --line:#26282B;
-    --line-2:#34373B;
+    --bg:#0B0C0D;
+    --card:#141516;
+    --ink:#EDEDEC;
+    --ink-2:#A5A7AA;
+    --ink-3:#6B6E72;
+    --line:#232527;
+    --line-2:#2F3235;
     --accent:#C6CBD1;
     --accent-soft:rgba(198,203,209,.12);
     --mark:#D8DBDF;
@@ -1943,13 +1951,13 @@ footer a:hover{color:var(--accent)}
 
 /* 靛蓝 · 经典：深色带冷蓝倾向，层次靠明度不靠线条 */
 :root.theme-classic.dark{
-  --bg:#0F1420;
-  --card:#1A2130;
-  --ink:#E9EEF7;
-  --ink-2:#9FA9BC;
-  --ink-3:#67738A;
-  --line:#263044;
-  --line-2:#36415A;
+  --bg:#0C0D10;
+  --card:#14161B;
+  --ink:#E8EAF0;
+  --ink-2:#9CA1AD;
+  --ink-3:#626872;
+  --line:#232630;
+  --line-2:#30343E;
   --accent:#8EA8FF;
   --accent-soft:rgba(142,168,255,.13);
   --mark:#7E97F0;
@@ -1960,13 +1968,13 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-classic:not(.light){
-    --bg:#0F1420;
-    --card:#1A2130;
-    --ink:#E9EEF7;
-    --ink-2:#9FA9BC;
-    --ink-3:#67738A;
-    --line:#263044;
-    --line-2:#36415A;
+    --bg:#0C0D10;
+    --card:#14161B;
+    --ink:#E8EAF0;
+    --ink-2:#9CA1AD;
+    --ink-3:#626872;
+    --line:#232630;
+    --line-2:#30343E;
     --accent:#8EA8FF;
     --accent-soft:rgba(142,168,255,.13);
     --mark:#7E97F0;
@@ -2371,6 +2379,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.9.1","date":"2026-08-08","items":["深色背景色调减弱、更接近纯黑，视觉焦点回到内容","深色模式按钮配色重做：主题色渐变 + 浅色文字，更克制耐看","自动检查更新默认关闭，不会自动推送；只有你手动开启或点「检查更新」才联网检测"]},
   {"v":"2.9.0","date":"2026-08-08","items":["深色模式全面重做：六套主题各有专属色调背景（冷蓝 / 墨绿 / 暖棕 / 深紫 / 藏青 / 炭灰）","主按钮改为主题色渐变，不再刺眼的大白块","深色下分隔线、边框全面降噪，改用明度层次代替线条"]},
   {"v":"2.8.0","date":"2026-08-08","items":["六套主题各具特色：靛蓝水晶渐变 · 苔青信笺格纹 · 琥珀落日暖光 · 极光斜向光带 · 深海蓝绿水汽 · 素白克制极简","苔青深色模式保存按钮改为鼠尾草绿渐变，去掉刺眼的大白块","主按钮、区块号、图标位随主题换用专属渐变，切换主题焕然一新"]},
   {"v":"2.7.1","date":"2026-08-08","items":["苔青主题重设计：收敛装饰线条，改用柔和色块建立层次，控件圆角统一"]},
@@ -2780,8 +2789,8 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
         <button type="button" class="fr-theme" data-skin="minimal" style="--pa:#40464D"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">素白</span><span class="fr-theme-desc">极简留白</span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
-        <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
-        <button type="button" class="switch on" id="frAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
+        <span class="fr-opt-txt"><b>自动检查更新</b><small>默认关闭；开启后每 30 天自动检测一次新版本，随时可在「设置」里调整</small></span>
+        <button type="button" class="switch" id="frAutoUpdate" role="switch" aria-checked="false"><span class="knob"></span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动备份</b><small>在本机自动留存完整快照，误删也能找回；随时可在「设置」里调整</small></span>
@@ -2904,11 +2913,11 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.9.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.9.1</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
-          <span class="set-about-txt"><b>自动检查更新</b><small>每 30 天自动检测一次新版本</small></span>
+          <span class="set-about-txt"><b>自动检查更新</b><small>默认关闭；开启后每 30 天自动检测一次新版本</small></span>
           <button type="button" class="switch on" id="setAutoUpdate" role="switch" aria-checked="true"><span class="knob"></span></button>
         </div>
         <div class="set-about-row">
@@ -2984,7 +2993,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.9.0</b>
+      <b>电子 QSL 卡片 · v2.9.1</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5743,7 +5752,7 @@ function hideOverlay(el) {
 
 const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig', 'inAnt', 'inPwr', 'inRemark', 'time'];
 
-let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', autoUpdate: true, myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
+let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', autoUpdate: false, myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
 // 自动更新偏好独立持久化：版本更新、设置重建都不会重置
 const LS_AUTO = 'hamqso.autoUpdate.v1';
@@ -8007,7 +8016,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.9.0';
+const APP_VERSION = '2.9.1';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -8106,7 +8115,7 @@ function openSettings() {
   els.setQrz.value = settings.qrz || '';
   if (els.setVersion) els.setVersion.textContent = 'v' + APP_VERSION;
   if (els.setAutoUpdate) {
-    const on = settings.autoUpdate !== false;
+    const on = settings.autoUpdate === true;
     els.setAutoUpdate.classList.toggle('on', on);
     els.setAutoUpdate.setAttribute('aria-checked', String(on));
   }
@@ -8348,7 +8357,7 @@ function frShow(step) {
     if (!frSkin) frSkin = settings.skin || 'classic';
     document.querySelectorAll('.fr-theme').forEach(c => c.classList.toggle('on', c.dataset.skin === frSkin));
     if (els.frAutoUpdate) {
-      const on = settings.autoUpdate !== false;
+      const on = settings.autoUpdate === true;
       els.frAutoUpdate.classList.toggle('on', on);
       els.frAutoUpdate.setAttribute('aria-checked', String(on));
     }
