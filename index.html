@@ -679,14 +679,11 @@ footer{
 .overlay{
   position:fixed;inset:0;background:rgba(15,20,28,.45);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   display:block;overflow-y:auto;z-index:40;padding:24px 16px;
-}
-/* 设置页弹窗：打开 / 关闭淡入淡出 */
-#settingsOverlay{
   opacity:0;pointer-events:none;
-  transition:opacity .26s cubic-bezier(.16,1,.3,1);
+  transition:opacity .24s cubic-bezier(.16,1,.3,1);
 }
-#settingsOverlay.show{opacity:1;pointer-events:auto}
-#settingsOverlay.closing{opacity:0;pointer-events:none}
+.overlay.show{opacity:1;pointer-events:auto}
+.overlay.closing{opacity:0;pointer-events:none}
 .modal{
   background:var(--card);border:1px solid var(--line-2);border-radius:18px;
   padding:22px;width:min(420px,100%);margin:0 auto;box-shadow:var(--shadow);
@@ -1487,46 +1484,46 @@ footer a:hover{color:var(--accent)}
   border-color:color-mix(in srgb, var(--edit) 45%, transparent);
   background:var(--edit-soft);
 }
-/* ── 深海 · 青主题：清透冷调，重点色海盐青（浅色） ── */
+/* ── 深海 · 蓝主题：海洋冷调，重点色深海蓝（浅色，与苔青明确区分） ── */
 :root.theme-ocean{
-  --bg:#F4F8F8;
+  --bg:#F4F7FB;
   --card:#FFFFFF;
-  --ink:#16211F;
-  --ink-2:#566763;
-  --ink-3:#97A6A2;
-  --line:#E2EAE8;
-  --line-2:#CFDCD8;
-  --accent:#0E8F8F;
-  --accent-soft:rgba(14,143,143,.10);
-  --mark:#16211F;
-  --mark-2:#2C3A37;
+  --ink:#14202B;
+  --ink-2:#53636F;
+  --ink-3:#93A3AF;
+  --line:#E1E8EF;
+  --line-2:#CDD9E3;
+  --accent:#0E87B8;
+  --accent-soft:rgba(14,135,184,.10);
+  --mark:#14202B;
+  --mark-2:#24313D;
   --mark-ink:#FFFFFF;
-  --mark-soft:rgba(22,33,31,.08);
-  --auto:#0E8F8F;
-  --ok:#1F8A5B;
-  --danger:#C03838;
+  --mark-soft:rgba(20,32,43,.08);
+  --auto:#0E87B8;
+  --ok:#177A5C;
+  --danger:#C03A3A;
   --edit:#C08A3E;
   --edit-2:#9A6B27;
   --edit-ink:#FFFDF6;
   --edit-soft:rgba(192,138,62,.14);
   --radius:16px;
-  --shadow:0 1px 2px rgba(22,33,31,.04), 0 10px 30px rgba(22,33,31,.06);
+  --shadow:0 1px 2px rgba(20,32,43,.04), 0 10px 30px rgba(20,32,43,.06);
 }
 :root.theme-ocean.dark{
-  --bg:#0F1716;
-  --card:#16211F;
-  --ink:#E4F0ED;
-  --ink-2:#9DB4AE;
-  --ink-3:#67817B;
-  --line:#233330;
-  --line-2:#304540;
-  --accent:#5FD6D0;
-  --accent-soft:rgba(95,214,208,.13);
-  --mark:#E4F0ED;
-  --mark-2:#C2D6D1;
-  --mark-ink:#0F1716;
-  --mark-soft:rgba(228,240,237,.08);
-  --auto:#5FD6D0;
+  --bg:#0C141D;
+  --card:#131E29;
+  --ink:#E7EFF6;
+  --ink-2:#A2B4C2;
+  --ink-3:#6C7F8F;
+  --line:#22303D;
+  --line-2:#32434F;
+  --accent:#52B7E8;
+  --accent-soft:rgba(82,183,232,.13);
+  --mark:#E7EFF6;
+  --mark-2:#C7D5E0;
+  --mark-ink:#0C141D;
+  --mark-soft:rgba(231,239,246,.08);
+  --auto:#52B7E8;
   --ok:#4ADE80;
   --danger:#F27D7D;
   --edit:#DBA75F;
@@ -1538,20 +1535,20 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-ocean:not(.light){
-    --bg:#0F1716;
-    --card:#16211F;
-    --ink:#E4F0ED;
-    --ink-2:#9DB4AE;
-    --ink-3:#67817B;
-    --line:#233330;
-    --line-2:#304540;
-    --accent:#5FD6D0;
-    --accent-soft:rgba(95,214,208,.13);
-    --mark:#E4F0ED;
-    --mark-2:#C2D6D1;
-    --mark-ink:#0F1716;
-    --mark-soft:rgba(228,240,237,.08);
-    --auto:#5FD6D0;
+    --bg:#0C141D;
+    --card:#131E29;
+    --ink:#E7EFF6;
+    --ink-2:#A2B4C2;
+    --ink-3:#6C7F8F;
+    --line:#22303D;
+    --line-2:#32434F;
+    --accent:#52B7E8;
+    --accent-soft:rgba(82,183,232,.13);
+    --mark:#E7EFF6;
+    --mark-2:#C7D5E0;
+    --mark-ink:#0C141D;
+    --mark-soft:rgba(231,239,246,.08);
+    --auto:#52B7E8;
     --ok:#4ADE80;
     --danger:#F27D7D;
     --edit:#DBA75F;
@@ -1583,20 +1580,20 @@ footer a:hover{color:var(--accent)}
 }
 /* ── 素白 · 极简主题：中性石墨，克制留白（浅色） ── */
 :root.theme-minimal{
-  --bg:#FAFAFA;
+  --bg:#FBFBFA;
   --card:#FFFFFF;
-  --ink:#17181C;
-  --ink-2:#5C6066;
-  --ink-3:#A2A6AC;
-  --line:#E9EAEC;
-  --line-2:#D6D8DC;
-  --accent:#5A5F66;
-  --accent-soft:rgba(90,95,102,.09);
-  --mark:#17181C;
-  --mark-2:#2E3238;
+  --ink:#151515;
+  --ink-2:#55585C;
+  --ink-3:#9B9EA3;
+  --line:#ECECEA;
+  --line-2:#DCDCD8;
+  --accent:#40464D;
+  --accent-soft:rgba(64,70,77,.09);
+  --mark:#151515;
+  --mark-2:#2B2F34;
   --mark-ink:#FFFFFF;
-  --mark-soft:rgba(23,24,28,.08);
-  --auto:#5A5F66;
+  --mark-soft:rgba(21,21,21,.08);
+  --auto:#40464D;
   --ok:#0F7B4D;
   --danger:#B42318;
   --edit:#A8833C;
@@ -1604,23 +1601,23 @@ footer a:hover{color:var(--accent)}
   --edit-ink:#FFFDF6;
   --edit-soft:rgba(168,131,60,.14);
   --radius:16px;
-  --shadow:0 1px 2px rgba(23,24,28,.04), 0 10px 30px rgba(23,24,28,.06);
+  --shadow:0 1px 1px rgba(21,21,21,.03), 0 8px 24px rgba(21,21,21,.05);
 }
 :root.theme-minimal.dark{
-  --bg:#111214;
-  --card:#181A1D;
-  --ink:#ECECEE;
-  --ink-2:#A6A9AE;
-  --ink-3:#6D7177;
-  --line:#27292D;
-  --line-2:#373A3F;
-  --accent:#C7CCD2;
-  --accent-soft:rgba(199,204,210,.12);
-  --mark:#ECECEE;
-  --mark-2:#C9CCD1;
-  --mark-ink:#111214;
-  --mark-soft:rgba(236,236,238,.08);
-  --auto:#C7CCD2;
+  --bg:#0D0E0F;
+  --card:#16181A;
+  --ink:#EDEDEC;
+  --ink-2:#A7A9AC;
+  --ink-3:#6E7175;
+  --line:#26282B;
+  --line-2:#36393D;
+  --accent:#B6BCC3;
+  --accent-soft:rgba(182,188,195,.12);
+  --mark:#EDEDEC;
+  --mark-2:#CACDD1;
+  --mark-ink:#0D0E0F;
+  --mark-soft:rgba(237,237,236,.08);
+  --auto:#B6BCC3;
   --ok:#4ADE80;
   --danger:#F87171;
   --edit:#DBA75F;
@@ -1632,20 +1629,20 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-minimal:not(.light){
-    --bg:#111214;
-    --card:#181A1D;
-    --ink:#ECECEE;
-    --ink-2:#A6A9AE;
-    --ink-3:#6D7177;
-    --line:#27292D;
-    --line-2:#373A3F;
-    --accent:#C7CCD2;
-    --accent-soft:rgba(199,204,210,.12);
-    --mark:#ECECEE;
-    --mark-2:#C9CCD1;
-    --mark-ink:#111214;
-    --mark-soft:rgba(236,236,238,.08);
-    --auto:#C7CCD2;
+    --bg:#0D0E0F;
+    --card:#16181A;
+    --ink:#EDEDEC;
+    --ink-2:#A7A9AC;
+    --ink-3:#6E7175;
+    --line:#26282B;
+    --line-2:#36393D;
+    --accent:#B6BCC3;
+    --accent-soft:rgba(182,188,195,.12);
+    --mark:#EDEDEC;
+    --mark-2:#CACDD1;
+    --mark-ink:#0D0E0F;
+    --mark-soft:rgba(237,237,236,.08);
+    --auto:#B6BCC3;
     --ok:#4ADE80;
     --danger:#F87171;
     --edit:#DBA75F;
@@ -1675,6 +1672,25 @@ footer a:hover{color:var(--accent)}
   border-color:color-mix(in srgb, var(--edit) 45%, transparent);
   background:var(--edit-soft);
 }
+/* 素白 · 极简按钮：扁平克制、少阴影、利落圆角 */
+:root.theme-minimal .dock-save,
+:root.theme-minimal .btn-primary{
+  background:var(--ink);color:var(--card);
+  border:1px solid var(--ink);border-radius:10px;
+  box-shadow:none;
+}
+:root.theme-minimal .dock-save:hover,
+:root.theme-minimal .btn-primary:hover{background:var(--mark-2);border-color:var(--mark-2)}
+:root.theme-minimal .dock-clear,
+:root.theme-minimal .btn-ghost{
+  background:transparent;color:var(--ink-2);
+  border:1px solid var(--line-2);border-radius:10px;
+}
+:root.theme-minimal .dock-clear:hover,
+:root.theme-minimal .btn-ghost:hover{color:var(--ink);border-color:var(--ink-2)}
+:root.theme-minimal .badge{border-radius:4px;background:var(--ink);color:var(--card)}
+:root.theme-minimal .chip.active{background:var(--ink);color:var(--card);border-color:transparent;box-shadow:none}
+:root.theme-minimal .dock{border-radius:12px;box-shadow:0 1px 0 rgba(0,0,0,.05)}
 /* 明信片排版：衬线题头 · 手写备注 · 邮戳角 · 内衬细框 · 印章化控件 */
 :root.theme-eqsl .brand h1,
 :root.theme-eqsl .brand p,
@@ -1960,6 +1976,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.5.0","date":"2026-08-08","items":["深海配色改为海洋蓝，与苔青明确区分","素白主题配色与按钮控件极简风","手机端所有弹层渐入渐出","自动更新偏好独立持久化，版本更新不再重置"]},
   {"v":"2.4.1","date":"2026-08-07","items":["修复呼号自动填充：现在会一并恢复上次通联的频率与中继，切换呼号时清理旧中继数据"]},
   {"v":"2.4.0","date":"2026-08-07","items":["中继台区块移至频率之前","使用中继时主频率自动读取中继下行频率"]},
   {"v":"2.3.0","date":"2026-08-07","items":["设置界面全面换用 SVG 图标","发现新版本时展示新版本更新内容"]},
@@ -2356,8 +2373,8 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
         <button type="button" class="fr-theme" data-skin="eqsl" style="--pa:#3E8A68"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">苔青</span><span class="fr-theme-desc">信笺邮戳</span><span class="fr-theme-check">✓</span></button>
         <button type="button" class="fr-theme" data-skin="sunset" style="--pa:#C47A33"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">琥珀</span><span class="fr-theme-desc">落日暖调</span><span class="fr-theme-check">✓</span></button>
         <button type="button" class="fr-theme" data-skin="aurora" style="--pa:#6D5AE0"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">极光</span><span class="fr-theme-desc">明快冷调</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E8F8F"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">深海</span><span class="fr-theme-desc">清透海盐</span><span class="fr-theme-check">✓</span></button>
-        <button type="button" class="fr-theme" data-skin="minimal" style="--pa:#5A5F66"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">素白</span><span class="fr-theme-desc">极简留白</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="ocean" style="--pa:#0E87B8"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">深海</span><span class="fr-theme-desc">海洋蓝调</span><span class="fr-theme-check">✓</span></button>
+        <button type="button" class="fr-theme" data-skin="minimal" style="--pa:#40464D"><span class="fr-theme-chip" aria-hidden="true"></span><span class="fr-theme-name">素白</span><span class="fr-theme-desc">极简留白</span><span class="fr-theme-check">✓</span></button>
       </div>
       <div class="fr-opt">
         <span class="fr-opt-txt"><b>自动检查更新</b><small>每 30 天联网检测一次新版本，随时可在「设置」里关闭</small></span>
@@ -2475,7 +2492,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.4.1</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.5.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2546,7 +2563,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.4.1</b>
+      <b>电子 QSL 卡片 · v2.5.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5224,10 +5241,38 @@ const els = {
 
 els.formCard = document.getElementById('formCard');
 
+// ── 弹层渐入渐出（通用） ──
+function showOverlay(el) {
+  if (!el) return;
+  clearTimeout(el.__hideT);
+  el.classList.remove('closing');
+  el.classList.remove('hidden');
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+}
+function hideOverlay(el) {
+  if (!el) return;
+  if (el.classList.contains('hidden') || el.classList.contains('closing')) return;
+  el.classList.remove('show');
+  el.classList.add('closing');
+  el.__hideT = setTimeout(() => {
+    el.classList.remove('closing');
+    el.classList.add('hidden');
+  }, 240);
+}
+
 const FIELDS = ['inCall', 'inRst', 'inName', 'inQth', 'inFreq', 'inMode', 'inRig', 'inAnt', 'inPwr', 'inRemark', 'time'];
 
 let settings = { myCall: '', defaultMode: 'FM', defaultRst: '59', defaultFreq: '145.100', theme: 'auto', skin: 'classic', autoUpdate: true, myRig: '', myAnt: '', myPwr: '', myQth: '', myGrid: '', cardCall: '', opNameCn: '', opNameEn: '', qslAddrCn: '', qslAddrEn: '', qslPost: '', qslPromise: 'QSL 100% CONFIRMED', website: '', qrz: '' };
 try { settings = Object.assign(settings, JSON.parse(localStorage.getItem(LS_SET) || '{}')); } catch (e) {}
+// 自动更新偏好独立持久化：版本更新、设置重建都不会重置
+const LS_AUTO = 'hamqso.autoUpdate.v1';
+try {
+  const autoRaw = localStorage.getItem(LS_AUTO);
+  if (autoRaw !== null) settings.autoUpdate = autoRaw !== '0';
+} catch (e) {}
+function persistAutoUpdate() {
+  try { localStorage.setItem(LS_AUTO, settings.autoUpdate ? '1' : '0'); } catch (e) {}
+}
 
 // 开发者档案：AES-GCM 加密存储，密钥由开发者码经 PBKDF2 派生；源码不含任何明文个人信息
 // 如需更换开发者码：用同一档案 + 新码重新生成 s/i/d，并保持 n 一致
@@ -6492,11 +6537,11 @@ function openRepeaterManager() {
   els.btnRmSave.textContent = '保存中继台';
   updateRmHint();
   renderRmList();
-  els.repeaterOverlay.classList.remove('hidden');
+  showOverlay(els.repeaterOverlay);
   softFocus(els.rmName);
 }
 function closeRepeaterManager() {
-  els.repeaterOverlay.classList.add('hidden');
+  hideOverlay(els.repeaterOverlay);
 }
 function renderRmList() {
   els.rmList.innerHTML = '';
@@ -6671,7 +6716,7 @@ function updateRmHint() {
 [els.rmDown, els.rmUp, els.rmOffset].forEach(el => el.addEventListener('input', () => updateRmOffset(el.id)));
 els.btnRptManage.addEventListener('click', openRepeaterManager);
 els.btnRptManageSettings.addEventListener('click', () => {
-  els.settingsOverlay.classList.add('hidden');
+  hideOverlay(els.settingsOverlay);
   openRepeaterManager();
 });
 els.btnRmClose.addEventListener('click', closeRepeaterManager);
@@ -6729,7 +6774,7 @@ function exportQsl(r) {
   els.myPwrInput.value = settings.myPwr || '';
   els.myQthInput.value = settings.myQth || '';
   els.myGridInput.value = settings.myGrid || '';
-  els.qslConfirmOverlay.classList.remove('hidden');
+  showOverlay(els.qslConfirmOverlay);
   softFocus(els.myRigInput);
 }
 
@@ -6763,7 +6808,7 @@ els.btnQslConfirm.addEventListener('click', () => {
   settings.myQth = els.myQthInput.value.trim();
   settings.myGrid = els.myGridInput.value.trim().toUpperCase();
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
-  els.qslConfirmOverlay.classList.add('hidden');
+  hideOverlay(els.qslConfirmOverlay);
   if (pendingQsl) {
     openQslFrame(pendingQsl, { rig: settings.myRig, ant: settings.myAnt, pwr: settings.myPwr, qth: settings.myQth, grid: settings.myGrid });
   }
@@ -6771,12 +6816,12 @@ els.btnQslConfirm.addEventListener('click', () => {
 });
 
 els.btnQslCancel.addEventListener('click', () => {
-  els.qslConfirmOverlay.classList.add('hidden');
+  hideOverlay(els.qslConfirmOverlay);
   pendingQsl = null;
 });
 els.qslConfirmOverlay.addEventListener('click', e => {
   if (e.target === els.qslConfirmOverlay) {
-    els.qslConfirmOverlay.classList.add('hidden');
+    hideOverlay(els.qslConfirmOverlay);
     pendingQsl = null;
   }
 });
@@ -7186,10 +7231,10 @@ async function buildBackupLink() {
 els.btnBackupLink.addEventListener('click', async () => {
   try {
     els.backupLink.value = '生成中…';
-    els.shareOverlay.classList.remove('hidden');
+    showOverlay(els.shareOverlay);
     els.backupLink.value = await buildBackupLink();
   } catch (e) {
-    els.shareOverlay.classList.add('hidden');
+    hideOverlay(els.shareOverlay);
     toast('生成失败：' + (e && e.message ? e.message : '未知错误'));
   }
 });
@@ -7214,8 +7259,8 @@ els.btnShareLink.addEventListener('click', () => {
     copyText(els.backupLink.value);
   }
 });
-els.btnCloseShare.addEventListener('click', () => els.shareOverlay.classList.add('hidden'));
-els.shareOverlay.addEventListener('click', e => { if (e.target === els.shareOverlay) els.shareOverlay.classList.add('hidden'); });
+els.btnCloseShare.addEventListener('click', () => hideOverlay(els.shareOverlay));
+els.shareOverlay.addEventListener('click', e => { if (e.target === els.shareOverlay) hideOverlay(els.shareOverlay); });
 
 function applyBackup(mode) {
   if (!pendingBackup) return;
@@ -7223,6 +7268,7 @@ function applyBackup(mode) {
     records = Array.isArray(pendingBackup.records) ? pendingBackup.records.slice() : [];
     repeaters = Array.isArray(pendingBackup.repeaters) ? pendingBackup.repeaters.slice() : [];
     if (pendingBackup.settings) Object.assign(settings, pendingBackup.settings);
+    persistAutoUpdate();
     saveRecords();
     saveRepeaters();
     try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
@@ -7246,14 +7292,14 @@ function applyBackup(mode) {
     toast(added || rAdded ? '已合并 ' + added + ' 条记录' + (rAdded ? ' · ' + rAdded + ' 个中继台' : '') + ' ✓' : '没有需要合并的新数据');
   }
   pendingBackup = null;
-  els.backupOverlay.classList.add('hidden');
+  hideOverlay(els.backupOverlay);
   clearBackupHash();
 }
 els.btnBackupMerge.addEventListener('click', () => applyBackup('merge'));
 els.btnBackupReplace.addEventListener('click', () => applyBackup('replace'));
 els.btnBackupCancel.addEventListener('click', () => {
   pendingBackup = null;
-  els.backupOverlay.classList.add('hidden');
+  hideOverlay(els.backupOverlay);
   clearBackupHash();
 });
 els.backupOverlay.addEventListener('click', e => { if (e.target === els.backupOverlay) els.btnBackupCancel.click(); });
@@ -7274,7 +7320,7 @@ async function restoreFromHash() {
     const n = (data.records || []).length;
     const when = data.at ? new Date(data.at).toLocaleString() : '未知时间';
     els.backupMeta.textContent = '备份于 ' + when + ' · ' + n + ' 条记录' + ((data.repeaters || []).length ? ' · ' + data.repeaters.length + ' 个中继台' : '');
-    els.backupOverlay.classList.remove('hidden');
+    showOverlay(els.backupOverlay);
   } catch (e) {
     clearBackupHash();
   }
@@ -7312,7 +7358,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.4.1';
+const APP_VERSION = '2.5.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -7388,10 +7434,7 @@ async function doUpdate() {
 
 function openSettings() {
   clearTimeout(settingsCloseTimer);
-  const ov = els.settingsOverlay;
-  ov.classList.remove('closing');
-  ov.classList.remove('hidden');
-  requestAnimationFrame(() => requestAnimationFrame(() => ov.classList.add('show')));
+  showOverlay(els.settingsOverlay);
   els.setMyCall.value = settings.myCall;
   els.setMode.value = settings.defaultMode;
   els.setFreq.value = settings.defaultFreq;
@@ -7428,14 +7471,7 @@ function openSettings() {
 
 let settingsCloseTimer = null;
 function closeSettings() {
-  const ov = els.settingsOverlay;
-  if (ov.classList.contains('hidden') || ov.classList.contains('closing')) return;
-  ov.classList.remove('show');
-  ov.classList.add('closing');
-  settingsCloseTimer = setTimeout(() => {
-    ov.classList.remove('closing');
-    ov.classList.add('hidden');
-  }, 260);
+  hideOverlay(els.settingsOverlay);
 }
 
 els.btnSettings.addEventListener('click', openSettings);
@@ -7571,6 +7607,7 @@ els.btnSaveSettings.addEventListener('click', () => {
   settings.website = els.setWebsite.value.trim();
   settings.qrz = els.setQrz.value.trim();
   settings.autoUpdate = !els.setAutoUpdate || els.setAutoUpdate.classList.contains('on');
+  persistAutoUpdate();
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
   applyTheme();
   closeSettings();
@@ -7610,11 +7647,11 @@ els.btnWipe.addEventListener('click', () => {
 // ── 开发者入口：隐藏按钮 + 开发者码自动填充 ──
 els.btnDevEntry.addEventListener('click', () => {
   els.devCode.value = '';
-  els.devOverlay.classList.remove('hidden');
+  showOverlay(els.devOverlay);
   softFocus(els.devCode);
 });
-els.btnDevCancel.addEventListener('click', () => els.devOverlay.classList.add('hidden'));
-els.devOverlay.addEventListener('click', e => { if (e.target === els.devOverlay) els.devOverlay.classList.add('hidden'); });
+els.btnDevCancel.addEventListener('click', () => hideOverlay(els.devOverlay));
+els.devOverlay.addEventListener('click', e => { if (e.target === els.devOverlay) hideOverlay(els.devOverlay); });
 els.devCode.addEventListener('keydown', e => {
   if (e.key === 'Enter') { e.preventDefault(); els.btnDevConfirm.click(); }
 });
@@ -7629,7 +7666,7 @@ els.btnDevConfirm.addEventListener('click', async () => {
     try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
     applyDefaults();
     applyTheme();
-    els.devOverlay.classList.add('hidden');
+    hideOverlay(els.devOverlay);
     toast('开发者信息已填入 ✓');
   } catch (e) {
     toast('代码不正确');
@@ -7671,14 +7708,15 @@ function maybeFirstRun() {
   if (localStorage.getItem(LS_WELCOME)) return;
   if (localStorage.getItem(LS_SET) && settings.myCall) return;
   frShow(1);
-  els.firstRunOverlay.classList.remove('hidden');
+  showOverlay(els.firstRunOverlay);
 }
 function finishFirstRun() {
   if (frSkin) settings.skin = frSkin;
   if (els.frAutoUpdate) settings.autoUpdate = els.frAutoUpdate.classList.contains('on');
+  persistAutoUpdate();
   try { localStorage.setItem(LS_SET, JSON.stringify(settings)); } catch (e) {}
   localStorage.setItem(LS_WELCOME, '1');
-  els.firstRunOverlay.classList.add('hidden');
+  hideOverlay(els.firstRunOverlay);
   applyDefaults();
   renderModeChips();
   updateBand();
@@ -7703,10 +7741,10 @@ els.btnFrNext.addEventListener('click', () => {
 });
 els.btnFrLater.addEventListener('click', () => {
   localStorage.setItem(LS_WELCOME, '1');
-  els.firstRunOverlay.classList.add('hidden');
+  hideOverlay(els.firstRunOverlay);
 });
 els.firstRunOverlay.addEventListener('click', e => {
-  if (e.target === els.firstRunOverlay) els.firstRunOverlay.classList.add('hidden');
+  if (e.target === els.firstRunOverlay) hideOverlay(els.firstRunOverlay);
 });
 // 个性化：主题卡片点选 + 自动更新开关
 document.querySelectorAll('.fr-theme').forEach(card => {
