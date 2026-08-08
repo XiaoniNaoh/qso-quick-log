@@ -1733,7 +1733,7 @@ footer a:hover{color:var(--accent)}
 :root.theme-minimal .badge{border-radius:4px;background:var(--ink);color:var(--card)}
 :root.theme-minimal .chip.active{background:var(--ink);color:var(--card);border-color:transparent;box-shadow:none}
 :root.theme-minimal .dock{border-radius:12px;box-shadow:0 1px 0 rgba(0,0,0,.05)}
-/* 明信片排版：衬线题头 · 手写备注 · 邮戳角 · 内衬细框 · 印章化控件 */
+/* 鼠尾草绿：衬线题头点睛 · 柔和色块层次 · 少线条更干净 */
 :root.theme-eqsl .brand h1,
 :root.theme-eqsl .brand p,
 :root.theme-eqsl .stamp-main h2,
@@ -1742,14 +1742,8 @@ footer a:hover{color:var(--accent)}
 :root.theme-eqsl .modal h3,
 :root.theme-eqsl .modal p.sub,
 :root.theme-eqsl .help-head h3,
-:root.theme-eqsl .help-sub,
 :root.theme-eqsl .fr-head h3,
-:root.theme-eqsl .set-sec-h,
-:root.theme-eqsl .fr-sec-h,
-:root.theme-eqsl .help-acc summary,
-:root.theme-eqsl .rst-side-name,
-:root.theme-eqsl .field label,
-:root.theme-eqsl .empty{
+:root.theme-eqsl .help-sub{
   font-family:"Iowan Old Style","Noto Serif SC","Songti SC","STSong",serif;
 }
 :root.theme-eqsl .brand h1,
@@ -1762,74 +1756,65 @@ footer a:hover{color:var(--accent)}
 }
 :root.theme-eqsl .brand p{letter-spacing:.18em;font-size:9.5px}
 :root.theme-eqsl .modal p.sub,
-:root.theme-eqsl .help-sub{font-style:italic;letter-spacing:.04em}
+:root.theme-eqsl .help-sub{letter-spacing:.02em}
 :root.theme-eqsl .guide{
-  font-family:"Iowan Old Style","Noto Serif SC","Songti SC","STSong",serif;
-  font-style:italic;letter-spacing:.01em;
-  background:color-mix(in srgb, var(--card) 72%, transparent);
-  border:1px solid var(--line);border-left:3px solid var(--accent);
-  border-radius:8px;
+  border-left:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+  border-radius:12px;
+  background:color-mix(in srgb, var(--accent-soft) 72%, transparent);
 }
 :root.theme-eqsl .sheet{
   background:
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--accent) 7%, transparent) 0, transparent 48%),
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 6%, transparent) 0%, transparent 42%),
     var(--card);
 }
-:root.theme-eqsl .sheet::before{
-  background:none;opacity:1;
-  content:"";position:absolute;top:16px;right:16px;width:56px;height:56px;
-  border:1.5px dashed color-mix(in srgb, var(--mark) 34%, transparent);
-  border-radius:50%;
-}
-:root.theme-eqsl .sheet::after{
-  inset:11px;border:1px solid color-mix(in srgb, var(--line-2) 78%, transparent);
-  border-radius:7px;opacity:1;
-}
+:root.theme-eqsl .sheet::before,
+:root.theme-eqsl .sheet::after{display:none}
 :root.theme-eqsl .sec-no{
-  border-radius:4px;background:transparent;border:1px solid var(--accent);
-  color:var(--accent);box-shadow:none;font-weight:700;
+  border-radius:8px;background:var(--accent-soft);
+  border:none;color:var(--accent);box-shadow:none;font-weight:700;
 }
 :root.theme-eqsl .sec::after{
-  background:linear-gradient(90deg,var(--line-2),transparent);
+  background:linear-gradient(90deg,color-mix(in srgb, var(--accent) 22%, transparent),transparent);
+  opacity:.35;
 }
 :root.theme-eqsl .stamp{
-  border:1px dashed var(--line-2);border-radius:13px;
-  background:color-mix(in srgb, var(--accent-soft) 45%, transparent);
+  border:none;border-radius:16px;
+  background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 9%, transparent), color-mix(in srgb, var(--accent-soft) 45%, transparent));
 }
 :root.theme-eqsl .stamp-cell{
-  border-color:var(--line-2);background:color-mix(in srgb, var(--card) 55%, transparent);border-radius:9px;
+  border-color:color-mix(in srgb, var(--accent) 16%, transparent);
+  background:color-mix(in srgb, var(--card) 62%, transparent);border-radius:12px;
 }
 :root.theme-eqsl .stamp-cell .sc-ic{
   background:color-mix(in srgb, var(--accent) 15%, transparent);
 }
-:root.theme-eqsl .chip{border-radius:6px}
+:root.theme-eqsl .chip{border-radius:999px}
 :root.theme-eqsl .chip.active{
   background:var(--mark);color:var(--mark-ink);border-color:transparent;
   box-shadow:0 3px 10px var(--mark-soft);
 }
-:root.theme-eqsl .rst-badge{background:var(--mark);color:var(--mark-ink);border-radius:4px}
-:root.theme-eqsl .badge{background:var(--mark);color:var(--mark-ink)}
+:root.theme-eqsl .rst-badge{background:var(--mark);color:var(--mark-ink);border-radius:999px}
+:root.theme-eqsl .badge{background:var(--mark);color:var(--mark-ink);border-radius:999px}
 :root.theme-eqsl .brand-mark{
   background:var(--mark);color:var(--mark-ink);
-  border-radius:6px;box-shadow:none;
+  border-radius:12px;box-shadow:none;
 }
 :root.theme-eqsl .jump-btn{background:var(--accent);color:var(--mark-ink);box-shadow:0 8px 22px var(--accent-soft)}
-:root.theme-eqsl .btn-primary{background:var(--mark);color:var(--mark-ink);border-radius:9px}
-:root.theme-eqsl .btn-ghost{background:var(--card);border-color:var(--line-2);border-radius:9px}
-:root.theme-eqsl .dock-save{background:var(--mark);color:var(--mark-ink);border-radius:10px}
-:root.theme-eqsl .dock-clear{border-radius:10px}
-:root.theme-eqsl .field label{letter-spacing:.1em}
+:root.theme-eqsl .btn-primary{background:var(--mark);color:var(--mark-ink);border-radius:12px}
+:root.theme-eqsl .btn-ghost{background:var(--card);border-color:var(--line-2);border-radius:12px}
+:root.theme-eqsl .dock-save{background:var(--mark);color:var(--mark-ink);border-radius:14px}
+:root.theme-eqsl .dock-clear{border-radius:14px}
 :root.theme-eqsl .call-info{border-color:var(--line-2)}
 :root.theme-eqsl .qso-date span{
   background:color-mix(in srgb, var(--accent-soft) 72%, transparent);
 }
 :root.theme-eqsl .rst-preview b{color:var(--auto)}
-:root.theme-eqsl .pill-stat{color:var(--auto);border-color:var(--line-2)}
+:root.theme-eqsl .pill-stat{color:var(--auto);border-color:transparent}
 :root.theme-eqsl #toast::before{background:var(--auto)}
 :root.theme-eqsl .field.auto label{color:var(--auto)}
 :root.theme-eqsl .empty .big{background:var(--accent-soft)}
-:root.theme-eqsl #search{border-color:var(--line-2)}
-:root.theme-eqsl .rpt-offset{border-color:color-mix(in srgb, var(--accent) 22%, transparent)}
+:root.theme-eqsl #search{border-color:var(--line)}
+:root.theme-eqsl .rpt-offset{border-color:color-mix(in srgb, var(--accent) 16%, transparent)}
 /* 修改记录态：暖赭「邮戳墨」，与新记录鼠尾草绿明确区分 */
 :root.theme-eqsl #formCard.editing{
   border-color:color-mix(in srgb, var(--edit) 55%, transparent);
@@ -2019,6 +2004,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.7.1","date":"2026-08-08","items":["苔青主题重设计：收敛装饰线条，改用柔和色块建立层次，控件圆角统一"]},
   {"v":"2.7.0","date":"2026-08-08","items":["备份中心新增「通过链接导入」：粘贴备份链接即可恢复","新增自动备份：设置与首次引导可选每天 / 每周 / 每月在本机留存完整快照","自动备份间隔独立持久化，应用更新不会重置用户选择"]},
   {"v":"2.6.0","date":"2026-08-08","items":["备份中心：完整备份（记录＋中继台＋设置）一键导出","备份按钮与导入按钮加文字标签，入口更清晰","文件导入与备份链接统一走「合并 / 替换」确认流程","导入支持合并设置与中继台库，跨设备恢复更完整"]},
   {"v":"2.5.0","date":"2026-08-08","items":["深海配色改为海洋蓝，与苔青明确区分","素白主题配色与按钮控件极简风","手机端所有弹层渐入渐出","自动更新偏好独立持久化，版本更新不再重置"]},
@@ -2549,7 +2535,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.7.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.7.1</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2629,7 +2615,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.7.0</b>
+      <b>电子 QSL 卡片 · v2.7.1</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -7652,7 +7638,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.7.0';
+const APP_VERSION = '2.7.1';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
