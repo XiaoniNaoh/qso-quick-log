@@ -6,7 +6,7 @@
 
 **在线地址：https://xiaoninaoh.github.io/qso-quick-log/**
 
-**当前版本：2.7.0**
+**当前版本：2.7.1**
 
 ## 项目简介
 
