@@ -39,19 +39,19 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not(.light){
-    --bg:#141519;
-    --card:#1c1d22;
-    --ink:#eaeaea;
-    --ink-2:#a0a3aa;
-    --ink-3:#666a72;
-    --line:#2a2c31;
-    --line-2:#3a3d44;
-    --accent:#8ea8ff;
-    --accent-soft:rgba(142,168,255,.12);
-    --mark:#eaeaea;
-    --mark-2:#c9ccd3;
-    --mark-ink:#141519;
-    --mark-soft:rgba(234,234,234,.08);
+    --bg:#0F1420;
+    --card:#1A2130;
+    --ink:#E9EEF7;
+    --ink-2:#9FA9BC;
+    --ink-3:#67738A;
+    --line:#263044;
+    --line-2:#36415A;
+    --accent:#8EA8FF;
+    --accent-soft:rgba(142,168,255,.13);
+    --mark:#7E97F0;
+    --mark-2:#6C85DD;
+    --mark-ink:#0D1220;
+    --mark-soft:rgba(126,151,240,.16);
     --auto:#8ea8ff;
     --ok:#4ade80;
     --danger:#f87171;
@@ -59,19 +59,19 @@
   }
 }
 :root.dark{
-  --bg:#141519;
-  --card:#1c1d22;
-  --ink:#eaeaea;
-  --ink-2:#a0a3aa;
-  --ink-3:#666a72;
-  --line:#2a2c31;
-  --line-2:#3a3d44;
-  --accent:#8ea8ff;
-  --accent-soft:rgba(142,168,255,.12);
-  --mark:#eaeaea;
-  --mark-2:#c9ccd3;
-  --mark-ink:#141519;
-  --mark-soft:rgba(234,234,234,.08);
+  --bg:#0F1420;
+  --card:#1A2130;
+  --ink:#E9EEF7;
+  --ink-2:#9FA9BC;
+  --ink-3:#67738A;
+  --line:#263044;
+  --line-2:#36415A;
+  --accent:#8EA8FF;
+  --accent-soft:rgba(142,168,255,.13);
+  --mark:#7E97F0;
+  --mark-2:#6C85DD;
+  --mark-ink:#0D1220;
+  --mark-soft:rgba(126,151,240,.16);
   --auto:#8ea8ff;
   --ok:#4ade80;
   --danger:#f87171;
@@ -1092,6 +1092,217 @@ button{min-width:0}
   .dock-clear.cancel-mode{color:#c4b5fd}
 }
 
+/* ═══ 深色模式 · 全局精简与活力（用明度层次代替线条） ═══ */
+@media (prefers-color-scheme: dark){
+  :root:not(.light) .sec{border-top-color:color-mix(in srgb, var(--line) 78%, transparent)}
+  :root:not(.light) .sec::after{opacity:.45}
+  :root:not(.light) .row-actions{border-top-color:color-mix(in srgb, var(--line) 80%, transparent)}
+  :root:not(.light) .qso-date::after{background:color-mix(in srgb, var(--line) 75%, transparent)}
+  :root:not(.light) .set-section{border-top-color:color-mix(in srgb, var(--line) 78%, transparent)}
+  :root:not(.light) .rst-preview{border-top-color:color-mix(in srgb, var(--line) 75%, transparent)}
+  :root:not(.light) .fr-theme{border-bottom-color:color-mix(in srgb, var(--line) 75%, transparent)}
+  :root:not(.light) .copyright{border-top-color:color-mix(in srgb, var(--line) 78%, transparent)}
+  :root:not(.light) .qso-row{border-color:color-mix(in srgb, var(--line) 72%, transparent)}
+  :root:not(.light) .call-info{border-color:color-mix(in srgb, var(--line) 78%, transparent)}
+  :root:not(.light) .time-box{border-color:color-mix(in srgb, var(--line) 78%, transparent)}
+  :root:not(.light) .inp,
+  :root:not(.light) #search,
+  :root:not(.light) .rst-select,
+  :root:not(.light) .time-box .inp{
+    background:color-mix(in srgb, var(--card) 46%, var(--bg));
+  }
+  :root:not(.light) .dock-save:not(.edit-mode),
+  :root:not(.light) .btn-primary:not(.edit-mode){
+    background:linear-gradient(135deg, var(--mark), var(--mark-2));
+    color:var(--mark-ink);
+    box-shadow:0 8px 24px color-mix(in srgb, var(--mark) 24%, transparent);
+  }
+}
+:root.dark{
+  --line-soft:color-mix(in srgb, var(--line) 78%, transparent);
+}
+:root.dark .sec{border-top-color:color-mix(in srgb, var(--line) 78%, transparent)}
+:root.dark .sec::after{opacity:.45}
+:root.dark .row-actions{border-top-color:color-mix(in srgb, var(--line) 80%, transparent)}
+:root.dark .qso-date::after{background:color-mix(in srgb, var(--line) 75%, transparent)}
+:root.dark .set-section{border-top-color:color-mix(in srgb, var(--line) 78%, transparent)}
+:root.dark .rst-preview{border-top-color:color-mix(in srgb, var(--line) 75%, transparent)}
+:root.dark .fr-theme{border-bottom-color:color-mix(in srgb, var(--line) 75%, transparent)}
+:root.dark .copyright{border-top-color:color-mix(in srgb, var(--line) 78%, transparent)}
+:root.dark .qso-row{border-color:color-mix(in srgb, var(--line) 72%, transparent)}
+:root.dark .call-info{border-color:color-mix(in srgb, var(--line) 78%, transparent)}
+:root.dark .time-box{border-color:color-mix(in srgb, var(--line) 78%, transparent)}
+:root.dark .inp,
+:root.dark #search,
+:root.dark .rst-select,
+:root.dark .time-box .inp{
+    background:color-mix(in srgb, var(--card) 46%, var(--bg));
+}
+:root.dark .dock-save:not(.edit-mode),
+:root.dark .btn-primary:not(.edit-mode){
+  background:linear-gradient(135deg, var(--mark), var(--mark-2));
+  color:var(--mark-ink);
+  box-shadow:0 8px 24px color-mix(in srgb, var(--mark) 24%, transparent);
+}
+/* 深色下各主题主按钮再润色：专属渐变落点 */
+@media (prefers-color-scheme: dark){
+  :root.theme-eqsl:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #6FBC92, #4E9E76);
+    color:#0C1510;
+    box-shadow:0 8px 24px rgba(127,199,163,.24);
+  }
+  :root.theme-sunset:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #E0964A, #C07630);
+    color:#211206;
+  }
+  :root.theme-aurora:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #8B74F0, #6751D8);
+    color:#100B1F;
+  }
+  :root.theme-ocean:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #1FA8DB, #0E87B8);
+    color:#06222E;
+  }
+  :root.theme-minimal:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #E2E4E7, #B9BEC4);
+    color:#0C0D0E;
+    box-shadow:0 6px 18px rgba(0,0,0,.28);
+  }
+  :root.theme-classic:not(.light) .dock-save:not(.edit-mode){
+    background:linear-gradient(135deg, #8EA8FF, #6C85DD);
+    color:#0D1220;
+  }
+}
+:root.theme-eqsl.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #6FBC92, #4E9E76);
+  color:#0C1510;
+  box-shadow:0 8px 24px rgba(127,199,163,.24);
+}
+:root.theme-sunset.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #E0964A, #C07630);
+  color:#211206;
+}
+:root.theme-aurora.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #8B74F0, #6751D8);
+  color:#100B1F;
+}
+:root.theme-ocean.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #1FA8DB, #0E87B8);
+  color:#06222E;
+}
+:root.theme-minimal.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #E2E4E7, #B9BEC4);
+  color:#0C0D0E;
+  box-shadow:0 6px 18px rgba(0,0,0,.28);
+}
+:root.theme-classic.dark .dock-save:not(.edit-mode){
+  background:linear-gradient(135deg, #8EA8FF, #6C85DD);
+  color:#0D1220;
+}
+/* 深色下主题装饰减淡：只留一点氛围，不抢视线 */
+@media (prefers-color-scheme: dark){
+  :root.theme-eqsl:not(.light) .sheet{
+    background:
+      linear-gradient(165deg, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 46%),
+      repeating-linear-gradient(0deg, transparent 0 27px, color-mix(in srgb, var(--accent) 3.5%, transparent) 27px 28px),
+      var(--card);
+  }
+  :root.theme-eqsl:not(.light) .stamp{
+    background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 6%, transparent), color-mix(in srgb, var(--accent-soft) 38%, transparent));
+  }
+  :root.theme-sunset:not(.light) .sheet{
+    background:
+      radial-gradient(130% 85% at 10% 0%, color-mix(in srgb, var(--accent) 5%, transparent) 0%, transparent 55%),
+      var(--card);
+  }
+  :root.theme-aurora:not(.light) .sheet{
+    background:
+      linear-gradient(120deg, color-mix(in srgb, var(--accent) 4.5%, transparent) 0%, transparent 42%),
+      linear-gradient(300deg, color-mix(in srgb, #B79CFF 3.5%, transparent) 0%, transparent 40%),
+      var(--card);
+  }
+  :root.theme-ocean:not(.light) .sheet{
+    background:
+      linear-gradient(160deg, color-mix(in srgb, var(--accent) 4.5%, transparent) 0%, transparent 44%),
+      radial-gradient(85% 65% at 92% 110%, color-mix(in srgb, #17C3B2 3.5%, transparent) 0%, transparent 60%),
+      var(--card);
+  }
+  :root.theme-classic:not(.light) .sheet{
+    background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 46%), var(--card);
+  }
+  :root.theme-minimal:not(.light) .sheet{
+    background:var(--card);
+  }
+}
+:root.theme-eqsl.dark .sheet{
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 46%),
+    repeating-linear-gradient(0deg, transparent 0 27px, color-mix(in srgb, var(--accent) 3.5%, transparent) 27px 28px),
+    var(--card);
+}
+:root.theme-eqsl.dark .stamp{
+  background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 6%, transparent), color-mix(in srgb, var(--accent-soft) 38%, transparent));
+}
+:root.theme-sunset.dark .sheet{
+  background:
+    radial-gradient(130% 85% at 10% 0%, color-mix(in srgb, var(--accent) 5%, transparent) 0%, transparent 55%),
+    var(--card);
+}
+:root.theme-aurora.dark .sheet{
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--accent) 4.5%, transparent) 0%, transparent 42%),
+    linear-gradient(300deg, color-mix(in srgb, #B79CFF 3.5%, transparent) 0%, transparent 40%),
+    var(--card);
+}
+:root.theme-ocean.dark .sheet{
+  background:
+    linear-gradient(160deg, color-mix(in srgb, var(--accent) 4.5%, transparent) 0%, transparent 44%),
+    radial-gradient(85% 65% at 92% 110%, color-mix(in srgb, #17C3B2 3.5%, transparent) 0%, transparent 60%),
+    var(--card);
+}
+:root.theme-classic.dark .sheet{
+  background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 4%, transparent) 0%, transparent 46%), var(--card);
+}
+/* 深色：记录操作按钮统一「淡色底块 + 弱描边」，避免彩色细线堆叠 */
+@media (prefers-color-scheme: dark){
+  :root:not(.light) .row-edit{
+    border-color:color-mix(in srgb, var(--accent) 26%, transparent);
+    background:color-mix(in srgb, var(--accent) 11%, transparent);
+  }
+  :root:not(.light) .row-qsl{
+    border-color:color-mix(in srgb, var(--ok) 26%, transparent);
+    background:color-mix(in srgb, var(--ok) 10%, transparent);
+  }
+  :root:not(.light) .row-del{
+    border-color:color-mix(in srgb, var(--danger) 26%, transparent);
+    background:color-mix(in srgb, var(--danger) 10%, transparent);
+  }
+  :root:not(.light) .g-rst{
+    border-color:color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+  :root:not(.light) .set-tab{
+    border-color:color-mix(in srgb, var(--line) 82%, transparent);
+  }
+}
+:root.dark .row-edit{
+  border-color:color-mix(in srgb, var(--accent) 26%, transparent);
+  background:color-mix(in srgb, var(--accent) 11%, transparent);
+}
+:root.dark .row-qsl{
+  border-color:color-mix(in srgb, var(--ok) 26%, transparent);
+  background:color-mix(in srgb, var(--ok) 10%, transparent);
+}
+:root.dark .row-del{
+  border-color:color-mix(in srgb, var(--danger) 26%, transparent);
+  background:color-mix(in srgb, var(--danger) 10%, transparent);
+}
+:root.dark .g-rst{
+  border-color:color-mix(in srgb, var(--accent) 22%, transparent);
+}
+:root.dark .set-tab{
+  border-color:color-mix(in srgb, var(--line) 82%, transparent);
+}
+
 /* ── 撒彩带 ── */
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:80;overflow:hidden}
 .cf-piece{position:absolute;top:-24px;border-radius:2px;opacity:.95;animation:cfFall cubic-bezier(.3,.05,.55,1) forwards}
@@ -1289,19 +1500,19 @@ footer a:hover{color:var(--accent)}
 }
 /* 信笺 · 鼠尾草 · 深色（冷调黑，重点色明亮清新） */
 :root.theme-eqsl.dark{
-  --bg:#121412;
-  --card:#1A1D1A;
-  --ink:#E9EBE7;
-  --ink-2:#A1A8A2;
-  --ink-3:#6C736D;
-  --line:#2A2E2A;
-  --line-2:#3A403A;
+  --bg:#0F1512;
+  --card:#17201B;
+  --ink:#E7EFEA;
+  --ink-2:#9DB0A4;
+  --ink-3:#66796D;
+  --line:#263229;
+  --line-2:#35463B;
   --accent:#7FC7A3;
-  --accent-soft:rgba(127,199,163,.12);
-  --mark:#E9EBE7;
-  --mark-2:#C6CCC7;
-  --mark-ink:#121412;
-  --mark-soft:rgba(233,235,231,.08);
+  --accent-soft:rgba(127,199,163,.14);
+  --mark:#5FAF86;
+  --mark-2:#4E9E76;
+  --mark-ink:#0C1510;
+  --mark-soft:rgba(95,175,134,.16);
   --auto:#7FC7A3;
   --ok:#4ADE80;
   --danger:#F87171;
@@ -1314,19 +1525,19 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-eqsl:not(.light){
-    --bg:#121412;
-    --card:#1A1D1A;
-    --ink:#E9EBE7;
-    --ink-2:#A1A8A2;
-    --ink-3:#6C736D;
-    --line:#2A2E2A;
-    --line-2:#3A403A;
+    --bg:#0F1512;
+    --card:#17201B;
+    --ink:#E7EFEA;
+    --ink-2:#9DB0A4;
+    --ink-3:#66796D;
+    --line:#263229;
+    --line-2:#35463B;
     --accent:#7FC7A3;
-    --accent-soft:rgba(127,199,163,.12);
-    --mark:#E9EBE7;
-    --mark-2:#C6CCC7;
-    --mark-ink:#121412;
-    --mark-soft:rgba(233,235,231,.08);
+    --accent-soft:rgba(127,199,163,.14);
+    --mark:#5FAF86;
+    --mark-2:#4E9E76;
+    --mark-ink:#0C1510;
+    --mark-soft:rgba(95,175,134,.16);
     --auto:#7FC7A3;
     --ok:#4ADE80;
     --danger:#F87171;
@@ -1364,19 +1575,19 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 2px rgba(34,29,22,.04), 0 10px 30px rgba(34,29,22,.06);
 }
 :root.theme-sunset.dark{
-  --bg:#171310;
-  --card:#211C17;
-  --ink:#F0EAE1;
-  --ink-2:#B0A79A;
-  --ink-3:#786F62;
-  --line:#332C25;
-  --line-2:#463D32;
+  --bg:#17120D;
+  --card:#221A12;
+  --ink:#F4EDE3;
+  --ink-2:#B9AC9B;
+  --ink-3:#7E7161;
+  --line:#382C20;
+  --line-2:#4C3D2D;
   --accent:#E8A862;
-  --accent-soft:rgba(232,168,98,.13);
-  --mark:#F0EAE1;
-  --mark-2:#CDC3B5;
-  --mark-ink:#171310;
-  --mark-soft:rgba(240,234,225,.08);
+  --accent-soft:rgba(232,168,98,.14);
+  --mark:#D98B3C;
+  --mark-2:#C07630;
+  --mark-ink:#211206;
+  --mark-soft:rgba(217,139,60,.16);
   --auto:#E8A862;
   --ok:#C99A52;
   --danger:#E0765B;
@@ -1389,19 +1600,19 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-sunset:not(.light){
-    --bg:#171310;
-    --card:#211C17;
-    --ink:#F0EAE1;
-    --ink-2:#B0A79A;
-    --ink-3:#786F62;
-    --line:#332C25;
-    --line-2:#463D32;
+    --bg:#17120D;
+    --card:#221A12;
+    --ink:#F4EDE3;
+    --ink-2:#B9AC9B;
+    --ink-3:#7E7161;
+    --line:#382C20;
+    --line-2:#4C3D2D;
     --accent:#E8A862;
-    --accent-soft:rgba(232,168,98,.13);
-    --mark:#F0EAE1;
-    --mark-2:#CDC3B5;
-    --mark-ink:#171310;
-    --mark-soft:rgba(240,234,225,.08);
+    --accent-soft:rgba(232,168,98,.14);
+    --mark:#D98B3C;
+    --mark-2:#C07630;
+    --mark-ink:#211206;
+    --mark-soft:rgba(217,139,60,.16);
     --auto:#E8A862;
     --ok:#C99A52;
     --danger:#E0765B;
@@ -1458,19 +1669,19 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 2px rgba(31,27,41,.04), 0 10px 30px rgba(31,27,41,.06);
 }
 :root.theme-aurora.dark{
-  --bg:#141220;
-  --card:#1E1B2E;
-  --ink:#ECEAF7;
-  --ink-2:#A9A2C0;
-  --ink-3:#716B8C;
-  --line:#2B283E;
-  --line-2:#3B3754;
+  --bg:#110F1C;
+  --card:#1B1830;
+  --ink:#EEEBF9;
+  --ink-2:#ADA6C6;
+  --ink-3:#75708F;
+  --line:#2D2945;
+  --line-2:#403A5F;
   --accent:#A99BFF;
-  --accent-soft:rgba(169,155,255,.14);
-  --mark:#ECEAF7;
-  --mark-2:#C9C3E0;
-  --mark-ink:#141220;
-  --mark-soft:rgba(236,234,247,.08);
+  --accent-soft:rgba(169,155,255,.16);
+  --mark:#7B63E8;
+  --mark-2:#6751D8;
+  --mark-ink:#100B1F;
+  --mark-soft:rgba(123,99,232,.18);
   --auto:#A99BFF;
   --ok:#4ADE80;
   --danger:#F1758F;
@@ -1483,19 +1694,19 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-aurora:not(.light){
-    --bg:#141220;
-    --card:#1E1B2E;
-    --ink:#ECEAF7;
-    --ink-2:#A9A2C0;
-    --ink-3:#716B8C;
-    --line:#2B283E;
-    --line-2:#3B3754;
+    --bg:#110F1C;
+    --card:#1B1830;
+    --ink:#EEEBF9;
+    --ink-2:#ADA6C6;
+    --ink-3:#75708F;
+    --line:#2D2945;
+    --line-2:#403A5F;
     --accent:#A99BFF;
-    --accent-soft:rgba(169,155,255,.14);
-    --mark:#ECEAF7;
-    --mark-2:#C9C3E0;
-    --mark-ink:#141220;
-    --mark-soft:rgba(236,234,247,.08);
+    --accent-soft:rgba(169,155,255,.16);
+    --mark:#7B63E8;
+    --mark-2:#6751D8;
+    --mark-ink:#100B1F;
+    --mark-soft:rgba(123,99,232,.18);
     --auto:#A99BFF;
     --ok:#4ADE80;
     --danger:#F1758F;
@@ -1552,19 +1763,19 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 2px rgba(20,32,43,.04), 0 10px 30px rgba(20,32,43,.06);
 }
 :root.theme-ocean.dark{
-  --bg:#0C141D;
-  --card:#131E29;
-  --ink:#E7EFF6;
-  --ink-2:#A2B4C2;
-  --ink-3:#6C7F8F;
-  --line:#22303D;
-  --line-2:#32434F;
+  --bg:#0A1319;
+  --card:#12202A;
+  --ink:#E6F0F7;
+  --ink-2:#A0B5C4;
+  --ink-3:#6A8192;
+  --line:#1F3140;
+  --line-2:#304657;
   --accent:#52B7E8;
-  --accent-soft:rgba(82,183,232,.13);
-  --mark:#E7EFF6;
-  --mark-2:#C7D5E0;
-  --mark-ink:#0C141D;
-  --mark-soft:rgba(231,239,246,.08);
+  --accent-soft:rgba(82,183,232,.15);
+  --mark:#18A0D3;
+  --mark-2:#0E87B8;
+  --mark-ink:#06222E;
+  --mark-soft:rgba(24,160,211,.16);
   --auto:#52B7E8;
   --ok:#4ADE80;
   --danger:#F27D7D;
@@ -1577,19 +1788,19 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-ocean:not(.light){
-    --bg:#0C141D;
-    --card:#131E29;
-    --ink:#E7EFF6;
-    --ink-2:#A2B4C2;
-    --ink-3:#6C7F8F;
-    --line:#22303D;
-    --line-2:#32434F;
+    --bg:#0A1319;
+    --card:#12202A;
+    --ink:#E6F0F7;
+    --ink-2:#A0B5C4;
+    --ink-3:#6A8192;
+    --line:#1F3140;
+    --line-2:#304657;
     --accent:#52B7E8;
-    --accent-soft:rgba(82,183,232,.13);
-    --mark:#E7EFF6;
-    --mark-2:#C7D5E0;
-    --mark-ink:#0C141D;
-    --mark-soft:rgba(231,239,246,.08);
+    --accent-soft:rgba(82,183,232,.15);
+    --mark:#18A0D3;
+    --mark-2:#0E87B8;
+    --mark-ink:#06222E;
+    --mark-soft:rgba(24,160,211,.16);
     --auto:#52B7E8;
     --ok:#4ADE80;
     --danger:#F27D7D;
@@ -1646,19 +1857,19 @@ footer a:hover{color:var(--accent)}
   --shadow:0 1px 1px rgba(21,21,21,.03), 0 8px 24px rgba(21,21,21,.05);
 }
 :root.theme-minimal.dark{
-  --bg:#0D0E0F;
-  --card:#16181A;
-  --ink:#EDEDEC;
-  --ink-2:#A7A9AC;
-  --ink-3:#6E7175;
+  --bg:#0C0D0E;
+  --card:#17191B;
+  --ink:#EFEFEE;
+  --ink-2:#A9ABAE;
+  --ink-3:#6F7276;
   --line:#26282B;
-  --line-2:#36393D;
-  --accent:#B6BCC3;
-  --accent-soft:rgba(182,188,195,.12);
-  --mark:#EDEDEC;
-  --mark-2:#CACDD1;
-  --mark-ink:#0D0E0F;
-  --mark-soft:rgba(237,237,236,.08);
+  --line-2:#34373B;
+  --accent:#C6CBD1;
+  --accent-soft:rgba(198,203,209,.12);
+  --mark:#D8DBDF;
+  --mark-2:#B9BEC4;
+  --mark-ink:#0C0D0E;
+  --mark-soft:rgba(216,219,223,.10);
   --auto:#B6BCC3;
   --ok:#4ADE80;
   --danger:#F87171;
@@ -1671,19 +1882,19 @@ footer a:hover{color:var(--accent)}
 }
 @media (prefers-color-scheme: dark){
   :root.theme-minimal:not(.light){
-    --bg:#0D0E0F;
-    --card:#16181A;
-    --ink:#EDEDEC;
-    --ink-2:#A7A9AC;
-    --ink-3:#6E7175;
+    --bg:#0C0D0E;
+    --card:#17191B;
+    --ink:#EFEFEE;
+    --ink-2:#A9ABAE;
+    --ink-3:#6F7276;
     --line:#26282B;
-    --line-2:#36393D;
-    --accent:#B6BCC3;
-    --accent-soft:rgba(182,188,195,.12);
-    --mark:#EDEDEC;
-    --mark-2:#CACDD1;
-    --mark-ink:#0D0E0F;
-    --mark-soft:rgba(237,237,236,.08);
+    --line-2:#34373B;
+    --accent:#C6CBD1;
+    --accent-soft:rgba(198,203,209,.12);
+    --mark:#D8DBDF;
+    --mark-2:#B9BEC4;
+    --mark-ink:#0C0D0E;
+    --mark-soft:rgba(216,219,223,.10);
     --auto:#B6BCC3;
     --ok:#4ADE80;
     --danger:#F87171;
@@ -1730,6 +1941,42 @@ footer a:hover{color:var(--accent)}
 }
 /* ═══ 六套主题 · 各自的特色与亮点 ═══ */
 
+/* 靛蓝 · 经典：深色带冷蓝倾向，层次靠明度不靠线条 */
+:root.theme-classic.dark{
+  --bg:#0F1420;
+  --card:#1A2130;
+  --ink:#E9EEF7;
+  --ink-2:#9FA9BC;
+  --ink-3:#67738A;
+  --line:#263044;
+  --line-2:#36415A;
+  --accent:#8EA8FF;
+  --accent-soft:rgba(142,168,255,.13);
+  --mark:#7E97F0;
+  --mark-2:#6C85DD;
+  --mark-ink:#0D1220;
+  --mark-soft:rgba(126,151,240,.16);
+  --shadow:0 1px 2px rgba(0,0,0,.28), 0 14px 36px rgba(0,0,0,.38);
+}
+@media (prefers-color-scheme: dark){
+  :root.theme-classic:not(.light){
+    --bg:#0F1420;
+    --card:#1A2130;
+    --ink:#E9EEF7;
+    --ink-2:#9FA9BC;
+    --ink-3:#67738A;
+    --line:#263044;
+    --line-2:#36415A;
+    --accent:#8EA8FF;
+    --accent-soft:rgba(142,168,255,.13);
+    --mark:#7E97F0;
+    --mark-2:#6C85DD;
+    --mark-ink:#0D1220;
+    --mark-soft:rgba(126,151,240,.16);
+    --shadow:0 1px 2px rgba(0,0,0,.28), 0 14px 36px rgba(0,0,0,.38);
+  }
+}
+
 /* 靛蓝 · 经典：冷静的水晶蓝，渐变只用在关键控件上，克制而有质感 */
 :root.theme-classic .sheet{
   background:linear-gradient(150deg, color-mix(in srgb, var(--accent) 4.5%, transparent) 0%, transparent 46%), var(--card);
@@ -1763,28 +2010,6 @@ footer a:hover{color:var(--accent)}
   background:var(--mark);color:var(--mark-ink);
   border-radius:14px;
   box-shadow:0 8px 22px color-mix(in srgb, var(--mark) 16%, transparent);
-}
-/* 苔青 · 深色：保存按钮改鼠尾草绿渐变，不再刺眼的大白块 */
-:root.theme-eqsl.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #6FBC92, #4E9E76);
-  color:#0E1712;
-  box-shadow:0 8px 24px rgba(127,199,163,.22);
-}
-@media (prefers-color-scheme: dark){
-  :root.theme-eqsl:not(.light) .dock-save:not(.edit-mode){
-    background:linear-gradient(135deg, #6FBC92, #4E9E76);
-    color:#0E1712;
-    box-shadow:0 8px 24px rgba(127,199,163,.22);
-  }
-}
-:root.theme-eqsl.dark .dock-save:not(.edit-mode){
-  background:linear-gradient(135deg, #6FBC92, #4E9E76);
-  color:#0E1712;
-  box-shadow:0 8px 24px rgba(127,199,163,.22);
-}
-:root.theme-eqsl.dark .btn-primary{
-  background:linear-gradient(135deg, #6FBC92, #4E9E76);
-  color:#0E1712;
 }
 
 /* 琥珀 · 日暮：暖光从左下升起，主按钮带落日渐变 */
@@ -2146,6 +2371,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.9.0","date":"2026-08-08","items":["深色模式全面重做：六套主题各有专属色调背景（冷蓝 / 墨绿 / 暖棕 / 深紫 / 藏青 / 炭灰）","主按钮改为主题色渐变，不再刺眼的大白块","深色下分隔线、边框全面降噪，改用明度层次代替线条"]},
   {"v":"2.8.0","date":"2026-08-08","items":["六套主题各具特色：靛蓝水晶渐变 · 苔青信笺格纹 · 琥珀落日暖光 · 极光斜向光带 · 深海蓝绿水汽 · 素白克制极简","苔青深色模式保存按钮改为鼠尾草绿渐变，去掉刺眼的大白块","主按钮、区块号、图标位随主题换用专属渐变，切换主题焕然一新"]},
   {"v":"2.7.1","date":"2026-08-08","items":["苔青主题重设计：收敛装饰线条，改用柔和色块建立层次，控件圆角统一"]},
   {"v":"2.7.0","date":"2026-08-08","items":["备份中心新增「通过链接导入」：粘贴备份链接即可恢复","新增自动备份：设置与首次引导可选每天 / 每周 / 每月在本机留存完整快照","自动备份间隔独立持久化，应用更新不会重置用户选择"]},
@@ -2678,7 +2904,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.8.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.9.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2758,7 +2984,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.8.0</b>
+      <b>电子 QSL 卡片 · v2.9.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -7781,7 +8007,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.8.0';
+const APP_VERSION = '2.9.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
