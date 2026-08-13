@@ -2392,6 +2392,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.12.2","date":"2026-08-13","items":["toast 提示时长优化：普通提示延长至 4 秒，撤销成功提示 6 秒，带操作按钮保持 8 秒"]},
   {"v":"2.12.1","date":"2026-08-13","items":["动画与层级体系化：统一缓动令牌与 z-index 层级令牌","弹层入场改为缩放+淡入的现代动画，toast 弹出缓动优化且层级提升到最上层","弹层打开时背景滚动锁定，关闭自动恢复","打印时隐藏浮动控件，reduced-motion 覆盖全部新动画"]},
   {"v":"2.12.0","date":"2026-08-13","items":["长列表分页渲染：每屏 50 条、滚动加载，3000 条记录首屏仅渲染 50 行","删除/编辑单行更新，不再整表重绘；搜索过滤排序抽成纯函数","localStorage 容量治理：体积估算与显示、接近上限自动提醒","PWA 更新体验：安装提示 7 天节流、SW 缓存安装容错静默更新"]},
   {"v":"2.10.0","date":"2026-08-13","items":["新增 ADIF 导入：支持 .adi / .adif 标准日志文件，字段映射完整，合并去重","新增统计概览：总 QSO、今日/本周/本月、波段分布、模式分布、活跃呼号 TOP5","撤销删除反馈强化：8 秒撤销窗口、删除回弹动画、恢复提示","CSV 导出增加中继台/偏移/哑音列，导出 toast 显示条数"]},
@@ -2949,7 +2950,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.12.1</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.12.2</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3029,7 +3030,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.12.1</b>
+      <b>电子 QSL 卡片 · v2.12.2</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6943,7 +6944,7 @@ function renderRow(r) {
           saveRecords();
           renderList();
           stats();
-          toast('已恢复 ' + deletedRec.call + '，差点就没了 😮💨');
+          toast('已恢复 ' + deletedRec.call + '，差点就没了 😮💨', null, 6000);
         }
       }});
     }, 300);
@@ -8334,7 +8335,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.12.1';
+const APP_VERSION = '2.12.2';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -8617,7 +8618,7 @@ els.btnWipe.addEventListener('click', () => {
     saveRecords();
     renderList();
     stats();
-    toast('已恢复全部记录，差点就没了 😮💨');
+    toast('已恢复全部记录，差点就没了 😮💨', null, 6000);
   }});
 });
 
@@ -8748,7 +8749,7 @@ let toastTimer;
 function hideToast() {
   els.toast.classList.remove('show');
 }
-function toast(msg, action) {
+function toast(msg, action, duration) {
   els.toastMsg.textContent = msg;
   const act = els.toastAction;
   if (action && action.label) {
@@ -8763,7 +8764,7 @@ function toast(msg, action) {
   }
   els.toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(hideToast, action && action.label ? 8000 : 2400);
+  toastTimer = setTimeout(hideToast, duration || (action && action.label ? 8000 : 4000));
 }
 
 renderModeChips();
