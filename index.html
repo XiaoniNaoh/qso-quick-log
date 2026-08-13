@@ -2364,6 +2364,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.12.0","date":"2026-08-13","items":["长列表分页渲染：每屏 50 条、滚动加载，3000 条记录首屏仅渲染 50 行","删除/编辑单行更新，不再整表重绘；搜索过滤排序抽成纯函数","localStorage 容量治理：体积估算与显示、接近上限自动提醒","PWA 更新体验：安装提示 7 天节流、SW 缓存安装容错静默更新"]},
   {"v":"2.10.0","date":"2026-08-13","items":["新增 ADIF 导入：支持 .adi / .adif 标准日志文件，字段映射完整，合并去重","新增统计概览：总 QSO、今日/本周/本月、波段分布、模式分布、活跃呼号 TOP5","撤销删除反馈强化：8 秒撤销窗口、删除回弹动画、恢复提示","CSV 导出增加中继台/偏移/哑音列，导出 toast 显示条数"]},
   {"v":"2.9.4","date":"2026-08-12","items":["全面去除界面多余线条装饰：四角装饰线、虚线内框、区块虚线分隔、日期横线、行操作分隔线全部移除","卡片与容器改用色块、阴影和间距分层，界面更干净现代"]},
   {"v":"2.9.3","date":"2026-08-12","items":["深色模式背景统一压到接近纯黑（#0A0B0C 级），去除主题色偏，减少视觉干扰","主题色相保留在卡片与重点色上，层次依然清晰"]},
@@ -2919,7 +2920,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.10.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.12.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2999,7 +3000,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.10.0</b>
+      <b>电子 QSL 卡片 · v2.12.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -3020,6 +3021,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
         </div>
         <button class="btn-primary" id="btnBackupDownload"><svg class="btn-ic" aria-hidden="true"><use href="#ic-download"/></svg>下载完整备份</button>
         <p class="bk-note" id="backupStatus">尚未备份过，建议现在存一份</p>
+        <p class="bk-note" id="backupSize"></p>
       </section>
       <section class="bk-card">
         <div class="bk-head">
@@ -5642,6 +5644,7 @@ const els = {
   btnBackupDownload: $('btnBackupDownload'),
   btnBackupImport: $('btnBackupImport'),
   backupStatus: $('backupStatus'),
+  backupSize: $('backupSize'),
   btnBackupLink: $('btnBackupLink'),
   backupLinkInput: $('backupLinkInput'),
   btnBackupLinkImport: $('btnBackupLinkImport'),
@@ -5964,9 +5967,30 @@ function updateStamp() {
 function saveRecords() {
   try {
     localStorage.setItem(LS_LOG, JSON.stringify(records));
+    warnStorageIfFull();
   } catch (e) {
     toast('保存失败：浏览器存储空间不足');
   }
+}
+
+// ── localStorage 容量治理：体积估算 + 接近上限预警 ──
+const LS_WARN_KB = 4500; // 接近 5MB 配额的预警线
+function dataSizeKB() {
+  try {
+    const snap = getAutoBackupSnapshot();
+    const s = JSON.stringify({ records, repeaters, settings, snap });
+    return Math.max(1, Math.ceil(new Blob([s]).size / 1024));
+  } catch (e) { return 0; }
+}
+function warnStorageIfFull() {
+  const kb = dataSizeKB();
+  if (kb >= LS_WARN_KB) {
+    toast('数据已接近存储上限（约 ' + kb + ' KB），建议导出备份');
+  }
+}
+function storageStatusText() {
+  const kb = dataSizeKB();
+  return kb >= 1024 ? (kb / 1024).toFixed(1) + ' MB' : kb + ' KB';
 }
 
 // ── 统计概览：全本地计算，无联网 ──
@@ -6576,6 +6600,16 @@ function save() {
     const i = records.findIndex(r => r.id === editingId);
     if (i >= 0) records[i] = rec; else records.push(rec);
     toast(`已更新 ${rec.call}${repeaterSaveNote}`);
+    // 单行更新：日期未变则替换对应行，避免整表重绘
+    if (prev && prev.date === rec.date) {
+      saveRecords();
+      replaceRowDOM(rec);
+      stats();
+      resetForm();
+      sweepSaveDone();
+      softFocus(els.inCall);
+      return;
+    }
   } else {
     records.push(rec);
     toast(`已记录 ${rec.call} ✓${repeaterSaveNote}`);
@@ -6634,33 +6668,132 @@ els.btnClear.addEventListener('click', () => {
   toast(wasEditing ? '已取消修改' : '已清空表单');
 });
 
+// ── 长列表分页渲染：每屏 50 条 + 滚动加载，避免千条记录整表重绘 ──
+let listData = [];
+let listPage = 0;
+let listDateCount = {};
+const LIST_PAGE_SIZE = 50;
+let listObserver = null;
+
+function listSearchFields(r) {
+  return [r.call, r.qth, r.name, r.remark, r.rig, r.ant, r.mode, r.band, r.freq, r.repeater ? r.repeater.name : '']
+    .join(' ').toLowerCase();
+}
+function buildListData(src, q) {
+  const rows = src.filter(r => !q || listSearchFields(r).includes(q));
+  rows.sort((a, b) => (b.date + ' ' + (b.time || '')).localeCompare(a.date + ' ' + (a.time || '')) || b.ts - a.ts);
+  return rows;
+}
+function pageSlice(data, page, size) {
+  return data.slice(page * size, (page + 1) * size);
+}
 function renderList() {
   const q = els.search.value.trim().toLowerCase();
-  const rows = records.filter(r => {
-    if (!q) return true;
-    return [r.call, r.qth, r.name, r.remark, r.rig, r.ant, r.mode, r.band, r.freq, r.repeater ? r.repeater.name : '']
-      .join(' ').toLowerCase().includes(q);
-  });
-  rows.sort((a, b) => (b.date + ' ' + (b.time || '')).localeCompare(a.date + ' ' + (a.time || '')) || b.ts - a.ts);
+  listData = buildListData(records, q);
+  listDateCount = {};
+  listData.forEach(r => { const d = r.date || '—'; listDateCount[d] = (listDateCount[d] || 0) + 1; });
+  listPage = 0;
   els.qsoList.innerHTML = '';
-  const byDate = {};
-  rows.forEach(r => { const d = r.date || '—'; (byDate[d] = byDate[d] || []).push(r); });
-  Object.keys(byDate).sort().reverse().forEach(date => {
-    const h = document.createElement('div');
-    h.className = 'qso-date';
-    const lbl = document.createElement('span');
-    lbl.textContent = 'DATE';
-    const val = document.createElement('b');
-    val.textContent = date;
-    const cnt = document.createElement('span');
-    cnt.textContent = byDate[date].length + ' 条';
-    h.append(lbl, val, cnt);
-    els.qsoList.appendChild(h);
-    byDate[date].forEach(r => els.qsoList.appendChild(renderRow(r)));
-  });
-  els.emptyState.classList.toggle('hidden', rows.length > 0);
-  els.qsoList.classList.toggle('hidden', rows.length === 0);
+  renderListPage();
+  els.emptyState.classList.toggle('hidden', listData.length > 0);
+  els.qsoList.classList.toggle('hidden', listData.length === 0);
   renderRecentChips();
+}
+
+function renderListPage() {
+  const page = pageSlice(listData, listPage, LIST_PAGE_SIZE);
+  let lastDate = null;
+  page.forEach(r => {
+    const d = r.date || '—';
+    if (d !== lastDate) {
+      lastDate = d;
+      const h = document.createElement('div');
+      h.className = 'qso-date';
+      h.dataset.date = d;
+      const lbl = document.createElement('span');
+      lbl.textContent = 'DATE';
+      const val = document.createElement('b');
+      val.textContent = d;
+      const cnt = document.createElement('span');
+      cnt.className = 'qso-date-cnt';
+      cnt.textContent = listDateCount[d] + ' 条';
+      h.append(lbl, val, cnt);
+      els.qsoList.appendChild(h);
+    }
+    const row = renderRow(r);
+    row.dataset.id = r.id;
+    els.qsoList.appendChild(row);
+  });
+  listPage++;
+  ensureListSentinel();
+}
+
+function ensureListSentinel() {
+  let sentinel = els.qsoList.querySelector('.qso-more');
+  if (!sentinel) {
+    sentinel = document.createElement('div');
+    sentinel.className = 'qso-more';
+    sentinel.style.height = '1px';
+    els.qsoList.appendChild(sentinel);
+  }
+  if (listPage * LIST_PAGE_SIZE >= listData.length) {
+    sentinel.remove();
+    return;
+  }
+  if (!listObserver) {
+    listObserver = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting && listPage * LIST_PAGE_SIZE < listData.length) {
+          renderListPage();
+        }
+      });
+    }, { rootMargin: '240px' });
+  }
+  listObserver.observe(sentinel);
+}
+
+// 单行更新：删除记录时只移除对应 DOM 行，不整表重绘
+function removeRowDOM(id) {
+  const row = els.qsoList.querySelector('.qso-row[data-id="' + id + '"]');
+  let dateEl = null;
+  if (row) {
+    dateEl = row.previousElementSibling && row.previousElementSibling.classList.contains('qso-date') ? row.previousElementSibling : null;
+    row.remove();
+    if (dateEl && !dateEl.nextElementSibling) dateEl.remove();
+  }
+  listData = listData.filter(r => r.id !== id);
+  listDateCount = {};
+  listData.forEach(r => { const dd = r.date || '—'; listDateCount[dd] = (listDateCount[dd] || 0) + 1; });
+  if (row && dateEl && listDateCount[dateEl.dataset.date] > 0) {
+    const cnt = dateEl.querySelector('.qso-date-cnt');
+    if (cnt) cnt.textContent = listDateCount[dateEl.dataset.date] + ' 条';
+  }
+  els.logCount.textContent = records.length + ' 条';
+  els.emptyState.classList.toggle('hidden', records.length > 0);
+  els.qsoList.classList.toggle('hidden', records.length === 0);
+  // 可见行太少时补一页
+  if (listPage * LIST_PAGE_SIZE < listData.length && els.qsoList.querySelectorAll('.qso-row').length < 20) {
+    renderListPage();
+  } else {
+    ensureListSentinel();
+  }
+}
+
+// 单行更新：编辑记录时若日期未变，替换对应行 DOM
+function replaceRowDOM(rec) {
+  const row = els.qsoList.querySelector('.qso-row[data-id="' + rec.id + '"]');
+  if (!row) { renderList(); return; }
+  const newRow = renderRow(rec);
+  newRow.dataset.id = rec.id;
+  row.replaceWith(newRow);
+  listData = listData.map(r => r.id === rec.id ? rec : r);
+  listDateCount = {};
+  listData.forEach(r => { const dd = r.date || '—'; listDateCount[dd] = (listDateCount[dd] || 0) + 1; });
+  const dateEl = newRow.previousElementSibling && newRow.previousElementSibling.classList.contains('qso-date') ? newRow.previousElementSibling : null;
+  if (dateEl) {
+    const cnt = dateEl.querySelector('.qso-date-cnt');
+    if (cnt) cnt.textContent = listDateCount[dateEl.dataset.date] + ' 条';
+  }
 }
 
 function renderRow(r) {
@@ -6761,7 +6894,7 @@ function renderRow(r) {
     setTimeout(() => {
       records = records.filter(x => x.id !== r.id);
       saveRecords();
-      renderList();
+      removeRowDOM(r.id);
       stats();
       toast('已删除 ' + r.call + ' ✓', { label: '撤销', onClick: () => {
         if (deletedRec) {
@@ -7835,6 +7968,10 @@ bindAutoBackupBtns(els.frAutoBackup);
 els.btnBackupOpen.addEventListener('click', () => {
   updateBackupStatus();
   updateAutoBackupStatus();
+  if (els.backupSize) {
+    const kb = dataSizeKB();
+    els.backupSize.textContent = '当前数据体积约 ' + storageStatusText() + (kb >= LS_WARN_KB ? ' · 已接近上限，建议尽快备份' : '');
+  }
   showOverlay(els.shareOverlay);
 });
 els.btnBackupDownload.addEventListener('click', () => {
@@ -8156,7 +8293,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.10.0';
+const APP_VERSION = '2.12.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -8650,13 +8787,21 @@ if ('serviceWorker' in navigator) {
   });
 }
 // 安装提示：可安装时温和提醒一次
-let installPromptShown = false;
+const LS_INSTALL = 'hamqso.installDismiss.v1';
+const INSTALL_INTERVAL = 7 * 24 * 60 * 60 * 1000;
+function maybeShowInstallTip() {
+  try {
+    const last = parseInt(localStorage.getItem(LS_INSTALL) || '0', 10) || 0;
+    if (Date.now() - last < INSTALL_INTERVAL) return;
+    localStorage.setItem(LS_INSTALL, String(Date.now()));
+  } catch (e) {}
+  setTimeout(() => toast('可安装到主屏幕：点地址栏「安装」即可', { label: '稍后再说', onClick: () => {
+    try { localStorage.setItem(LS_INSTALL, String(Date.now())); } catch (e) {}
+  }}), 5000);
+}
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
-  if (!installPromptShown) {
-    installPromptShown = true;
-    setTimeout(() => toast('可安装到主屏幕：点地址栏「安装」即可'), 5000);
-  }
+  maybeShowInstallTip();
 });
 // PWA 快捷方式「新通联」：直接聚焦呼号输入
 if (location.search.indexOf('new=1') !== -1) {
