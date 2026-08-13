@@ -674,6 +674,30 @@ footer{
 .modal h3{margin:0 0 4px;font-size:17px;font-weight:800}
 .modal p.sub{color:var(--ink-2);font-size:12.5px;margin:0 0 16px}
 .modal .actions{display:flex;align-items:center;gap:10px;margin-top:18px;flex-wrap:wrap}
+.st-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:6px}
+.st-card{
+  background:var(--accent-soft);border:1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+  border-radius:13px;padding:11px 12px;min-width:0;
+}
+.st-card b{display:block;font-size:21px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;line-height:1.15}
+.st-card i{font-style:normal;font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--ink-2);display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-sec-h{font-size:11.5px;font-weight:800;letter-spacing:.1em;color:var(--ink-2);margin:16px 0 10px}
+.st-sec-h:first-of-type{margin-top:8px}
+.st-bars{display:grid;gap:8px}
+.st-bar-row{display:flex;align-items:center;gap:10px;min-width:0}
+.st-bar-label{font-size:11.5px;font-weight:700;color:var(--ink-2);width:52px;flex:none;white-space:nowrap}
+.st-bar-track{flex:1;height:9px;border-radius:999px;background:color-mix(in srgb, var(--line) 55%, transparent);overflow:hidden;min-width:0}
+.st-bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),color-mix(in srgb, var(--accent) 65%, var(--mark)));width:0;transition:width .5s cubic-bezier(.16,1,.3,1)}
+.st-bar-num{font-size:11px;color:var(--ink-3);width:38px;flex:none;text-align:right;font-variant-numeric:tabular-nums}
+.st-top{display:grid;gap:6px}
+.st-top-row{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--ink-2);padding:7px 11px;border-radius:10px;background:var(--bg)}
+.st-top-rank{width:18px;height:18px;border-radius:6px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:10.5px;font-weight:800;flex:none}
+.st-top-call{font-weight:800;color:var(--ink);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;flex:none}
+.st-top-n{margin-left:auto;font-size:11px;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.st-empty{text-align:center;color:var(--ink-3);padding:28px 10px;font-size:13px}
+@media (max-width:480px){
+  .st-grid{grid-template-columns:repeat(2,1fr)}
+}
 .bk-sub{font-weight:600;color:var(--ink-3);letter-spacing:.18em;margin-left:8px;font-size:11px}
 .bk-grid{display:grid;grid-template-columns:1fr;gap:12px}
 .bk-card{
@@ -2340,6 +2364,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.10.0","date":"2026-08-13","items":["新增 ADIF 导入：支持 .adi / .adif 标准日志文件，字段映射完整，合并去重","新增统计概览：总 QSO、今日/本周/本月、波段分布、模式分布、活跃呼号 TOP5","撤销删除反馈强化：8 秒撤销窗口、删除回弹动画、恢复提示","CSV 导出增加中继台/偏移/哑音列，导出 toast 显示条数"]},
   {"v":"2.9.4","date":"2026-08-12","items":["全面去除界面多余线条装饰：四角装饰线、虚线内框、区块虚线分隔、日期横线、行操作分隔线全部移除","卡片与容器改用色块、阴影和间距分层，界面更干净现代"]},
   {"v":"2.9.3","date":"2026-08-12","items":["深色模式背景统一压到接近纯黑（#0A0B0C 级），去除主题色偏，减少视觉干扰","主题色相保留在卡片与重点色上，层次依然清晰"]},
   {"v":"2.9.2","date":"2026-08-08","items":["深色模式所有主按钮文字统一改为浅色，素白主题按钮底色调深保证对比度"]},
@@ -2603,9 +2628,10 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
           <button type="button" class="lh-btn" data-export="csv" title="导出 CSV（Excel / Numbers 可直接打开）" aria-label="导出 CSV"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-download"/></svg></span><span>CSV</span></button>
           <button type="button" class="lh-btn" data-export="json" title="导出 JSON（完整备份）" aria-label="导出 JSON"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-download"/></svg></span><span>JSON</span></button>
           <span class="lh-sep" aria-hidden="true"></span>
+          <button type="button" class="lh-btn" id="btnStats" title="统计概览：总览、波段与模式分布" aria-label="打开统计概览"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-count"/></svg></span><span>统计</span></button>
           <button type="button" class="lh-btn" id="btnBackupOpen" title="备份与恢复：导出完整备份、生成备份链接或导入" aria-label="打开备份与恢复"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-safe"/></svg></span><span>备份</span></button>
           <button type="button" class="lh-btn" id="btnImport" title="导入 JSON 备份文件" aria-label="导入备份文件"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-upload"/></svg></span><span>导入</span></button>
-          <input type="file" id="importFile" accept=".json,application/json" hidden>
+          <input type="file" id="importFile" accept=".json,.adi,.adif,application/json,application/adif" hidden>
         </div>
       </div>
       <div class="lh-search">
@@ -2785,6 +2811,22 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
     </div>
   </div>
 </div>
+<div class="overlay hidden" id="statsOverlay">
+  <div class="modal modal-wide">
+    <h3><svg class="title-ic" aria-hidden="true"><use href="#ic-count"/></svg>统计概览<small class="bk-sub">STATS</small></h3>
+    <p class="sub" id="statsSub"></p>
+    <div class="st-grid" id="stPeriod"></div>
+    <div class="st-sec-h">波段分布</div>
+    <div class="st-bars" id="stBands"></div>
+    <div class="st-sec-h">模式分布</div>
+    <div class="st-bars" id="stModes"></div>
+    <div class="st-sec-h">活跃呼号 TOP5</div>
+    <div class="st-top" id="stTop"></div>
+    <div class="actions">
+      <button type="button" class="btn-ghost" id="btnCloseStats">关闭</button>
+    </div>
+  </div>
+</div>
 <div class="overlay hidden" id="settingsOverlay">
   <div class="modal modal-wide">
     <h3><svg class="title-ic" aria-hidden="true"><use href="#ic-gear"/></svg>设置</h3>
@@ -2877,7 +2919,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.9.4</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.10.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -2957,7 +2999,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.9.4</b>
+      <b>电子 QSL 卡片 · v2.10.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5588,6 +5630,14 @@ const els = {
   btnQslCancel: $('btnQslCancel'),
   btnImport: $('btnImport'),
   importFile: $('importFile'),
+  btnStats: $('btnStats'),
+  statsOverlay: $('statsOverlay'),
+  statsSub: $('statsSub'),
+  stPeriod: $('stPeriod'),
+  stBands: $('stBands'),
+  stModes: $('stModes'),
+  stTop: $('stTop'),
+  btnCloseStats: $('btnCloseStats'),
   btnBackupOpen: $('btnBackupOpen'),
   btnBackupDownload: $('btnBackupDownload'),
   btnBackupImport: $('btnBackupImport'),
@@ -5918,6 +5968,81 @@ function saveRecords() {
     toast('保存失败：浏览器存储空间不足');
   }
 }
+
+// ── 统计概览：全本地计算，无联网 ──
+function bandCategory(freq) {
+  const f = parseFloat(freq);
+  if (!isFinite(f) || f <= 0) return '未知';
+  if (f < 30) return 'HF';
+  if (f < 300) return 'VHF';
+  if (f < 3000) return 'UHF';
+  return 'SHF+';
+}
+function weekStartDate() {
+  const d = new Date();
+  const day = (d.getDay() + 6) % 7; // 周一为一周开始
+  d.setDate(d.getDate() - day);
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+}
+function computeStats() {
+  const today = nowUTC().date;
+  const weekStart = weekStartDate();
+  const monthStart = today.slice(0, 7) + '-01';
+  const total = records.length;
+  let todayN = 0, weekN = 0, monthN = 0;
+  const bands = { HF: 0, VHF: 0, UHF: 0, 'SHF+': 0, 未知: 0 };
+  const modes = {};
+  const calls = {};
+  records.forEach(r => {
+    const d = r.date || '';
+    if (d === today) todayN++;
+    if (d >= weekStart && d <= today) weekN++;
+    if (d >= monthStart && d <= today) monthN++;
+    bands[bandCategory(r.freq)]++;
+    const m = (r.mode || '未知').toUpperCase();
+    modes[m] = (modes[m] || 0) + 1;
+    if (r.call) calls[r.call] = (calls[r.call] || 0) + 1;
+  });
+  return {
+    total, todayN, weekN, monthN,
+    bands: Object.entries(bands).filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]),
+    modes: Object.entries(modes).sort((a, b) => b[1] - a[1]).slice(0, 8),
+    topCalls: Object.entries(calls).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).slice(0, 5)
+  };
+}
+function stBarHTML(label, n, max) {
+  const pct = max > 0 ? Math.round(n / max * 100) : 0;
+  return '<div class="st-bar-row"><span class="st-bar-label">' + label + '</span>' +
+    '<span class="st-bar-track"><span class="st-bar-fill" style="width:' + pct + '%"></span></span>' +
+    '<span class="st-bar-num">' + n + '</span></div>';
+}
+function renderStats() {
+  const s = computeStats();
+  if (!records.length) {
+    els.statsSub.textContent = '还没有通联记录，去记下第一条吧';
+    els.stPeriod.innerHTML = '';
+    els.stBands.innerHTML = '<div class="st-empty">暂无波段数据</div>';
+    els.stModes.innerHTML = '<div class="st-empty">暂无模式数据</div>';
+    els.stTop.innerHTML = '<div class="st-empty">暂无活跃呼号</div>';
+    return;
+  }
+  els.statsSub.textContent = '共 ' + s.total + ' 条通联 · 数据只在本机计算';
+  const card = (n, label) => '<div class="st-card"><b>' + n + '</b><i>' + label + '</i></div>';
+  els.stPeriod.innerHTML = card(s.total, '总 QSO') + card(s.todayN, '今日') + card(s.weekN, '本周') + card(s.monthN, '本月');
+  const maxB = Math.max(1, ...s.bands.map(([, n]) => n));
+  els.stBands.innerHTML = s.bands.length ? s.bands.map(([b, n]) => stBarHTML(b, n, maxB)).join('') : '<div class="st-empty">暂无波段数据</div>';
+  const maxM = Math.max(1, ...s.modes.map(([, n]) => n));
+  els.stModes.innerHTML = s.modes.length ? s.modes.map(([m, n]) => stBarHTML(m, n, maxM)).join('') : '<div class="st-empty">暂无模式数据</div>';
+  els.stTop.innerHTML = s.topCalls.length ? s.topCalls.map(([c, n], i) =>
+    '<div class="st-top-row"><span class="st-top-rank">' + (i + 1) + '</span><span class="st-top-call">' + c + '</span><span class="st-top-n">' + n + ' 次</span></div>'
+  ).join('') : '<div class="st-empty">暂无活跃呼号</div>';
+}
+els.btnStats.addEventListener('click', () => {
+  renderStats();
+  showOverlay(els.statsOverlay);
+});
+els.btnCloseStats.addEventListener('click', () => hideOverlay(els.statsOverlay));
+els.statsOverlay.addEventListener('click', e => { if (e.target === els.statsOverlay) hideOverlay(els.statsOverlay); });
 
 const MODES = ['FM', 'SSB', 'CW', 'FT8', 'FT4', 'RTTY', 'PSK', 'AM'];
 function renderModeChips() {
@@ -6628,6 +6753,9 @@ function renderRow(r) {
       return;
     }
     clearTimeout(delTimer);
+    del.classList.remove('bump');
+    void del.offsetWidth;
+    del.classList.add('bump');
     row.classList.add('removing');
     const deletedRec = records.find(x => x.id === r.id);
     setTimeout(() => {
@@ -6641,7 +6769,7 @@ function renderRow(r) {
           saveRecords();
           renderList();
           stats();
-          toast('已恢复 ' + deletedRec.call + ' ✓');
+          toast('已恢复 ' + deletedRec.call + '，差点就没了 😮💨');
         }
       }});
     }, 300);
@@ -7572,7 +7700,7 @@ function exportADIF() {
     lines.push(f.join('') + '<EOR>');
   });
   download('qso-log-' + stamp() + '.adif', lines.join('\r\n') + '\r\n', 'application/adif');
-  toast('ADIF 已导出，可导入大多数电台日志软件');
+  toast('已导出 ADIF · ' + records.length + ' 条，可导入大多数电台日志软件');
 }
 
 function csvEsc(v) {
@@ -7581,11 +7709,11 @@ function csvEsc(v) {
 }
 
 function exportCSV() {
-  const head = ['呼号', '日期(UTC)', '时间(UTC)', '频率(MHz)', '波段', '模式', '我给RST', '对方RST', '姓名', 'QTH', '设备', '天线', '功率(W)', '备注'];
-  const rows = records.map(r => [r.call, r.date, r.time, r.freq, r.band || '', r.mode, r.rstSent || r.rst, r.rstRecv || r.rst, r.name, r.qth, r.rig, r.ant, r.pwr, r.remark]);
+  const head = ['呼号', '日期(UTC)', '时间(UTC)', '频率(MHz)', '波段', '模式', '我给RST', '对方RST', '姓名', 'QTH', '设备', '天线', '功率(W)', '中继台', '偏移(MHz)', '哑音', '备注'];
+  const rows = records.map(r => [r.call, r.date, r.time, r.freq, r.band || '', r.mode, r.rstSent || r.rst, r.rstRecv || r.rst, r.name, r.qth, r.rig, r.ant, r.pwr, r.repeater ? r.repeater.name : '', r.repeater ? r.repeater.offset : '', r.repeater && r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? r.repeater.ctcss : '', r.remark]);
   const csv = '\uFEFF' + [head].concat(rows).map(row => row.map(csvEsc).join(',')).join('\r\n');
   download('qso-log-' + stamp() + '.csv', csv, 'text/csv');
-  toast('CSV 已导出，可直接用 Excel / Numbers 打开');
+  toast('已导出 CSV · ' + records.length + ' 条，可直接用 Excel / Numbers 打开');
 }
 
 function exportJSON() {
@@ -7600,7 +7728,7 @@ function exportJSON() {
   };
   download('qso-log-backup-' + stamp() + '.json', JSON.stringify(data, null, 2), 'application/json');
   setBackupStamp();
-  toast('完整备份已导出 ✓（记录 + 中继台 + 设置）');
+  toast('已导出完整备份 · ' + records.length + ' 条记录' + (repeaters.length ? ' + ' + repeaters.length + ' 中继台' : '') + ' ✓');
 }
 
 // 最近一次备份时间（本地记录，方便提醒）
@@ -7757,15 +7885,63 @@ function prepareImportData(data) {
   pendingBackup = bak;
   const n = bak.records.length;
   const when = bak.at ? new Date(bak.at).toLocaleString() : '未知时间';
-  els.backupMeta.textContent = '备份于 ' + when + ' · ' + n + ' 条记录' + ((bak.repeaters || []).length ? ' · ' + bak.repeaters.length + ' 个中继台' : '') + (bak.settings ? ' · 含设置' : '');
+  els.backupMeta.textContent = data.source === 'adif'
+    ? 'ADIF 日志 · ' + n + ' 条记录'
+    : '备份于 ' + when + ' · ' + n + ' 条记录' + ((bak.repeaters || []).length ? ' · ' + bak.repeaters.length + ' 个中继台' : '') + (bak.settings ? ' · 含设置' : '');
   showOverlay(els.importOverlay);
+}
+
+// ── ADIF 导入：解析标准 .adi / .adif（<TAG:len>value） ──
+const ADIF_MODE_MAP = { USB: 'SSB', LSB: 'SSB', AM: 'AM', FM: 'FM', CW: 'CW', RTTY: 'RTTY', PSK: 'PSK', PSK31: 'PSK', FT8: 'FT8', FT4: 'FT4', DIGITAL: 'DIGI' };
+function parseADIF(text) {
+  const records = [];
+  // 按 <EOR> 分段（兼容无 EOR 的流式文件：整段视为一条）
+  const segments = String(text || '').split(/<EOR>/i);
+  const re = /<([A-Z0-9_]+):(\d+)(?::[^>]*)?>([\s\S]*?)(?=<[A-Z0-9_]+:\d+|<EO[HR]|$)/gi;
+  segments.forEach(seg => {
+    const rec = {};
+    let m;
+    re.lastIndex = 0;
+    while ((m = re.exec(seg)) !== null) {
+      const tag = m[1].toUpperCase();
+      if (tag === 'EOR') break;
+      rec[tag] = m[3].slice(0, parseInt(m[2], 10) || 0).trim();
+    }
+    if (rec.CALL) records.push(rec);
+  });
+  return records.map(r => {
+    const date = (r.QSO_DATE || '').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+    const time = (r.TIME_ON || r.TIME_OFF || '').replace(/(\d{2})(\d{2})(\d{2})/, '$1:$2:$3');
+    return {
+      id: 'adif-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 7),
+      call: (r.CALL || '').toUpperCase(),
+      date,
+      time,
+      freq: r.FREQ || '',
+      band: (r.BAND || '').toUpperCase(),
+      mode: ADIF_MODE_MAP[(r.MODE || '').toUpperCase()] || (r.MODE || '').toUpperCase(),
+      rstSent: r.RST_SENT || '',
+      rstRecv: r.RST_RCVD || '',
+      name: r.NAME || '',
+      qth: r.QTH || '',
+      remark: r.COMMENTS || r.NOTES || ''
+    };
+  }).filter(r => r.call);
 }
 
 function readImportFile(f, cb) {
   const reader = new FileReader();
   reader.onload = () => {
-    try { cb(JSON.parse(reader.result)); }
-    catch (e) { toast('导入失败：文件解析出错'); }
+    const name = (f.name || '').toLowerCase();
+    try {
+      if (/\.(adi|adif)$/i.test(name)) {
+        const arr = parseADIF(String(reader.result));
+        if (!arr.length) { toast('导入失败：ADIF 中没有可识别的记录'); return; }
+        cb({ records: arr, repeaters: [], settings: null, at: Date.now(), source: 'adif' });
+      } else {
+        cb(JSON.parse(reader.result));
+      }
+    } catch (e) { toast('导入失败：文件解析出错'); }
   };
   reader.readAsText(f);
 }
@@ -7900,7 +8076,7 @@ function applyBackup(mode) {
   } else {
     let added = 0;
     (pendingBackup.records || []).forEach(inr => {
-      if (inr && inr.call && !records.some(r => (r.id && r.id === inr.id) || (!inr.id && r.call === inr.call && r.date === inr.date && r.time === inr.time))) { records.push(inr); added++; }
+      if (inr && inr.call && !records.some(r => (r.id && r.id === inr.id) || (r.call === inr.call && r.date === inr.date && r.time === inr.time))) { records.push(inr); added++; }
     });
     if (added) { saveRecords(); renderList(); stats(); }
     let rAdded = 0;
@@ -7974,13 +8150,13 @@ document.addEventListener('drop', e => {
   if (/\.json$/i.test(f.name)) {
     readImportFile(f, prepareImportData);
   } else if (/\.adif$/i.test(f.name)) {
-    toast('目前支持拖入 JSON 备份；ADIF 导入敬请期待');
+    readImportFile(f, prepareImportData);
   } else {
-    toast('请拖入 .json 备份文件');
+    toast('请拖入 .json 备份或 .adi / .adif 日志文件');
   }
 });
 
-const APP_VERSION = '2.9.4';
+const APP_VERSION = '2.10.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
@@ -8263,7 +8439,7 @@ els.btnWipe.addEventListener('click', () => {
     saveRecords();
     renderList();
     stats();
-    toast('已恢复全部记录 ✓');
+    toast('已恢复全部记录，差点就没了 😮💨');
   }});
 });
 
@@ -8409,7 +8585,7 @@ function toast(msg, action) {
   }
   els.toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(hideToast, action && action.label ? 6000 : 2400);
+  toastTimer = setTimeout(hideToast, action && action.label ? 8000 : 2400);
 }
 
 renderModeChips();
