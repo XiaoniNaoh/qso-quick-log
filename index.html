@@ -2392,6 +2392,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.12.4","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名加入我方呼号：QSL-我方呼号-对方呼号-日期","自检通过：仅改文档标题，卡片样式、填充、二维码显隐等不受影响"]},
   {"v":"2.12.3","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名改为「QSL-对方呼号-日期」，iOS 兜底打印窗口同步"]},
   {"v":"2.12.1","date":"2026-08-13","items":["动画与层级体系化：统一缓动令牌与 z-index 层级令牌","弹层入场改为缩放+淡入的现代动画，toast 弹出缓动优化且层级提升到最上层","弹层打开时背景滚动锁定，关闭自动恢复","打印时隐藏浮动控件，reduced-motion 覆盖全部新动画"]},
   {"v":"2.12.0","date":"2026-08-13","items":["长列表分页渲染：每屏 50 条、滚动加载，3000 条记录首屏仅渲染 50 行","删除/编辑单行更新，不再整表重绘；搜索过滤排序抽成纯函数","localStorage 容量治理：体积估算与显示、接近上限自动提醒","PWA 更新体验：安装提示 7 天节流、SW 缓存安装容错静默更新"]},
@@ -2950,7 +2951,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.12.3</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.12.4</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3030,7 +3031,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.12.3</b>
+      <b>电子 QSL 卡片 · v2.12.4</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -7588,9 +7589,11 @@ function fillQslFrame(r, my) {
     const w = els.qslFrame.contentWindow;
     const d = els.qslFrame.contentDocument;
     if (!w || !d) return;
-    // 文档标题 = PDF 默认文件名（浏览器「存储为 PDF」时使用）
+    // 文档标题 = PDF 默认文件名（浏览器「存储为 PDF」时使用）：QSL-我方呼号-对方呼号-日期
     try {
-      const pdfTitle = 'QSL-' + (r.call || '').toUpperCase().replace(/[^A-Z0-9\/]/g, '') + '-' + String(r.date || '').replace(/[^0-9]/g, '');
+      const myC = (settings.cardCall || settings.myCall || '').toUpperCase().replace(/[^A-Z0-9\/]/g, '');
+      const opC = (r.call || '').toUpperCase().replace(/[^A-Z0-9\/]/g, '');
+      const pdfTitle = 'QSL' + (myC ? '-' + myC : '') + (opC ? '-' + opC : '') + '-' + String(r.date || '').replace(/[^0-9]/g, '');
       d.title = pdfTitle || 'QSL';
     } catch (e) {}
     const set = (id, val) => {
@@ -8341,7 +8344,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.12.3';
+const APP_VERSION = '2.12.4';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
