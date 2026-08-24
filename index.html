@@ -2392,6 +2392,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.12.5","date":"2026-08-24","items":["修复移动端呼号输入与输入法冲突：组词期间不再改写输入框，避免重复输入"]},
   {"v":"2.12.4","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名加入我方呼号：QSL-我方呼号-对方呼号-日期","自检通过：仅改文档标题，卡片样式、填充、二维码显隐等不受影响"]},
   {"v":"2.12.3","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名改为「QSL-对方呼号-日期」，iOS 兜底打印窗口同步"]},
   {"v":"2.12.1","date":"2026-08-13","items":["动画与层级体系化：统一缓动令牌与 z-index 层级令牌","弹层入场改为缩放+淡入的现代动画，toast 弹出缓动优化且层级提升到最上层","弹层打开时背景滚动锁定，关闭自动恢复","打印时隐藏浮动控件，reduced-motion 覆盖全部新动画"]},
@@ -2951,7 +2952,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.12.4</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.12.5</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3031,7 +3032,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.12.4</b>
+      <b>电子 QSL 卡片 · v2.12.5</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6398,7 +6399,7 @@ const autoFillFields = new Set();
 
 function applyCallPrefill() {
   const v = els.inCall.value.toUpperCase();
-  if (els.inCall.value !== v) els.inCall.value = v;
+  // 不回写 value：移动端输入法组词（composition）期间改写会打断输入，造成字符重复
   // 呼号被改掉：清空之前由自动填充带入的信息，避免张冠李戴
   if (prefillCall && v !== prefillCall) {
     autoFillFields.forEach(id => {
@@ -6521,7 +6522,17 @@ function updateCallInfo() {
   el.classList.remove('hidden');
 }
 
-els.inCall.addEventListener('input', applyCallPrefill);
+// 移动端输入法兼容：组词期间跳过自动填充，结束后再执行一次
+let callComposing = false;
+els.inCall.addEventListener('compositionstart', () => { callComposing = true; });
+els.inCall.addEventListener('compositionend', () => {
+  callComposing = false;
+  applyCallPrefill();
+});
+els.inCall.addEventListener('input', () => {
+  if (callComposing) return;
+  applyCallPrefill();
+});
 
 function renderRecentChips() {
   const seen = [];
@@ -8344,7 +8355,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.12.4';
+const APP_VERSION = '2.12.5';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
