@@ -2392,6 +2392,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.12.7","date":"2026-08-24","items":["开源许可由 CC BY-NC-SA 4.0 更换为 GPL-3.0（GNU 官方标准文本）","页脚、帮助与 QSL 卡片许可标识同步更新"]},
   {"v":"2.12.6","date":"2026-08-24","items":["呼号自动大写恢复：组词期间不动输入框（不冲突），组词结束后统一转大写，英文键盘输入即时大写"]},
   {"v":"2.12.5","date":"2026-08-24","items":["修复移动端呼号输入与输入法冲突：组词期间不再改写输入框，避免重复输入"]},
   {"v":"2.12.4","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名加入我方呼号：QSL-我方呼号-对方呼号-日期","自检通过：仅改文档标题，卡片样式、填充、二维码显隐等不受影响"]},
@@ -2747,7 +2748,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
         </div>
       </details>
     </div>
-    <div class="copyright">© 2026 BI9DAS · HAM STATION — 本项目采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可，欢迎自由使用与分享。</div>
+    <div class="copyright">© 2026 BI9DAS · HAM STATION — 本项目采用 <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0</a> 许可，欢迎自由使用与分享。</div>
   </div>
 </div>
 <footer>
@@ -2759,7 +2760,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
   <p class="foot-legal">
     <button type="button" class="dev-entry" id="btnDevEntry" aria-label="开发者入口" title="">©</button>
     2026 BI9DAS · HAM STATION ·
-    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>
+    <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener">GPL-3.0</a>
     · 73 📡
   </p>
 </footer>
@@ -2953,7 +2954,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.12.6</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.12.7</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3033,7 +3034,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.12.6</b>
+      <b>电子 QSL 卡片 · v2.12.7</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5220,8 +5221,7 @@ body.is-printing .footer{padding:10px 44px 14px}
       <a id="linkSite" href="#" target="_blank">WEBSITE</a>
       <a id="linkQrz" href="#" target="_blank">QRZ</a>
       <span class="license">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="12" r="3.2"/><circle cx="15" cy="12" r="3.2"/></svg>
-        CC BY-NC-SA 4.0
+        GNU GPL v3
       </span>
     </div>
   </div>
@@ -8367,7 +8367,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.12.6';
+const APP_VERSION = '2.12.7';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
