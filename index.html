@@ -2392,6 +2392,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.12.6","date":"2026-08-24","items":["呼号自动大写恢复：组词期间不动输入框（不冲突），组词结束后统一转大写，英文键盘输入即时大写"]},
   {"v":"2.12.5","date":"2026-08-24","items":["修复移动端呼号输入与输入法冲突：组词期间不再改写输入框，避免重复输入"]},
   {"v":"2.12.4","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名加入我方呼号：QSL-我方呼号-对方呼号-日期","自检通过：仅改文档标题，卡片样式、填充、二维码显隐等不受影响"]},
   {"v":"2.12.3","date":"2026-08-15","items":["电子 QSL 导出 PDF 默认文件名改为「QSL-对方呼号-日期」，iOS 兜底打印窗口同步"]},
@@ -2952,7 +2953,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.12.5</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.12.6</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3032,7 +3033,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.12.5</b>
+      <b>电子 QSL 卡片 · v2.12.6</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -6522,15 +6523,26 @@ function updateCallInfo() {
   el.classList.remove('hidden');
 }
 
-// 移动端输入法兼容：组词期间跳过自动填充，结束后再执行一次
+// 移动端输入法兼容：组词期间不改写输入框，组词结束后统一转大写并自动填充
 let callComposing = false;
+function upperCallValue() {
+  const el = els.inCall;
+  const v = el.value;
+  if (v && v !== v.toUpperCase()) {
+    const pos = el.selectionStart || v.length;
+    el.value = v.toUpperCase();
+    try { el.setSelectionRange(pos, pos); } catch (e) {}
+  }
+}
 els.inCall.addEventListener('compositionstart', () => { callComposing = true; });
 els.inCall.addEventListener('compositionend', () => {
   callComposing = false;
+  upperCallValue();
   applyCallPrefill();
 });
 els.inCall.addEventListener('input', () => {
   if (callComposing) return;
+  upperCallValue();
   applyCallPrefill();
 });
 
@@ -8355,7 +8367,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.12.5';
+const APP_VERSION = '2.12.6';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
