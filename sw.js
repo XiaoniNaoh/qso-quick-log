@@ -1,13 +1,12 @@
 /* 通联速记 · 离线缓存（版本更新时把 v 号 +1） */
-const CACHE = 'qso-quick-log-v2.12.7';
+const CACHE = 'qso-quick-log-v2.13.0';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon.png',
   './icon-192.png',
-  './icon-512.png',
-  './logo.png'
+  './icon-512.png'
 ];
 
 self.addEventListener('install', e => {
