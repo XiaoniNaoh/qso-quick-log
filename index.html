@@ -2392,6 +2392,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.13.0","date":"2026-09-12","items":["ADIF 导出补齐 LoTW/eQSL 所需字段：TIME_OFF、TX_PWR、STATION_CALLSIGN、OPERATOR、MY_CITY、FREQ_RX","导出 QSL 发卡状态：ADIF 的 QSL_SENT / QSLSDATE，CSV 新增「QSL 状态 / 发卡时间」列","修正 ADIF 字段名 COMMENTS → 标准 COMMENT；PROGRAMVERSION 改为真实版本号","Service Worker 预缓存移除页面未使用的 logo.png，首装流量从 1.3MB 降至 624KB"]},
   {"v":"2.12.7","date":"2026-08-24","items":["开源许可由 CC BY-NC-SA 4.0 更换为 GPL-3.0（GNU 官方标准文本）","页脚、帮助与 QSL 卡片许可标识同步更新"]},
   {"v":"2.12.6","date":"2026-08-24","items":["呼号自动大写恢复：组词期间不动输入框（不冲突），组词结束后统一转大写，英文键盘输入即时大写"]},
   {"v":"2.12.5","date":"2026-08-24","items":["修复移动端呼号输入与输入法冲突：组词期间不再改写输入框，避免重复输入"]},
@@ -2954,7 +2955,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.12.7</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.13.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3034,7 +3035,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.12.7</b>
+      <b>电子 QSL 卡片 · v2.13.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -7881,7 +7882,7 @@ function exportADIF() {
     'ADIF Export',
     '<ADIF_VER:5>3.1.0',
     '<PROGRAMID:9>QSO Quick',
-    '<PROGRAMVERSION:5>1.0.0',
+    '<PROGRAMVERSION:' + APP_VERSION.length + '>' + APP_VERSION,
     '<EOH>'
   ];
   records.forEach(r => {
@@ -7889,25 +7890,45 @@ function exportADIF() {
     f.push(adifField('CALL', r.call));
     f.push(adifField('QSO_DATE', (r.date || '').replace(/-/g, '')));
     f.push(adifField('TIME_ON', (r.time || '').replace(/:/g, '')));
+    // 短通联：结束时间与开始时间一致（多数日志软件对 TIME_OFF 缺失会告警）
+    f.push(adifField('TIME_OFF', (r.time || '').replace(/:/g, '')));
     f.push(adifField('FREQ', r.freq));
+    // 中继通联：补接收频率（我收下行），便于日志软件还原中继参数
+    if (r.repeater && r.repeater.down) f.push(adifField('FREQ_RX', r.repeater.down));
     f.push(adifField('BAND', r.band ? r.band.toUpperCase() : ''));
     f.push(adifField('MODE', r.mode));
     f.push(adifField('RST_SENT', r.rstSent || r.rst));
     f.push(adifField('RST_RCVD', r.rstRecv || r.rst));
     f.push(adifField('NAME', r.name));
     f.push(adifField('QTH', r.qth));
-    if (settings.myCall) f.push(adifField('MY_CALL', settings.myCall));
+    f.push(adifField('TX_PWR', r.pwr));
+    const myCall = r.myCall || settings.myCall || '';
+    if (myCall) {
+      f.push(adifField('MY_CALL', myCall));
+      // LoTW / eQSL 上传识别本台呼号与操作员
+      f.push(adifField('STATION_CALLSIGN', myCall));
+      f.push(adifField('OPERATOR', myCall));
+    }
     if (settings.myGrid) f.push(adifField('MY_GRIDSQUARE', settings.myGrid));
+    if (settings.myQth) f.push(adifField('MY_CITY', settings.myQth));
+    // QSL 发卡状态（记录里的 qsl 标记 + 发卡时间）
+    f.push(adifField('QSL_SENT', r.qsl ? 'Y' : 'N'));
+    if (r.qsl && r.qslAt) {
+      const d = new Date(r.qslAt);
+      const qd = String(d.getUTCFullYear()) + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate());
+      f.push(adifField('QSLSDATE', qd));
+    }
     const rptInfo = r.repeater
       ? 'RPT: ' + r.repeater.name + (r.repeater.down ? ' ' + r.repeater.down + ' MHz' : '') + (r.repeater.offset ? ' (' + r.repeater.offset + ')' : '') + (r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? ' CTCSS ' + r.repeater.ctcss : '')
       : '';
     const extras = [rptInfo, r.rig ? 'Rig: ' + r.rig : '', r.ant ? 'Ant: ' + r.ant : '', r.pwr ? 'PWR: ' + r.pwr + ' W' : ''].filter(Boolean);
     if (r.remark) extras.push('Notes: ' + r.remark);
-    if (extras.length) f.push(adifField('COMMENTS', extras.join('; ')));
+    // COMMENT 为 ADIF 标准字段（原 COMMENTS 非标准，部分软件会忽略）
+    if (extras.length) f.push(adifField('COMMENT', extras.join('; ')));
     lines.push(f.join('') + '<EOR>');
   });
   download('qso-log-' + stamp() + '.adif', lines.join('\r\n') + '\r\n', 'application/adif');
-  toast('已导出 ADIF · ' + records.length + ' 条，可导入大多数电台日志软件');
+  toast('已导出 ADIF · ' + records.length + ' 条，可上传 LoTW / eQSL');
 }
 
 function csvEsc(v) {
@@ -7916,8 +7937,13 @@ function csvEsc(v) {
 }
 
 function exportCSV() {
-  const head = ['呼号', '日期(UTC)', '时间(UTC)', '频率(MHz)', '波段', '模式', '我给RST', '对方RST', '姓名', 'QTH', '设备', '天线', '功率(W)', '中继台', '偏移(MHz)', '哑音', '备注'];
-  const rows = records.map(r => [r.call, r.date, r.time, r.freq, r.band || '', r.mode, r.rstSent || r.rst, r.rstRecv || r.rst, r.name, r.qth, r.rig, r.ant, r.pwr, r.repeater ? r.repeater.name : '', r.repeater ? r.repeater.offset : '', r.repeater && r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? r.repeater.ctcss : '', r.remark]);
+  const head = ['呼号', '日期(UTC)', '时间(UTC)', '频率(MHz)', '波段', '模式', '我给RST', '对方RST', '姓名', 'QTH', '设备', '天线', '功率(W)', '中继台', '偏移(MHz)', '哑音', 'QSL状态', '发卡时间', '备注'];
+  const qslTime = r => {
+    if (!r.qsl || !r.qslAt) return '';
+    const d = new Date(r.qslAt);
+    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+  };
+  const rows = records.map(r => [r.call, r.date, r.time, r.freq, r.band || '', r.mode, r.rstSent || r.rst, r.rstRecv || r.rst, r.name, r.qth, r.rig, r.ant, r.pwr, r.repeater ? r.repeater.name : '', r.repeater ? r.repeater.offset : '', r.repeater && r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? r.repeater.ctcss : '', r.qsl ? '已发卡' : '未发卡', qslTime(r), r.remark]);
   const csv = '\uFEFF' + [head].concat(rows).map(row => row.map(csvEsc).join(',')).join('\r\n');
   download('qso-log-' + stamp() + '.csv', csv, 'text/csv');
   toast('已导出 CSV · ' + records.length + ' 条，可直接用 Excel / Numbers 打开');
@@ -8367,7 +8393,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.12.7';
+const APP_VERSION = '2.13.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
