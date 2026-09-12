@@ -478,6 +478,43 @@ kbd{
 .lh-btn .lh-ic svg{width:12px;height:12px;display:block}
 .lh-sep{width:1px;height:16px;background:var(--line-2);flex:none}
 .lh-search{position:relative;margin-top:11px}
+/* ── 多选 / 批量操作 ── */
+.lh-bulk{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+  margin-top:11px;padding:9px 11px;border-radius:12px;
+  background:var(--accent-soft);border:1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.bulk-count{font-size:12px;font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bulk-acts{display:flex;gap:7px;flex-wrap:wrap}
+.bulk-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  border:1px solid transparent;border-radius:999px;cursor:pointer;
+  background:var(--card);color:var(--ink-2);
+  font:inherit;font-size:11.5px;font-weight:700;padding:7px 13px;white-space:nowrap;
+  transition:background .18s var(--ease-out), color .18s var(--ease-out), border-color .18s var(--ease-out);
+}
+.bulk-btn svg{width:13px;height:13px;flex:none}
+.bulk-btn:hover{border-color:var(--accent);color:var(--accent)}
+.bulk-btn:disabled{opacity:.45;cursor:not-allowed}
+.bulk-btn:disabled:hover{border-color:transparent;color:var(--ink-2)}
+.bulk-danger{color:var(--danger)}
+.bulk-danger:hover{border-color:var(--danger);color:var(--danger)}
+.bulk-ghost{background:transparent;color:var(--ink-3)}
+.lh-btn.bulk-active{color:var(--accent);background:var(--accent-soft)}
+.bulk-btn.confirming{background:var(--danger);color:var(--danger-ink);border-color:transparent}
+/* 行勾选框（仅多选模式出现） */
+.row-check{
+  width:24px;height:24px;flex:none;border-radius:8px;cursor:pointer;
+  border:1.5px solid var(--line-2);background:var(--card);
+  display:grid;place-items:center;color:transparent;
+  transition:background .16s var(--ease-out), border-color .16s var(--ease-out), color .16s var(--ease-out);
+}
+.row-check svg{width:14px;height:14px}
+.qso-row.selected{border-color:color-mix(in srgb, var(--accent) 45%, transparent);background:color-mix(in srgb, var(--accent-soft) 60%, var(--card))}
+.qso-row.selected .row-check{background:var(--accent);border-color:transparent;color:var(--on-accent)}
+.qso-row .qso-grid.bulk-on{cursor:default}
+.qso-row.bulk-on{display:flex;flex-direction:row;align-items:flex-start;gap:11px}
+.qso-row.bulk-on .qso-row-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:10px}
 .lh-search-ic{
   position:absolute;left:12px;top:50%;transform:translateY(-50%);
   width:15px;height:15px;color:var(--ink-3);pointer-events:none;
@@ -2413,11 +2450,13 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
     <symbol id="ic-palette" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="9" r="6"/><circle cx="15" cy="15" r="6"/><circle cx="12" cy="12" r="3"/></symbol>
     <symbol id="ic-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
     <symbol id="ic-safe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.4-7 10-4-1.6-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+    <symbol id="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></symbol>
   </defs>
 </svg>
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.14.0","date":"2026-09-12","items":["新增多选模式：点记录勾选，可全选 / 取消全选，选中状态跨分页保留","批量操作：一键标记 QSL（写入发卡时间）、导出选中记录（ADIF / CSV 可选）、批量删除（二次确认 + 撤销）、退出多选","批量导出与批量删除均支持选中子集，批量模式下行内编辑按钮自动隐藏避免误操作"]},
   {"v":"2.13.1","date":"2026-09-12","items":["样式令牌化重构：元素硬编码颜色 71 处降至 14 处，主按钮渐变合并为一条通用规则","新增 --on-accent / --accent-2 / --edit* / --ok-strong* / --warn / --danger-ink 语义令牌","编辑态配色全面改用令牌，六套主题自动生效；渲染结果与重构前一致"]},
   {"v":"2.13.0","date":"2026-09-12","items":["ADIF 导出补齐 LoTW/eQSL 所需字段：TIME_OFF、TX_PWR、STATION_CALLSIGN、OPERATOR、MY_CITY、FREQ_RX","导出 QSL 发卡状态：ADIF 的 QSL_SENT / QSLSDATE，CSV 新增「QSL 状态 / 发卡时间」列","修正 ADIF 字段名 COMMENTS → 标准 COMMENT；PROGRAMVERSION 改为真实版本号","Service Worker 预缓存移除页面未使用的 logo.png，首装流量从 1.3MB 降至 624KB"]},
   {"v":"2.12.7","date":"2026-08-24","items":["开源许可由 CC BY-NC-SA 4.0 更换为 GPL-3.0（GNU 官方标准文本）","页脚、帮助与 QSL 卡片许可标识同步更新"]},
@@ -2694,7 +2733,18 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
           <button type="button" class="lh-btn" id="btnStats" title="统计概览：总览、波段与模式分布" aria-label="打开统计概览"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-count"/></svg></span><span>统计</span></button>
           <button type="button" class="lh-btn" id="btnBackupOpen" title="备份与恢复：导出完整备份、生成备份链接或导入" aria-label="打开备份与恢复"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-safe"/></svg></span><span>备份</span></button>
           <button type="button" class="lh-btn" id="btnImport" title="导入 JSON 备份文件" aria-label="导入备份文件"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-upload"/></svg></span><span>导入</span></button>
+          <button type="button" class="lh-btn" id="btnBulkMode" title="多选：批量标记 QSL、导出或删除" aria-label="进入多选模式"><span class="lh-ic" aria-hidden="true"><svg><use href="#ic-check"/></svg></span><span>多选</span></button>
           <input type="file" id="importFile" accept=".json,.adi,.adif,application/json,application/adif" hidden>
+        </div>
+      </div>
+      <div class="lh-bulk hidden" id="bulkBar" role="toolbar" aria-label="批量操作">
+        <span class="bulk-count" id="bulkCount">已选 0 条</span>
+        <div class="bulk-acts">
+          <button type="button" class="bulk-btn" id="btnBulkAll">全选</button>
+          <button type="button" class="bulk-btn" id="btnBulkQsl"><svg aria-hidden="true"><use href="#ic-check"/></svg>标记 QSL</button>
+          <button type="button" class="bulk-btn" id="btnBulkExport">导出</button>
+          <button type="button" class="bulk-btn bulk-danger" id="btnBulkDel">删除</button>
+          <button type="button" class="bulk-btn bulk-ghost" id="btnBulkExit">退出</button>
         </div>
       </div>
       <div class="lh-search">
@@ -2772,6 +2822,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
             <li>备份中心里可以「通过链接导入」——粘贴另一台设备发来的备份链接即可恢复。</li>
             <li>「设置 → 关于」或首次引导可开启自动备份（每天 / 每周 / 每月），在本机自动留存完整快照，误删也能找回；更新应用不会重置你的选择。</li>
             <li>另外支持导出 ADIF / CSV 给常规电台日志软件，可拖入 .json 文件快速导入。</li>
+            <li>记录多了想批量处理？点工具条「多选」进入多选模式：全选后可一键标记 QSL、导出选中记录或批量删除（删除有二次确认，误删可撤销）。</li>
           </ul>
         </div>
       </details>
@@ -2871,6 +2922,17 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <button type="button" class="btn-ghost hidden" id="btnFrPrev">上一步</button>
       <button class="btn-primary" id="btnFrNext">下一步</button>
       <button type="button" class="btn-ghost" id="btnFrLater">跳过</button>
+    </div>
+  </div>
+</div>
+<div class="overlay hidden" id="bulkExportOverlay">
+  <div class="modal">
+    <h3><svg class="title-ic" aria-hidden="true"><use href="#ic-download"/></svg>导出选中的记录</h3>
+    <p class="sub" id="bulkExportSub"></p>
+    <div class="actions">
+      <button type="button" class="btn-primary" id="btnBulkExpAdif">ADIF · 上传 LoTW / eQSL</button>
+      <button type="button" class="btn-ghost" id="btnBulkExpCsv">CSV · 表格软件</button>
+      <button type="button" class="btn-ghost" id="btnBulkExpCancel">取消</button>
     </div>
   </div>
 </div>
@@ -2982,7 +3044,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.13.1</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.14.0</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3062,7 +3124,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.13.1</b>
+      <b>电子 QSL 卡片 · v2.14.0</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -5694,6 +5756,19 @@ const els = {
   btnImport: $('btnImport'),
   importFile: $('importFile'),
   btnStats: $('btnStats'),
+  btnBulkMode: $('btnBulkMode'),
+  bulkBar: $('bulkBar'),
+  bulkCount: $('bulkCount'),
+  btnBulkAll: $('btnBulkAll'),
+  btnBulkQsl: $('btnBulkQsl'),
+  btnBulkExport: $('btnBulkExport'),
+  btnBulkDel: $('btnBulkDel'),
+  btnBulkExit: $('btnBulkExit'),
+  bulkExportOverlay: $('bulkExportOverlay'),
+  bulkExportSub: $('bulkExportSub'),
+  btnBulkExpAdif: $('btnBulkExpAdif'),
+  btnBulkExpCsv: $('btnBulkExpCsv'),
+  btnBulkExpCancel: $('btnBulkExpCancel'),
   statsOverlay: $('statsOverlay'),
   statsSub: $('statsSub'),
   stPeriod: $('stPeriod'),
@@ -6768,6 +6843,137 @@ let listPage = 0;
 let listDateCount = {};
 const LIST_PAGE_SIZE = 50;
 let listObserver = null;
+// ── 多选 / 批量操作 ──
+let bulkMode = false;
+const selectedIds = new Set();
+
+function selectedRecords() {
+  return records.filter(r => selectedIds.has(r.id));
+}
+function updateBulkBar() {
+  if (!els.bulkBar) return;
+  els.bulkBar.classList.toggle('hidden', !bulkMode);
+  if (!bulkMode) return;
+  const n = selectedIds.size;
+  els.bulkCount.textContent = '已选 ' + n + ' 条';
+  const none = n === 0;
+  [els.btnBulkQsl, els.btnBulkExport, els.btnBulkDel].forEach(b => { if (b) b.disabled = none; });
+  const allSelected = listData.length > 0 && listData.every(r => selectedIds.has(r.id));
+  if (els.btnBulkAll) els.btnBulkAll.textContent = allSelected ? '取消全选' : '全选';
+  if (els.btnBulkMode) els.btnBulkMode.classList.toggle('bulk-active', bulkMode);
+}
+function enterBulkMode() {
+  bulkMode = true;
+  selectedIds.clear();
+  renderList();
+  updateBulkBar();
+  toast('多选模式：点记录勾选，可批量标记 QSL / 导出 / 删除', null, 4000);
+}
+function exitBulkMode() {
+  bulkMode = false;
+  selectedIds.clear();
+  renderList();
+  updateBulkBar();
+}
+function toggleSelect(id) {
+  if (!bulkMode) return;
+  if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id);
+  const row = els.qsoList.querySelector('.qso-row[data-id="' + id + '"]');
+  if (row) {
+    const on = selectedIds.has(id);
+    row.classList.toggle('selected', on);
+    const check = row.querySelector('.row-check');
+    if (check) {
+      check.setAttribute('aria-pressed', String(on));
+      check.setAttribute('aria-label', (on ? '取消选择 ' : '选择 ') + (records.find(r => r.id === id) || {}).call);
+    }
+  }
+  updateBulkBar();
+}
+function toggleSelectAll() {
+  if (!bulkMode) return;
+  const allSelected = listData.length > 0 && listData.every(r => selectedIds.has(r.id));
+  if (allSelected) selectedIds.clear();
+  else listData.forEach(r => selectedIds.add(r.id));
+  // 只更新当前已渲染的可见行
+  Array.prototype.forEach.call(els.qsoList.querySelectorAll('.qso-row[data-id]'), row => {
+    const on = selectedIds.has(row.dataset.id);
+    row.classList.toggle('selected', on);
+    const check = row.querySelector('.row-check');
+    if (check) check.setAttribute('aria-pressed', String(on));
+  });
+  updateBulkBar();
+}
+function bulkMarkQsl() {
+  const list = selectedRecords();
+  if (!list.length) return;
+  let n = 0;
+  list.forEach(r => {
+    if (!r.qsl) { r.qsl = true; r.qslAt = Date.now(); n++; }
+  });
+  saveRecords();
+  // 仅刷新受影响的行
+  list.forEach(r => { if (selectedIds.has(r.id)) replaceRowDOM(r); });
+  toast(n ? '已标记 ' + n + ' 条为 QSL ✓' : '选中的记录都已标记过 QSL');
+}
+function bulkExport() {
+  const list = selectedRecords();
+  if (!list.length) return;
+  els.bulkExportSub.textContent = '已选 ' + list.length + ' 条记录，选择导出格式';
+  showOverlay(els.bulkExportOverlay);
+}
+function bulkDelete() {
+  const list = selectedRecords();
+  if (!list.length) return;
+  if (!els.btnBulkDel.classList.contains('confirming')) {
+    els.btnBulkDel.classList.add('confirming');
+    els.btnBulkDel.textContent = '确定删除 ' + list.length + ' 条？';
+    clearTimeout(bulkDelTimer);
+    bulkDelTimer = setTimeout(() => {
+      els.btnBulkDel.classList.remove('confirming');
+      els.btnBulkDel.textContent = '删除';
+    }, 3500);
+    return;
+  }
+  clearTimeout(bulkDelTimer);
+  els.btnBulkDel.classList.remove('confirming');
+  els.btnBulkDel.textContent = '删除';
+  const removed = list.slice();
+  const ids = new Set(removed.map(r => r.id));
+  records = records.filter(r => !ids.has(r.id));
+  saveRecords();
+  ids.forEach(id => removeRowDOM(id));
+  stats();
+  exitBulkMode();
+  toast('已删除 ' + removed.length + ' 条记录', { label: '撤销', onClick: () => {
+    records = records.concat(removed);
+    saveRecords();
+    renderList();
+    stats();
+    toast('已恢复 ' + removed.length + ' 条记录，差点就没了 😮💨');
+  }});
+}
+let bulkDelTimer = null;
+
+els.btnBulkMode.addEventListener('click', () => { if (bulkMode) exitBulkMode(); else enterBulkMode(); });
+els.btnBulkExit.addEventListener('click', exitBulkMode);
+els.btnBulkAll.addEventListener('click', toggleSelectAll);
+els.btnBulkQsl.addEventListener('click', bulkMarkQsl);
+els.btnBulkExport.addEventListener('click', bulkExport);
+els.btnBulkDel.addEventListener('click', bulkDelete);
+els.btnBulkExpAdif.addEventListener('click', () => {
+  const list = selectedRecords();
+  hideOverlay(els.bulkExportOverlay);
+  if (list.length) exportADIF(list);
+});
+els.btnBulkExpCsv.addEventListener('click', () => {
+  const list = selectedRecords();
+  hideOverlay(els.bulkExportOverlay);
+  if (list.length) exportCSV(list);
+});
+els.btnBulkExpCancel.addEventListener('click', () => hideOverlay(els.bulkExportOverlay));
+els.bulkExportOverlay.addEventListener('click', e => { if (e.target === els.bulkExportOverlay) hideOverlay(els.bulkExportOverlay); });
+updateBulkBar();
 
 function listSearchFields(r) {
   return [r.call, r.qth, r.name, r.remark, r.rig, r.ant, r.mode, r.band, r.freq, r.repeater ? r.repeater.name : '']
@@ -6899,6 +7105,7 @@ function renderRow(r) {
   grid.title = '点击编辑';
   grid.addEventListener('click', e => {
     if (e.target && e.target.closest && e.target.closest('button')) return;
+    if (bulkMode) { toggleSelect(r.id); return; }
     edit(r.id);
   });
 
@@ -7003,7 +7210,25 @@ function renderRow(r) {
   });
   acts.append(editBtn, qslBtn, del);
 
-  row.append(grid, det, acts);
+  if (bulkMode) {
+    row.classList.add('bulk-on');
+    if (selectedIds.has(r.id)) row.classList.add('selected');
+    grid.classList.add('bulk-on');
+    const check = document.createElement('button');
+    check.type = 'button';
+    check.className = 'row-check';
+    check.setAttribute('aria-label', (selectedIds.has(r.id) ? '取消选择 ' : '选择 ') + r.call);
+    check.setAttribute('aria-pressed', String(selectedIds.has(r.id)));
+    check.innerHTML = '<svg aria-hidden="true"><use href="#ic-check"/></svg>';
+    check.addEventListener('click', e => { e.stopPropagation(); toggleSelect(r.id); });
+    const main = document.createElement('div');
+    main.className = 'qso-row-main';
+    // 批量模式下隐藏行内编辑/QSL/删除按钮，避免与批量操作混淆
+    main.append(grid, det);
+    row.append(check, main);
+  } else {
+    row.append(grid, det, acts);
+  }
   return row;
 }
 
@@ -7904,7 +8129,8 @@ function adifField(tag, val) {
   return `<${tag}:${new TextEncoder().encode(s).length}>${s} `;
 }
 
-function exportADIF() {
+function exportADIF(list) {
+  const rows = Array.isArray(list) ? list : records;
   const lines = [
     'ADIF Export',
     '<ADIF_VER:5>3.1.0',
@@ -7912,7 +8138,7 @@ function exportADIF() {
     '<PROGRAMVERSION:' + APP_VERSION.length + '>' + APP_VERSION,
     '<EOH>'
   ];
-  records.forEach(r => {
+  rows.forEach(r => {
     const f = [];
     f.push(adifField('CALL', r.call));
     f.push(adifField('QSO_DATE', (r.date || '').replace(/-/g, '')));
@@ -7955,7 +8181,7 @@ function exportADIF() {
     lines.push(f.join('') + '<EOR>');
   });
   download('qso-log-' + stamp() + '.adif', lines.join('\r\n') + '\r\n', 'application/adif');
-  toast('已导出 ADIF · ' + records.length + ' 条，可上传 LoTW / eQSL');
+  toast('已导出 ADIF · ' + rows.length + ' 条，可上传 LoTW / eQSL');
 }
 
 function csvEsc(v) {
@@ -7963,17 +8189,18 @@ function csvEsc(v) {
   return /[",\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
 }
 
-function exportCSV() {
+function exportCSV(list) {
+  const data = Array.isArray(list) ? list : records;
   const head = ['呼号', '日期(UTC)', '时间(UTC)', '频率(MHz)', '波段', '模式', '我给RST', '对方RST', '姓名', 'QTH', '设备', '天线', '功率(W)', '中继台', '偏移(MHz)', '哑音', 'QSL状态', '发卡时间', '备注'];
   const qslTime = r => {
     if (!r.qsl || !r.qslAt) return '';
     const d = new Date(r.qslAt);
     return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
   };
-  const rows = records.map(r => [r.call, r.date, r.time, r.freq, r.band || '', r.mode, r.rstSent || r.rst, r.rstRecv || r.rst, r.name, r.qth, r.rig, r.ant, r.pwr, r.repeater ? r.repeater.name : '', r.repeater ? r.repeater.offset : '', r.repeater && r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? r.repeater.ctcss : '', r.qsl ? '已发卡' : '未发卡', qslTime(r), r.remark]);
+  const rows = data.map(r => [r.call, r.date, r.time, r.freq, r.band || '', r.mode, r.rstSent || r.rst, r.rstRecv || r.rst, r.name, r.qth, r.rig, r.ant, r.pwr, r.repeater ? r.repeater.name : '', r.repeater ? r.repeater.offset : '', r.repeater && r.repeater.ctcss && r.repeater.ctcss !== 'NONE' ? r.repeater.ctcss : '', r.qsl ? '已发卡' : '未发卡', qslTime(r), r.remark]);
   const csv = '\uFEFF' + [head].concat(rows).map(row => row.map(csvEsc).join(',')).join('\r\n');
   download('qso-log-' + stamp() + '.csv', csv, 'text/csv');
-  toast('已导出 CSV · ' + records.length + ' 条，可直接用 Excel / Numbers 打开');
+  toast('已导出 CSV · ' + data.length + ' 条，可直接用 Excel / Numbers 打开');
 }
 
 function exportJSON() {
@@ -8420,7 +8647,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.13.1';
+const APP_VERSION = '2.14.0';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
