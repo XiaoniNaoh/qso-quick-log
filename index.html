@@ -2456,6 +2456,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <!-- 版本发布说明（更新检测时展示「新版本更新了什么」） -->
 <script type="application/json" id="changelogData">
 [
+  {"v":"2.14.1","date":"2026-09-13","items":["修复电子 QSL 预览页无法修改我方呼号：顶部品牌栏、大呼号、邮戳、FROM 四处呼号现可直接点改","呼号联动：改任一处，卡片上所有呼号位同步（大呼号自动拆分两段）","修复兜底填充覆盖手改内容：预览中改过的字段不再被二次填充覆盖"]},
   {"v":"2.14.0","date":"2026-09-12","items":["新增多选模式：点记录勾选，可全选 / 取消全选，选中状态跨分页保留","批量操作：一键标记 QSL（写入发卡时间）、导出选中记录（ADIF / CSV 可选）、批量删除（二次确认 + 撤销）、退出多选","批量导出与批量删除均支持选中子集，批量模式下行内编辑按钮自动隐藏避免误操作"]},
   {"v":"2.13.1","date":"2026-09-12","items":["样式令牌化重构：元素硬编码颜色 71 处降至 14 处，主按钮渐变合并为一条通用规则","新增 --on-accent / --accent-2 / --edit* / --ok-strong* / --warn / --danger-ink 语义令牌","编辑态配色全面改用令牌，六套主题自动生效；渲染结果与重构前一致"]},
   {"v":"2.13.0","date":"2026-09-12","items":["ADIF 导出补齐 LoTW/eQSL 所需字段：TIME_OFF、TX_PWR、STATION_CALLSIGN、OPERATOR、MY_CITY、FREQ_RX","导出 QSL 发卡状态：ADIF 的 QSL_SENT / QSLSDATE，CSV 新增「QSL 状态 / 发卡时间」列","修正 ADIF 字段名 COMMENTS → 标准 COMMENT；PROGRAMVERSION 改为真实版本号","Service Worker 预缓存移除页面未使用的 logo.png，首装流量从 1.3MB 降至 624KB"]},
@@ -3044,7 +3045,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
       <div class="set-section">
         <div class="set-sec-h"><svg class="set-ic" aria-hidden="true"><use href="#ic-info"/></svg>关于<small>ABOUT</small></div>
         <div class="set-about">
-          <span class="set-ver">版本 <b id="setVersion">v2.14.0</b></span>
+          <span class="set-ver">版本 <b id="setVersion">v2.14.1</b></span>
           <button type="button" class="btn-ghost" id="btnCheckUpdate">检查更新</button>
         </div>
         <div class="set-about-row">
@@ -3124,7 +3125,7 @@ body.tab-hidden .eq i,body.tab-hidden .brand-mark,body.tab-hidden .empty .big{an
 <div class="qsl-overlay hidden" id="qslOverlay">
   <div class="qsl-frame">
     <div class="qsl-bar">
-      <b>电子 QSL 卡片 · v2.14.0</b>
+      <b>电子 QSL 卡片 · v2.14.1</b>
       <span class="qsl-note" id="qslNote">—</span>
       <span class="sp"></span>
       <button type="button" class="qsl-btn primary" id="btnQslPrint">打印 / 存为 PDF</button>
@@ -4991,7 +4992,7 @@ body.is-printing .footer{padding:10px 44px 14px}
   <div class="topbar">
     <div class="tb-left">
       <span class="logo-mark"><i></i><i></i><i></i><i></i></span>
-      <span class="tb-brand"><span id="cardCall">MY CALL</span><span class="tb-sub">/ HAM STATION</span></span>
+      <span class="tb-brand"><span class="editable" id="cardCall" contenteditable="true" spellcheck="false">MY CALL</span><span class="tb-sub">/ HAM STATION</span></span>
     </div>
     <div class="tb-mid">
       <span class="live"><span class="dot"></span>ON AIR</span>
@@ -5011,7 +5012,7 @@ body.is-printing .footer{padding:10px 44px 14px}
     <div class="hero-main">
       <div class="kicker">Confirming QSO with</div>
       <div class="callsign">
-        <span id="callP1">QSO</span><span class="hl" id="callP2">LOG</span>
+        <span class="editable" id="callP1" contenteditable="true" spellcheck="false">QSO</span><span class="hl editable" id="callP2" contenteditable="true" spellcheck="false">LOG</span>
       </div>
       <div class="qso-map" id="qsoMap">
         <div class="qm-head">
@@ -5021,7 +5022,7 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="qm-body">
           <svg class="qm-terrain" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 150"><path d="M0.0,123.0 L8.0,123.7 L16.0,124.2 L24.0,124.6 L32.0,124.9 L40.0,125.0 L48.0,125.0 L56.0,124.8 L64.0,124.5 L72.0,124.1 L80.0,123.5 L88.0,122.8 L96.0,122.0 L104.0,121.2 L112.0,120.2 L120.0,119.3 L128.0,118.3 L136.0,117.3 L144.0,116.3 L152.0,115.3 L160.0,114.4 L168.0,113.6 L176.0,112.9 L184.0,112.2 L192.0,111.7 L200.0,111.3 L208.0,111.1 L216.0,111.0 L224.0,111.1 L232.0,111.2 L240.0,111.6 L248.0,112.0 L256.0,112.6 L264.0,113.3 L272.0,114.1 L280.0,115.0 L288.0,115.9 L296.0,116.9 L304.0,117.9 L312.0,118.9 L320.0,119.9 L328.0,120.9 L336.0,121.7 L344.0,122.6 L352.0,123.3 L360.0,123.9 L368.0,124.4 L376.0,124.7 L384.0,124.9 L392.0,125.0 L400.0,124.9 L408.0,124.7 L416.0,124.4 L424.0,123.9 L432.0,123.3 L440.0,122.5 L448.0,121.7 L456.0,120.8 L464.0,119.9 L472.0,118.9 L480.0,117.9 L488.0,116.9 L496.0,115.9 L504.0,115.0 L512.0,114.1 L520.0,113.3 L528.0,112.6 L536.0,112.0 L544.0,111.6 L552.0,111.2 L560.0,111.0" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,108.2 L8.0,107.7 L16.0,107.1 L24.0,106.3 L32.0,105.5 L40.0,104.6 L48.0,103.7 L56.0,102.7 L64.0,101.6 L72.0,100.6 L80.0,99.5 L88.0,98.4 L96.0,97.4 L104.0,96.3 L112.0,95.4 L120.0,94.5 L128.0,93.7 L136.0,93.0 L144.0,92.3 L152.0,91.8 L160.0,91.4 L168.0,91.2 L176.0,91.0 L184.0,91.0 L192.0,91.1 L200.0,91.4 L208.0,91.7 L216.0,92.2 L224.0,92.8 L232.0,93.5 L240.0,94.3 L248.0,95.2 L256.0,96.1 L264.0,97.1 L272.0,98.2 L280.0,99.3 L288.0,100.3 L296.0,101.4 L304.0,102.5 L312.0,103.5 L320.0,104.4 L328.0,105.4 L336.0,106.2 L344.0,106.9 L352.0,107.6 L360.0,108.1 L368.0,108.5 L376.0,108.8 L384.0,109.0 L392.0,109.0 L400.0,108.9 L408.0,108.7 L416.0,108.3 L424.0,107.9 L432.0,107.3 L440.0,106.6 L448.0,105.8 L456.0,105.0 L464.0,104.0 L472.0,103.0 L480.0,102.0 L488.0,100.9 L496.0,99.9 L504.0,98.8 L512.0,97.7 L520.0,96.7 L528.0,95.7 L536.0,94.8 L544.0,94.0 L552.0,93.2 L560.0,92.5" fill="none" stroke="#3E6B4F" stroke-width="0.55" opacity=".75"/><path d="M0.0,84.3 L8.0,83.2 L16.0,82.2 L24.0,81.1 L32.0,80.1 L40.0,79.2 L48.0,78.4 L56.0,77.7 L64.0,77.1 L72.0,76.6 L80.0,76.3 L88.0,76.1 L96.0,76.0 L104.0,76.1 L112.0,76.3 L120.0,76.7 L128.0,77.2 L136.0,77.9 L144.0,78.6 L152.0,79.5 L160.0,80.4 L168.0,81.4 L176.0,82.5 L184.0,83.6 L192.0,84.6 L200.0,85.7 L208.0,86.8 L216.0,87.8 L224.0,88.7 L232.0,89.5 L240.0,90.3 L248.0,90.9 L256.0,91.4 L264.0,91.7 L272.0,91.9 L280.0,92.0 L288.0,91.9 L296.0,91.7 L304.0,91.3 L312.0,90.8 L320.0,90.2 L328.0,89.4 L336.0,88.6 L344.0,87.7 L352.0,86.7 L360.0,85.6 L368.0,84.5 L376.0,83.5 L384.0,82.4 L392.0,81.3 L400.0,80.3 L408.0,79.4 L416.0,78.6 L424.0,77.8 L432.0,77.2 L440.0,76.7 L448.0,76.3 L456.0,76.1 L464.0,76.0 L472.0,76.1 L480.0,76.3 L488.0,76.6 L496.0,77.1 L504.0,77.7 L512.0,78.5 L520.0,79.3 L528.0,80.2 L536.0,81.2 L544.0,82.3 L552.0,83.3 L560.0,84.4" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,74.4 L8.0,74.7 L16.0,74.9 L24.0,75.0 L32.0,74.9 L40.0,74.7 L48.0,74.3 L56.0,73.8 L64.0,73.1 L72.0,72.4 L80.0,71.5 L88.0,70.6 L96.0,69.6 L104.0,68.5 L112.0,67.3 L120.0,66.2 L128.0,65.0 L136.0,63.9 L144.0,62.8 L152.0,61.8 L160.0,60.8 L168.0,59.9 L176.0,59.1 L184.0,58.4 L192.0,57.9 L200.0,57.4 L208.0,57.2 L216.0,57.0 L224.0,57.0 L232.0,57.2 L240.0,57.5 L248.0,57.9 L256.0,58.5 L264.0,59.2 L272.0,60.0 L280.0,60.9 L288.0,61.9 L296.0,62.9 L304.0,64.0 L312.0,65.2 L320.0,66.3 L328.0,67.5 L336.0,68.6 L344.0,69.7 L352.0,70.7 L360.0,71.6 L368.0,72.5 L376.0,73.2 L384.0,73.9 L392.0,74.4 L400.0,74.7 L408.0,74.9 L416.0,75.0 L424.0,74.9 L432.0,74.7 L440.0,74.3 L448.0,73.8 L456.0,73.2 L464.0,72.5 L472.0,71.6 L480.0,70.7 L488.0,69.6 L496.0,68.6 L504.0,67.4 L512.0,66.3 L520.0,65.1 L528.0,64.0 L536.0,62.9 L544.0,61.9 L552.0,60.9 L560.0,60.0" fill="none" stroke="#3E6B4F" stroke-width="0.55" opacity=".75"/><path d="M0.0,53.6 L8.0,52.7 L16.0,51.6 L24.0,50.6 L32.0,49.5 L40.0,48.5 L48.0,47.5 L56.0,46.5 L64.0,45.6 L72.0,44.9 L80.0,44.2 L88.0,43.7 L96.0,43.3 L104.0,43.1 L112.0,43.0 L120.0,43.1 L128.0,43.4 L136.0,43.8 L144.0,44.3 L152.0,45.0 L160.0,45.8 L168.0,46.7 L176.0,47.7 L184.0,48.7 L192.0,49.8 L200.0,50.8 L208.0,51.9 L216.0,52.9 L224.0,53.8 L232.0,54.6 L240.0,55.4 L248.0,56.0 L256.0,56.5 L264.0,56.8 L272.0,57.0 L280.0,57.0 L288.0,56.8 L296.0,56.5 L304.0,56.1 L312.0,55.5 L320.0,54.7 L328.0,53.9 L336.0,53.0 L344.0,52.0 L352.0,51.0 L360.0,49.9 L368.0,48.8 L376.0,47.8 L384.0,46.8 L392.0,45.9 L400.0,45.1 L408.0,44.4 L416.0,43.8 L424.0,43.4 L432.0,43.1 L440.0,43.0 L448.0,43.0 L456.0,43.3 L464.0,43.6 L472.0,44.1 L480.0,44.8 L488.0,45.5 L496.0,46.4 L504.0,47.3 L512.0,48.3 L520.0,49.4 L528.0,50.5 L536.0,51.5 L544.0,52.5 L552.0,53.5 L560.0,54.4" fill="none" stroke="#3E6B4F" stroke-width="0.60" opacity=".75"/><path d="M0.0,102.0 L8.0,101.9 L16.0,101.5 L24.0,101.1 L32.0,100.4 L40.0,99.6 L48.0,98.6 L56.0,97.6 L64.0,96.4 L72.0,95.1 L80.0,93.8 L88.0,92.5 L96.0,91.1 L104.0,89.8 L112.0,88.5 L120.0,87.2 L128.0,86.1 L136.0,85.0 L144.0,84.1 L152.0,83.4 L160.0,82.8 L168.0,82.3 L176.0,82.1 L184.0,82.0 L192.0,82.1 L200.0,82.4 L208.0,82.9 L216.0,83.5 L224.0,84.3 L232.0,85.3 L240.0,86.3 L248.0,87.5 L256.0,88.7 L264.0,90.1 L272.0,91.4 L280.0,92.8 L288.0,94.1 L296.0,95.4 L304.0,96.7 L312.0,97.8 L320.0,98.9 L328.0,99.8 L336.0,100.6 L344.0,101.2 L352.0,101.6 L360.0,101.9 L368.0,102.0 L376.0,101.9 L384.0,101.6 L392.0,101.2 L400.0,100.5 L408.0,99.8 L416.0,98.8 L424.0,97.8 L432.0,96.6 L440.0,95.4 L448.0,94.1 L456.0,92.7 L464.0,91.4 L472.0,90.0 L480.0,88.7 L488.0,87.5 L496.0,86.3 L504.0,85.2 L512.0,84.3 L520.0,83.5 L528.0,82.9 L536.0,82.4 L544.0,82.1 L552.0,82.0 L560.0,82.1" fill="none" stroke="#C8F631" stroke-width="1.1" opacity=".9"/><path d="M0.0,78.7 L8.0,79.3 L16.0,79.9 L24.0,80.4 L32.0,80.9 L40.0,81.4 L48.0,81.8 L56.0,82.1 L64.0,82.4 L72.0,82.7 L80.0,82.8 L88.0,83.0 L96.0,83.0 L104.0,83.0 L112.0,82.9 L120.0,82.7 L128.0,82.5 L136.0,82.3 L144.0,81.9 L152.0,81.6 L160.0,81.1 L168.0,80.6 L176.0,80.1 L184.0,79.6 L192.0,79.0 L200.0,78.3 L208.0,77.7 L216.0,77.0 L224.0,76.4 L232.0,75.7 L240.0,75.0 L248.0,74.4 L256.0,73.7 L264.0,73.1 L272.0,72.5 L280.0,71.9 L288.0,71.4 L296.0,70.9 L304.0,70.5 L312.0,70.1 L320.0,69.8 L328.0,69.5 L336.0,69.3 L344.0,69.1 L352.0,69.0 L360.0,69.0 L368.0,69.0 L376.0,69.1 L384.0,69.3 L392.0,69.5 L400.0,69.8 L408.0,70.2 L416.0,70.6 L424.0,71.0 L432.0,71.5 L440.0,72.0 L448.0,72.6 L456.0,73.2 L464.0,73.8 L472.0,74.5 L480.0,75.1 L488.0,75.8 L496.0,76.5 L504.0,77.1 L512.0,77.8 L520.0,78.4 L528.0,79.1 L536.0,79.7 L544.0,80.2 L552.0,80.7 L560.0,81.2" fill="none" stroke="#14301D" stroke-width="1.2" stroke-dasharray="7 5" opacity=".85"/></svg>
           <span class="qm-label">QSO PATH ┅</span>
-          <span class="qm-mark qm-a"><span class="star">★</span><span id="qmMyCall">MY CALL</span></span>
+          <span class="qm-mark qm-a"><span class="star">★</span><span class="editable" id="qmMyCall" contenteditable="true" spellcheck="false">MY CALL</span></span>
           <span class="qm-rpt" id="qmRpt" title="经中继 RPT">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14301D" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 21V4"/>
@@ -5263,7 +5264,7 @@ body.is-printing .footer{padding:10px 44px 14px}
         <div class="mail-head">
           <span class="mail-title">SHIP-TO · 收卡地址</span>
           <span class="mail-meta">
-            <span class="chip">FROM · <span id="mailFrom">MY CALL</span></span>
+            <span class="chip">FROM · <span class="editable" id="mailFrom" contenteditable="true" spellcheck="false">MY CALL</span></span>
             <span class="chip green">100% 回卡</span>
           </span>
         </div>
@@ -5382,6 +5383,30 @@ syncMeterFromRst(rstSent);
 
 // ── 中继 / 直频 切换 ──
 var ED = ' class="editable mono" contenteditable="true" spellcheck="false"';
+
+// ── 我方呼号联动：卡片上任一处呼号被改动，其余位置同步 ──
+// 同时标记「用户已编辑」，避免外层兜底填充把手工修改覆盖回去
+function markEdited(el){ try { el.dataset.userEdited = '1'; } catch(e){} }
+function syncMyCall(src){
+  var v = String(src.textContent || '').trim().toUpperCase();
+  var ids = ['cardCall', 'qmMyCall', 'mailFrom'];
+  var p1 = document.getElementById('callP1');
+  var p2 = document.getElementById('callP2');
+  if (src.id === 'callP1' || src.id === 'callP2') {
+    // 编辑大呼号的两段：拼合后回填其他位置
+    var merged = ((p1 ? p1.textContent : '') + (p2 ? p2.textContent : '')).replace(/\s+/g, '').toUpperCase();
+    ids.forEach(function(id){ var el = document.getElementById(id); if (el) el.textContent = merged; });
+  } else {
+    ids.forEach(function(id){ if (id === src.id) return; var el = document.getElementById(id); if (el) el.textContent = v; });
+    if (p1 && p2) { p1.textContent = v.slice(0, 3); p2.textContent = v.slice(3); }
+  }
+  markEdited(src);
+}
+['cardCall', 'qmMyCall', 'mailFrom', 'callP1', 'callP2'].forEach(function(id){
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', function(){ syncMyCall(el); });
+});
 
 var specData = {
   rpt: {
@@ -7874,9 +7899,10 @@ function fillQslFrame(r, my) {
     } catch (e) {}
     const set = (id, val) => {
       const el = d.getElementById(id);
-      if (el && val !== undefined && val !== null && String(val).trim() !== '') {
-        el.textContent = String(val).trim();
-      }
+      if (!el || val === undefined || val === null || String(val).trim() === '') return;
+      // 用户在预览里手动改过的字段不再被兜底填充覆盖
+      if (el.dataset && el.dataset.userEdited) return;
+      el.textContent = String(val).trim();
     };
     set('partnerCall', r.call ? r.call.toUpperCase() : '');
     set('qsoDate', r.date);
@@ -7953,8 +7979,9 @@ function fillQslFrame(r, my) {
       if (tbQrz) tbQrz.style.display = 'none';
     }
     const cp1 = d.getElementById('callP1'), cp2 = d.getElementById('callP2');
-    if (cc && cp1) cp1.textContent = cc.slice(0, Math.max(0, cc.length - 3));
-    if (cc && cp2) cp2.textContent = cc.slice(-3);
+    const edited = el => !!(el && el.dataset && el.dataset.userEdited);
+    if (cc && cp1 && !edited(cp1)) cp1.textContent = cc.slice(0, Math.max(0, cc.length - 3));
+    if (cc && cp2 && !edited(cp2)) cp2.textContent = cc.slice(-3);
     // ── 二维码模块：仅 OP 呼号为 BI9DAS 时显示 ──
     const stampCard = d.querySelector('.stamp-card');
     if (stampCard) stampCard.style.display = (String(cc).toUpperCase() === 'BI9DAS') ? '' : 'none';
@@ -8647,7 +8674,7 @@ document.addEventListener('drop', e => {
   }
 });
 
-const APP_VERSION = '2.14.0';
+const APP_VERSION = '2.14.1';
 function cmpVer(a, b) {
   const pa = String(a).split('.').map(n => parseInt(n, 10) || 0);
   const pb = String(b).split('.').map(n => parseInt(n, 10) || 0);
